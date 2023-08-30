@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.3
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: Administrador
+      MYSQL_PASSWORD: MbObp6MlLtS9cctZud
+      MYSQL_ROOT_PASSWORD: notSecureChangeMe
+      MYSQL_DATABASE: jack_jill
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
