@@ -7,15 +7,10 @@
     "node_modules",
     "build"
   ],
-  "paths": {
-    "App/*": "./app"
-    // Config: './config',
-    // Contracts: './contracts',
-    // Database: './database',
-  },
   "compilerOptions": {
     "outDir": "build",
     "rootDir": "./",
+    "baseUrl": "./",
     "sourceMap": true,
     "paths": {
       "App/*": [

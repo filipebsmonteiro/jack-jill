@@ -24,24 +24,24 @@ Route.get('/welcome', async ({ view }) => {
   return view.render('welcome')
 })
 
-Route.group(() => {
-  Route.group(() => {
-    Route.post('/login', 'AuthController.login')
-    Route.post('/register', 'AuthController.register')
-    Route.get('/logout', 'AuthController.logout')
-    Route.get('/user', 'AuthController.user')
-  }).prefix('/auth')
-  Route.resource('users', 'UsersController').apiOnly().middleware({
-    store: ['auth'],
-    update: ['auth'],
-    destroy: ['auth'],
-  })
-  Route.resource('events', 'EventsController').apiOnly().middleware({
-    store: ['auth'],
-    update: ['auth'],
-    destroy: ['auth'],
-  })
-}).prefix('/api/v1')
+// Route.group(() => {
+//   Route.group(() => {
+//     Route.post('/login', 'AuthController.login')
+//     Route.post('/register', 'AuthController.register')
+//     Route.get('/logout', 'AuthController.logout')
+//     Route.get('/user', 'AuthController.user')
+//   }).prefix('/auth')
+//   Route.resource('users', 'UsersController').apiOnly().middleware({
+//     store: ['auth'],
+//     update: ['auth'],
+//     destroy: ['auth'],
+//   })
+//   Route.resource('events', 'EventsController').apiOnly().middleware({
+//     store: ['auth'],
+//     update: ['auth'],
+//     destroy: ['auth'],
+//   })
+// }).prefix('/api/v1')
 
 Route.get('/', async ({ inertia }) => inertia.render('HomePage'))
 Route.get('/users', async ({ inertia }) => inertia.render('Users/IndexPage'))

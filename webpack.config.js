@@ -1,4 +1,4 @@
-const { join } = require('path')
+const { join, resolve } = require('path')
 const Encore = require('@symfony/webpack-encore')
 
 /*
@@ -156,7 +156,7 @@ Encore.configureDevServerOptions((options) => {
 | favorite CSS precompiler
 |
 */
-// Encore.enableSassLoader()
+Encore.enableSassLoader()
 // Encore.enableLessLoader()
 // Encore.enableStylusLoader()
 
@@ -169,7 +169,7 @@ Encore.configureDevServerOptions((options) => {
 | PostCSS or CSS.
 |
 */
-// Encore.enablePostCssLoader()
+Encore.enablePostCssLoader()
 // Encore.configureCssLoader(() => {})
 
 /*
@@ -181,10 +181,16 @@ Encore.configureDevServerOptions((options) => {
 | sure to install the required dependencies.
 |
 */
+Encore.enableTypeScriptLoader()
 Encore.enableVueLoader(() => {}, {
   version: 3,
   runtimeCompilerBuild: false,
   useJsx: false,
+})
+
+Encore.addAliases({
+  '@': resolve(__dirname, 'resources'),
+  'App': resolve(__dirname, 'app'),
 })
 
 /*
@@ -202,10 +208,6 @@ config.infrastructureLogging = {
   level: 'warn',
 }
 config.stats = 'errors-warnings'
-
-// config.output = {
-//   chunkFilename: 'js/[name].js?id=[chunkhash]',
-// }
 
 /*
 |--------------------------------------------------------------------------

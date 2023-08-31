@@ -19,7 +19,7 @@
 
 <script>
 import { useForm } from "@inertiajs/vue3";
-import AuthLayout from "../../layouts/AuthLayout.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
 
 export default {
   layout: AuthLayout,
