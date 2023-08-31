@@ -20,18 +20,32 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
+Route.get('/welcome', async ({ view }) => {
   return view.render('welcome')
 })
 
 Route.group(() => {
-  Route.post('/login', 'AuthController.login')
-  Route.post('/register', 'AuthController.register')
-  Route.get('/logout', 'AuthController.logout')
-  Route.get('/user', 'AuthController.user')
-}).prefix('/auth')
+  Route.group(() => {
+    Route.post('/login', 'AuthController.login')
+    Route.post('/register', 'AuthController.register')
+    Route.get('/logout', 'AuthController.logout')
+    Route.get('/user', 'AuthController.user')
+  }).prefix('/auth')
+  Route.resource('users', 'UsersController').apiOnly().middleware({
+    store: ['auth'],
+    update: ['auth'],
+    destroy: ['auth'],
+  })
+  Route.resource('events', 'EventsController').apiOnly().middleware({
+    store: ['auth'],
+    update: ['auth'],
+    destroy: ['auth'],
+  })
+}).prefix('/api/v1')
 
+Route.get('/', async ({ inertia }) => inertia.render('HomePage'))
+Route.get('/users', async ({ inertia }) => inertia.render('Users/IndexPage'))
 Route.group(() => {
-  Route.resource('users', 'UsersController').apiOnly()
-  Route.resource('events', 'EventsController').apiOnly()
-}).prefix('/v1')
+  Route.get('/login', async ({ inertia }) => inertia.render('Auth/Login'))
+  Route.post('/register', async ({ inertia }) => inertia.render('Auth/Register'))
+}).prefix('/auth')
