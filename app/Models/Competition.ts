@@ -1,9 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasManyThrough, HasOne, ManyToMany, column, hasManyThrough, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
-import UsersCompetitions from 'App/Models/ManyToMany/UsersCompetitions'
+import { BaseModel, HasOne, ManyToMany, column, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import User from 'App/Models/User'
 import Event from 'App/Models/Event'
-import JudgesCompetitions from './ManyToMany/JudgesCompetitions'
 
 export default class Competition extends BaseModel {
   @column({ isPrimary: true })
