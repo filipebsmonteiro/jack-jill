@@ -1,33 +1,30 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import CreateValidator from 'App/Validators/User/CreateValidator'
 
 export default class AuthController {
-  public async login ({ request, auth }: HttpContextContract) {
-    const email = request.input('email')
-    const password = request.input('password')
-    // const token = await auth.authenticate()
-    const token = await auth.attempt(email, password)
-    // const token = await auth.use('api').attempt(email, password, {
-    //   expiresIn: '10 days',
-    // })
-    return token.toJSON()
+  public async login ({ auth, request, response }: HttpContextContract) {
+    const { email, password } = request.all()
+    return await auth.attempt(email, password)
+      .then((token) => response.cookie('token', token).redirect().toPath('/dashboard'))
+      .catch(() => {
+        return response.badRequest({
+          props: { errors: ['Invalid credentials'] },
+          url: '/auth/login',
+          component: 'Auth/Login',
+        })
+      })
   }
 
-  // The register method Creates a New User object and save it to the database.
-  // public async register ({ request, auth }: HttpContextContract) {
-  public async register ({ request, auth }: HttpContextContract) {
-    const email = request.input('email')
-    const password = request.input('password')
-    const name = request.input('name')
-    const user = new User()
-    user.email = email
-    user.password = password
-    user.first_name = name
-    await user.save()
+  public async register ({ auth, request, response }: HttpContextContract) {
+    const payload = await request.validate(CreateValidator)
+    const user = await User.create(payload)
     const token = await auth.login(user)
-    // const token = await auth.use('api').login(user, {
-    //   expiresIn: '10 days',
-    // })
-    return token.toJSON()
+    return response.cookie('token', token).redirect().toPath('/dashboard')
+  }
+
+  public async logout ({ response, auth }: HttpContextContract) {
+    await auth.logout()
+    return response.clearCookie('token').redirect().toPath('/auth/login')
   }
 }

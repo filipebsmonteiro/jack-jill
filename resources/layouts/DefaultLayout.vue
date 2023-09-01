@@ -10,8 +10,12 @@
           Jack and Jill
         </span>
 
-        <div class="toolbar__avatar" @click="toggleRightDrawer">
+        <div v-if="user" class="toolbar__avatar" @click="toggleRightDrawer">
           <img :src="this.avatar" referrerpolicy="no-referrer" />
+        </div>
+        <div v-else>
+          <InertiaLink href="/auth/register">Register</InertiaLink>
+          <InertiaLink href="/auth/login"  class="btn btn-sm ml-3">Login</InertiaLink>
         </div>
       </div>
     </header>
@@ -52,6 +56,7 @@
 </template>
 
 <script>
+import { router, useForm } from "@inertiajs/vue3";
 // import MenuLink from "@/components/Navigation/MenuLink.vue";
 // import { useAuthStore } from "@/stores/auth";
 // import { defineComponent, ref } from "vue";
@@ -87,6 +92,7 @@ export default {
   computed: {
     // ...mapState(useAuthStore, ["avatar", "user"]),
     user() {
+      return null
       return {
         displayName: "displayName",
         email: "EMAIL"
@@ -107,7 +113,10 @@ export default {
   methods: {
     // ...mapActions(useAuthStore, ["logout"]),
     logout() {
-      console.log('logout');
+      const form = useForm({});
+      form.post("/api/v1/auth/logout", {
+        onSuccess: () => router.get("/auth/login"),
+      });
     },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;

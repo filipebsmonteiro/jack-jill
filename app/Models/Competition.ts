@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, ManyToMany, column, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasOne, ManyToMany, beforeCreate, column, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { v5 as uuid } from 'uuid'
 import User from 'App/Models/User'
 import Event from 'App/Models/Event'
 
@@ -27,4 +28,12 @@ export default class Competition extends BaseModel {
 
   @manyToMany(() => User, { pivotTable: 'judges_competitions' })
   public judges: ManyToMany<typeof User>
+
+  /**
+   * Hooks
+   */
+  @beforeCreate()
+  public static async createUUID (user: User) {
+    user.id = uuid().toString()
+  }
 }

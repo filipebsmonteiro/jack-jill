@@ -201,6 +201,10 @@
   --fk-icon-radioDecorator: var(--fk-icon-circle);
 }
 
+.formkit-form {
+  @apply flex flex-col;
+}
+
 .formkit-outer {
   margin: var(--fk-margin-outer);
 
@@ -210,6 +214,8 @@
   line-height: var(--fk-line-height);
 
   box-sizing: border-box;
+
+  max-width: var(--fk-max-width-input);
 }
 
 .formkit-fieldset, .formkit-wrapper {

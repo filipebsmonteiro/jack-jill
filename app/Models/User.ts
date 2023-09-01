@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, ManyToMany, beforeSave, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, ManyToMany, beforeCreate, beforeSave, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import { v4 as uuid } from 'uuid'
 import Event from 'App/Models/Event'
 import Competition from 'App/Models/Competition'
 
@@ -55,5 +56,10 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }
+  }
+
+  @beforeCreate()
+  public static async createUUID (user: User) {
+    user.id = uuid().toString()
   }
 }

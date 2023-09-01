@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, watch } from 'vue';
+import { useForm } from '@inertiajs/vue3'
+import { plugin } from '@/components/Form/SubmitLoading'
 
-const schema = [
+const props = defineProps({ errors: Object })
+
+const schema = reactive([
   {
     $formkit: "text",
     name: "first_name",
@@ -12,66 +16,79 @@ const schema = [
     $formkit: "text",
     name: "last_name",
     label: "Último Nome",
+    validation: "required",
   },
   {
     $formkit: "text",
     name: "phone",
     label: "Telefone",
+    validation: "required",
   },
   {
     $formkit: "text",
     name: "email",
     label: "Email",
+    validation: "required|email",
   },
   {
     $formkit: "password",
     name: "password",
     label: "Senha",
+    validation: "required|?length:8,64",
+  },
+  {
+    $formkit: "password",
+    name: "password_confirm",
+    label: "Confirmar Senha",
+    validation: "required|confirm",
   },
   {
     $formkit: "text",
     name: "state",
     label: "Estado",
+    validation: "required",
   },
   {
     $formkit: "text",
     name: "country",
     label: "País",
-  },
-
-  {
-    $formkit: "checkbox",
-    name: "hasEmail",
-    label: "Has Girfriend?",
+    validation: "required",
   },
   {
-    $el: "p",
-    children: ["Girlfriend enabled? ", "$hasEmail"],
-  },
-  {
-    $formkit: "email",
-    name: "girfriend_email",
-    label: "Email",
-    if: "$hasEmail",
-    validation: "required|email",
-  },
-];
-
-const data = ref({
-  name: null,
-  email: null,
-  hasEmail: false,
+    $formkit: 'spinningSubmit',
+    label: 'Enviar',
+  }
+]);
+watch(() => props.errors, () => {
+  schema.forEach((field) => {
+    field.errors = props.errors[field.name] || [];
+  });
 });
 
-const handleSubmit = () => alert("Valid submit!");
-
+const form = useForm({
+  first_name: "",
+  last_name: "",
+  phone: "",
+  email: "",
+  password: "",
+  password_confirm: "",
+  state: "",
+  country: ""
+});
 </script>
 
 <template>
-  <div class="flex flex-center">
-    <div class="w-50">
-      <FormKit type="form" v-model="data" @submit="handleSubmit">
-        <FormKitSchema :schema="schema" :data="data" />
+  <Head title="Register" />
+  <div class="flex-center">
+    <div class="flex column w-50">
+      <FormKit
+        type="form"
+        :actions="false"
+        :plugins="[plugin]"
+        v-model="form"
+        @submit="form.post('/api/v1/users')"
+      >
+        <FormKitSchema :schema="schema" :data="form" />
       </FormKit>
     </div>
   </div>
@@ -79,7 +96,11 @@ const handleSubmit = () => alert("Valid submit!");
 
 <style scoped>
 :deep(.formkit-outer) {
-  max-width: var(--fk-max-width-input);
   margin: 0 auto 1rem auto;
+}
+
+:deep(.formkit-wrapper) {
+  width: var(--fk-max-width-input);
+  @apply flex flex-col;
 }
 </style>

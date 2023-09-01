@@ -5,10 +5,14 @@ import { plugin as formKitPlugin, defaultConfig } from '@formkit/vue'
 import formKitConfig from '../../formkit/formkit.config'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 
-setTimeout(() =>
+// console.log('window.location :>> ', window.location);
+
+setTimeout(async () =>
   createInertiaApp({
-    // resolve: name => import(`../pages/${name}.vue`),
+    title: title => `${title ? title+ ' - ' : ''}Jack and Jill`,
     resolve: name => {
+      // const file = name || 'HomePage'
+      // const page = require(`../pages/${file}.vue`).default
       const page = require(`../pages/${name}.vue`).default
       page.layout = page.layout || DefaultLayout
       return page

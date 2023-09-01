@@ -20,32 +20,17 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/welcome', async ({ view }) => {
-  return view.render('welcome')
-})
+/**
+ * AdonisJS API Routes
+ */
+import './routes/api'
 
-// Route.group(() => {
-//   Route.group(() => {
-//     Route.post('/login', 'AuthController.login')
-//     Route.post('/register', 'AuthController.register')
-//     Route.get('/logout', 'AuthController.logout')
-//     Route.get('/user', 'AuthController.user')
-//   }).prefix('/auth')
-//   Route.resource('users', 'UsersController').apiOnly().middleware({
-//     store: ['auth'],
-//     update: ['auth'],
-//     destroy: ['auth'],
-//   })
-//   Route.resource('events', 'EventsController').apiOnly().middleware({
-//     store: ['auth'],
-//     update: ['auth'],
-//     destroy: ['auth'],
-//   })
-// }).prefix('/api/v1')
+/**
+ * AdonisJS Views
+ */
+Route.get('/welcome', async ({ view }) => view.render('welcome'))
 
-Route.get('/', async ({ inertia }) => inertia.render('HomePage'))
-Route.get('/users', async ({ inertia }) => inertia.render('Users/IndexPage'))
-Route.group(() => {
-  Route.get('/login', async ({ inertia }) => inertia.render('Auth/Login'))
-  Route.get('/register', async ({ inertia }) => inertia.render('Auth/Register'))
-}).prefix('/auth')
+/**
+ * Inertia Views
+ */
+import './routes/pages'
