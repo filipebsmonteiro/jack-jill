@@ -47,5 +47,5 @@ Route.get('/', async ({ inertia }) => inertia.render('HomePage'))
 Route.get('/users', async ({ inertia }) => inertia.render('Users/IndexPage'))
 Route.group(() => {
   Route.get('/login', async ({ inertia }) => inertia.render('Auth/Login'))
-  Route.post('/register', async ({ inertia }) => inertia.render('Auth/Register'))
+  Route.get('/register', async ({ inertia }) => inertia.render('Auth/Register'))
 }).prefix('/auth')

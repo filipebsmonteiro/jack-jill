@@ -12,7 +12,6 @@ export default class extends BaseSchema {
       table.string('first_name').notNullable()
       table.string('last_name').notNullable()
       table.string('phone').notNullable()
-      table.string('city').notNullable()
       table.string('state').notNullable()
       table.string('country').notNullable()
 

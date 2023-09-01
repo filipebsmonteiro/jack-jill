@@ -1,6 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
+@import "./placeholder.scss";
+@import "./formkit.scss";
+
+/* @layer base {
+  label {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+} */
 
 .fullscreen {
   height: 100vh;

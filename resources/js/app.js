@@ -1,4 +1,4 @@
-import '../css/app.css'
+import '../css/app.scss'
 import { createApp, h } from 'vue'
 import { createInertiaApp, Link } from '@inertiajs/vue3'
 import { plugin as formKitPlugin, defaultConfig } from '@formkit/vue'
@@ -13,12 +13,13 @@ setTimeout(() =>
       page.layout = page.layout || DefaultLayout
       return page
     },
+    render: createApp({ render: () => h('div', 'Loading...') }),
     setup ({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
-        .component('link', Link)
-        .use(formKitPlugin, defaultConfig(formKitConfig))
         .use(plugin)
+        .use(formKitPlugin, defaultConfig(formKitConfig))
+        .component('InertiaLink', Link)
         .mount(el)
     },
   })
-, 1000)
+, 300)

@@ -3,7 +3,7 @@
     <header class="bg-primary">
       <div class="toolbar">
         <button class="btn btn-ghost" @click="toggleLeftDrawer">
-          <font-awesome-icon icon="bars" />
+          <!-- <font-awesome-icon icon="bars" /> -->
         </button>
 
         <span class="toolbar__title">
