@@ -189,8 +189,8 @@ Encore.enableVueLoader(() => {}, {
 })
 
 Encore.addAliases({
-  '@': resolve(__dirname, 'resources'),
-  // 'App': resolve(__dirname, 'app'),
+  // '@': resolve(__dirname, 'resources'),
+  'Resources': resolve(__dirname, 'resources'),
 })
 
 /*

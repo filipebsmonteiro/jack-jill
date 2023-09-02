@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3'
-import { plugin } from '@/components/Form/SubmitLoading'
+import { plugin } from 'Resources/components/Form/SubmitLoading'
 
 const props = defineProps({ errors: Object })
 

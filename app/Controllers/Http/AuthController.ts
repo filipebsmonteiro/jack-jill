@@ -6,7 +6,10 @@ export default class AuthController {
   public async login ({ auth, request, response }: HttpContextContract) {
     const { email, password } = request.all()
     return await auth.attempt(email, password)
-      .then((token) => response.cookie('token', token).redirect().toPath('/dashboard'))
+      .then((token) =>
+        response.cookie('cookie/auth_token', token, { httpOnly: false })
+          .redirect().toPath('/dashboard')
+      )
       .catch(() => {
         return response.badRequest({
           props: { errors: ['Invalid credentials'] },

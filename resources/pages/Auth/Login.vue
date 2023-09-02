@@ -1,8 +1,9 @@
 <script setup>
 import { reactive, watch, computed } from "vue";
-import { Head, router, useForm } from "@inertiajs/vue3";
-import AuthLayout from "@/layouts/AuthLayout.vue";
-import { plugin } from "@/components/Form/SubmitLoading";
+import { Head, useForm } from "@inertiajs/vue3";
+import AuthLayout from "Resources/layouts/AuthLayout.vue";
+import { plugin } from "Resources/components/Form/SubmitLoading";
+import { useAuthStore } from "Resources/stores/auth";
 
 defineOptions({ layout: AuthLayout })
 const props = defineProps({ errors: Object })
@@ -38,9 +39,9 @@ const form = useForm({
 });
 
 async function submit() {
-  // router.post('/api/v1/auth/login', form)
   form.clearErrors()
-  form.post('/api/v1/auth/login')
+  const { login } = useAuthStore()
+  login(form)
 }
 </script>
 

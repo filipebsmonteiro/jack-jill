@@ -4,6 +4,7 @@ import { createInertiaApp, Link } from '@inertiajs/vue3'
 import { plugin as formKitPlugin, defaultConfig } from '@formkit/vue'
 import formKitConfig from '../../formkit/formkit.config'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
+import Store from '../stores'
 
 // console.log('window.location :>> ', window.location);
 
@@ -21,6 +22,7 @@ setTimeout(async () =>
     setup ({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
         .use(plugin)
+        .use(Store)
         .use(formKitPlugin, defaultConfig(formKitConfig))
         .component('InertiaLink', Link)
         .mount(el)

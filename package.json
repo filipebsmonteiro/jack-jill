@@ -57,6 +57,7 @@
     "@inertiajs/vue3": "^1.0.11",
     "luxon": "^3.4.2",
     "mysql2": "^3.6.0",
+    "pinia": "^2.1.6",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",

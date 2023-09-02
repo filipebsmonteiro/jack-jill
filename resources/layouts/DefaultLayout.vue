@@ -11,7 +11,8 @@
         </span>
 
         <div v-if="user" class="toolbar__avatar" @click="toggleRightDrawer">
-          <img :src="this.avatar" referrerpolicy="no-referrer" />
+          <img v-if="this.avatar" :src="this.avatar" referrerpolicy="no-referrer" />
+          <span v-else class="first_letter">{{ user.first_name[0] }}</span>
         </div>
         <div v-else>
           <InertiaLink href="/auth/register">Register</InertiaLink>
@@ -42,7 +43,7 @@
         <pre>{{ this.user }}</pre>
       </div>
       <div class="w-100 text-center bg-white p-1">
-        <button class="btn btn-sm btn-wide btn-error btn-outline" @click="logout">
+        <button class="btn btn-sm btn-wide btn-error btn-outline" @click="handlerLogout">
           <!-- <font-awesome-icon icon="right-from-bracket" /> -->
           Logout
         </button>
@@ -58,9 +59,8 @@
 <script>
 import { router, useForm } from "@inertiajs/vue3";
 // import MenuLink from "@/components/Navigation/MenuLink.vue";
-// import { useAuthStore } from "@/stores/auth";
-// import { defineComponent, ref } from "vue";
-// import { mapState, mapActions } from "pinia";
+import { useAuthStore } from "Resources/stores/auth";
+import { mapState, mapActions } from 'pinia'
 
 const linksList = [
   // {
@@ -84,23 +84,15 @@ const linksList = [
   },
 ];
 
-
 export default {
   components: {
     // MenuLink,
   },
   computed: {
-    // ...mapState(useAuthStore, ["avatar", "user"]),
+    ...mapState(useAuthStore, ["avatar", "getUser"]),
     user() {
-      return null
-      return {
-        displayName: "displayName",
-        email: "EMAIL"
-      };
+      return this.getUser;
     },
-    avatar() {
-      return null;
-    }
   },
   data() {
     return {
@@ -111,12 +103,11 @@ export default {
     };
   },
   methods: {
-    // ...mapActions(useAuthStore, ["logout"]),
-    logout() {
+    ...mapActions(useAuthStore, ["logout"]),
+    async handlerLogout() {
       const form = useForm({});
-      form.post("/api/v1/auth/logout", {
-        onSuccess: () => router.get("/auth/login"),
-      });
+      await this.logout(form)
+      router.get("/auth/login")
     },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
@@ -124,6 +115,9 @@ export default {
     toggleRightDrawer() {
       this.rightDrawerOpen = !this.rightDrawerOpen;
     },
+  },
+  mounted() {
+    this.getUser;
   },
 }
 </script>
@@ -167,6 +161,13 @@ export default {
         @apply avatar;
         margin: 4px;
         cursor: pointer;
+      }
+
+      .first_letter {
+        border: 2px solid white;
+        padding: .25rem .75rem;
+        border-radius: 1rem;
+        text-transform: uppercase;
       }
     }
   }
