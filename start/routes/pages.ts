@@ -11,7 +11,7 @@ Route.group(() => {
   Route.get('/dashboard', async ({ inertia }) => inertia.render('Dashboard'))
 
   Route.group(() => {
-    Route.get('list', async ({ inertia }) => inertia.render('Users/IndexPage'))
+    Route.get('list', async ({ inertia }) => inertia.render('Users/ListPage'))
     Route.get('/create', async ({ inertia }) => inertia.render('Users/CreatePage'))
     Route.get('/edit/:id', async ({ inertia }) => inertia.render('Users/EditPage'))
   }).prefix('/user')

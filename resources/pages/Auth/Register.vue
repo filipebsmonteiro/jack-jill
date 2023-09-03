@@ -1,7 +1,10 @@
 <script setup>
-import { reactive, watch } from 'vue';
-import { useForm } from '@inertiajs/vue3'
+import { reactive } from 'vue';
+import { router } from '@inertiajs/vue3'
 import { plugin } from 'Resources/components/Form/SubmitLoading'
+import { useAuthStore } from 'Resources/stores/auth'
+import { useUserStore } from 'Resources/stores/user'
+import { Head } from '@inertiajs/vue3'
 
 const props = defineProps({ errors: Object })
 
@@ -59,13 +62,8 @@ const schema = reactive([
     label: 'Enviar',
   }
 ]);
-watch(() => props.errors, () => {
-  schema.forEach((field) => {
-    field.errors = props.errors[field.name] || [];
-  });
-});
 
-const form = useForm({
+const form = reactive({
   first_name: "",
   last_name: "",
   phone: "",
@@ -75,6 +73,33 @@ const form = useForm({
   state: "",
   country: ""
 });
+
+const handleSubmit = (data) => {
+  useUserStore().create(data)
+    .then(() => {
+      console.log('OKAY ON CREATE :>> ');
+      useAuthStore().login({ email: data.email, password: data.password })
+      .then(() => {
+          console.log('OKAY ON LOGIN :>> ');
+          router.get('/dashboard')
+        })
+    }
+    )
+    .catch((error) => {
+      if (
+        error.response?.status === 422 &&
+        error.response?.data?.errors
+        ) {
+          error.response.data.errors.forEach((error) => {
+            schema.forEach((field) => {
+              if (field.name === error.field) {
+                field.errors = [error.message]
+              }
+            })
+          })
+      }
+    })
+};
 </script>
 
 <template>
@@ -86,7 +111,7 @@ const form = useForm({
         :actions="false"
         :plugins="[plugin]"
         v-model="form"
-        @submit="form.post('/api/v1/users')"
+        @submit="handleSubmit"
       >
         <FormKitSchema :schema="schema" :data="form" />
       </FormKit>

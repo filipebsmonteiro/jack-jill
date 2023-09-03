@@ -14,14 +14,15 @@ export interface InertiaFormProps {
   put(url: string, options?: Partial<VisitOptions>): void;
   patch(url: string, options?: Partial<VisitOptions>): void;
   delete(url: string, options?: Partial<VisitOptions>): void;
+  data(): any;
 }
 
 export interface RepositoryInterface {
   endpoint: string | null;
   form: InertiaFormProps | null;
-  fetch(form: InertiaFormProps): Promise<any>;
-  find(form: InertiaFormProps, id: string|number): Promise<any>;
-  post(form: InertiaFormProps): Promise<any>;
-  put(form: InertiaFormProps, id: string|number): Promise<any>;
-  delete(form: InertiaFormProps, id: string|number): Promise<any>;
+  fetch(params: any): Promise<any>;
+  find(id: string|number): Promise<any>;
+  post(params: any): Promise<any>;
+  put(id: string|number, params: any): Promise<any>;
+  delete(id: string|number): Promise<any>;
 }

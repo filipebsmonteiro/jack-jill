@@ -6,6 +6,6 @@ Route.group(() => {
     Route.post('/logout', 'AuthController.logout').middleware('auth')
   }).prefix('/auth')
 
-  Route.resource('users', 'UsersController').apiOnly()
+  Route.resource('user', 'UsersController').apiOnly()
     .middleware({ update: ['auth'], destroy: ['auth'] })
 }).prefix('/api/v1')

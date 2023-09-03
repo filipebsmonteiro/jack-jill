@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, watch, computed } from "vue";
-import { Head, useForm } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import AuthLayout from "Resources/layouts/AuthLayout.vue";
 import { plugin } from "Resources/components/Form/SubmitLoading";
 import { useAuthStore } from "Resources/stores/auth";
@@ -26,22 +26,30 @@ const schema = reactive([
     label: "Enviar",
   },
 ]);
-watch(() => props.errors, () => {
-  schema.forEach((field) => {
-    field.errors = props.errors[field.name] || [];
-  });
-});
 
-// const { data, post, processing } = useForm({
-const form = useForm({
+const form = reactive({
   email: "",
   password: "",
 });
 
 async function submit() {
-  form.clearErrors()
   const { login } = useAuthStore()
   login(form)
+  .then(() => router.get("/dashboard"))
+  .catch((error) => {
+      if (
+        error.response.status === 422 &&
+        error.response.data?.errors
+        ) {
+          error.response.data.errors.forEach((error) => {
+            schema.forEach((field) => {
+              if (field.name === error.field) {
+                field.errors = [error.message]
+              }
+            })
+          })
+      }
+    })
 }
 </script>
 

@@ -5,6 +5,8 @@ import { plugin as formKitPlugin, defaultConfig } from '@formkit/vue'
 import formKitConfig from '../../formkit/formkit.config'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import Store from '../stores'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import '../css/icons'
 
 // console.log('window.location :>> ', window.location);
 
@@ -25,6 +27,7 @@ setTimeout(async () =>
         .use(Store)
         .use(formKitPlugin, defaultConfig(formKitConfig))
         .component('InertiaLink', Link)
+        .component('FontAwesomeIcon', FontAwesomeIcon)
         .mount(el)
     },
   })

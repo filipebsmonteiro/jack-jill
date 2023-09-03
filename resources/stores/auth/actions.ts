@@ -1,18 +1,15 @@
-import { SessionStorage, Cookie } from 'Resources/helpers/browser-storage'
-import { decodeJwt } from 'Resources/helpers/functions'
+import { SessionStorage } from 'Resources/helpers/browser-storage'
+// import { decodeJwt } from 'Resources/helpers/functions'
 import constants from 'Resources/providers/constants'
-import Auth from 'Resources/repositories/Auth/Auth'
+import Auth from 'Resources/repositories/AuthRepository'
 import { InertiaFormProps } from 'Resources/repositories/Base/Repository'
 
-export async function login (params: InertiaFormProps) {
+export async function login (params: any) {
   this.loading = true
   await Auth.login(params)
-    .then(() => {
-      const token = Cookie.get(constants.storage.cookie.TOKEN)
-      this.token = `${token}`.slice(2)
-      const parsed = decodeJwt(this.token)
-      this.user = parsed.message
-      SessionStorage.set(constants.storage.session.USER, parsed.message)
+    .then(({ data: user }) => {
+      this.user = user
+      SessionStorage.set(constants.storage.session.USER, user)
     })
   this.loading = false
 }

@@ -6,10 +6,7 @@ export default class AuthController {
   public async login ({ auth, request, response }: HttpContextContract) {
     const { email, password } = request.all()
     return await auth.attempt(email, password)
-      .then((token) =>
-        response.cookie('cookie/auth_token', token, { httpOnly: false })
-          .redirect().toPath('/dashboard')
-      )
+      .then((user: User) => user.serialize({ fields: { omit: ['password'] } }))
       .catch(() => {
         return response.badRequest({
           props: { errors: ['Invalid credentials'] },
@@ -19,11 +16,10 @@ export default class AuthController {
       })
   }
 
-  public async register ({ auth, request, response }: HttpContextContract) {
+  public async register ({ request }: HttpContextContract) {
     const payload = await request.validate(CreateValidator)
     const user = await User.create(payload)
-    const token = await auth.login(user)
-    return response.cookie('token', token).redirect().toPath('/dashboard')
+    return user
   }
 
   public async logout ({ response, auth }: HttpContextContract) {

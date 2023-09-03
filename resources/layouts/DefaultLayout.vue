@@ -3,7 +3,7 @@
     <header class="bg-primary">
       <div class="toolbar">
         <button class="btn btn-ghost" @click="toggleLeftDrawer">
-          <!-- <font-awesome-icon icon="bars" /> -->
+          <font-awesome-icon icon="bars" />
         </button>
 
         <span class="toolbar__title">
@@ -22,11 +22,11 @@
     </header>
 
     <aside v-show="leftDrawerOpen" class="aside-left">
-      <!-- <MenuLink
+      <MenuLink
         v-for="link in linksList"
         :key="link.title"
         v-bind="link"
-      /> -->
+      />
     </aside>
 
     <aside v-show="rightDrawerOpen" class="aside-right flex column">
@@ -44,7 +44,7 @@
       </div>
       <div class="w-100 text-center bg-white p-1">
         <button class="btn btn-sm btn-wide btn-error btn-outline" @click="handlerLogout">
-          <!-- <font-awesome-icon icon="right-from-bracket" /> -->
+          <font-awesome-icon icon="right-from-bracket" />
           Logout
         </button>
       </div>
@@ -58,35 +58,28 @@
 
 <script>
 import { router, useForm } from "@inertiajs/vue3";
-// import MenuLink from "@/components/Navigation/MenuLink.vue";
+import MenuLink from "Resources/components/Navigation/MenuLink.vue";
 import { useAuthStore } from "Resources/stores/auth";
 import { mapState, mapActions } from 'pinia'
 
 const linksList = [
-  // {
-  //   title: "Docs",
-  //   caption: "quasar.dev",
-  //   icon: "school",
-  //   link: "https://quasar.dev",
-  //   external: true,
-  // },
   {
     title: "Home",
     caption: "Inicio do site",
     icon: "house",
-    link: { name: `home` },
+    link: `/dashboard`,
   },
   {
     title: "Pessoas",
     caption: "Listagem de Pessoas",
     icon: "person",
-    link: { name: `pessoa.list` },
+    link: `/user/list`,
   },
 ];
 
 export default {
   components: {
-    // MenuLink,
+    MenuLink,
   },
   computed: {
     ...mapState(useAuthStore, ["avatar", "getUser"]),

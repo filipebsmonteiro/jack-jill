@@ -1,6 +1,8 @@
 import { InertiaFormProps, RepositoryInterface } from 'Resources/repositories/Base/Repository'
+import axios, { AxiosInstance, CustomParamsSerializer } from 'axios'
 
 export default abstract class ApiRepository implements RepositoryInterface {
+  public axios: AxiosInstance = axios
   public endpoint: string | null = null
   public form: InertiaFormProps | null = null
 
@@ -8,54 +10,34 @@ export default abstract class ApiRepository implements RepositoryInterface {
     this.endpoint = endpoint
   }
 
-  public fetch (form: InertiaFormProps) {
-    this.form = form
-    return new Promise((resolve, reject) => {
-      this.form?.get(`${this.endpoint}`, {
-        onSuccess: (result) => resolve(result),
-        onError: (error) => reject(error),
-      })
+  public fetch (params: any = null, paramsSerializer: CustomParamsSerializer|undefined = undefined) {
+    return this.axios.get(`${this.endpoint}`, {
+      params,
+      paramsSerializer,
     })
   }
 
-  public find (form: InertiaFormProps, id: string|number) {
-    this.form = form
-    return new Promise((resolve, reject) => {
-      this.form?.get(`${this.endpoint}/${id}`, {
-        onSuccess: (result) => resolve(result),
-        onError: (error) => reject(error),
+  public find (id: string|number, params: any = null, paramsSerializer: CustomParamsSerializer|undefined = undefined) {
+    if (params) {
+      return this.axios.get(`${this.endpoint}/${id}`, {
+        params,
+        paramsSerializer,
       })
-    })
+    }
+
+    return this.axios.get(`${this.endpoint}/${id}`)
   }
 
-  public post (form: InertiaFormProps) {
-    this.form = form
-    return new Promise((resolve, reject) => {
-      this.form?.post(`${this.endpoint}`, {
-        onSuccess: (result) => resolve(result),
-        onError: (error) => reject(error),
-      })
-    })
+  public post (params: any = null) {
+    return this.axios.post(`${this.endpoint}`, params)
   }
 
-  public put (form: InertiaFormProps, id: string|number) {
-    this.form = form
-    return new Promise((resolve, reject) => {
-      this.form?.put(`${this.endpoint}/${id}`, {
-        onSuccess: (result) => resolve(result),
-        onError: (error) => reject(error),
-      })
-    })
+  public put (id: string|number, params: any = null) {
+    return this.axios.put(`${this.endpoint}/${id}`, params)
   }
 
-  public delete (form: InertiaFormProps, id: string|number) {
-    this.form = form
-    return new Promise((resolve, reject) => {
-      this.form?.delete(`${this.endpoint}/${id}`, {
-        onSuccess: (result) => resolve(result),
-        onError: (error) => reject(error),
-      })
-    })
+  public delete (id: string|number) {
+    return this.axios.delete(`${this.endpoint}/${id}`)
   }
 
   public async cleanRequest (method: string, url: string, headers: Record<string, any> = {}, body = null) {
