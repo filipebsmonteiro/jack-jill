@@ -17,6 +17,8 @@ export default {
     },
     session: {
       USER: `${SESSION_STORAGE_PREFIX}user`,
+      THEME: `${SESSION_STORAGE_PREFIX}theme`,
+      LOCALE: `${SESSION_STORAGE_PREFIX}locale`,
     },
 
     local: {

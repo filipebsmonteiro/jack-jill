@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps({
-  title: {
+  label: {
     type: String,
     required: true,
   },
@@ -35,7 +35,7 @@ defineProps({
     </span>
 
     <div>
-      <span>{{ title }}</span>
+      <span>{{ label }}</span>
       <span class="caption">
         {{ caption }}
       </span>

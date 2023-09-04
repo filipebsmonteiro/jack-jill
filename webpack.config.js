@@ -75,6 +75,11 @@ Encore.addEntry('app', './resources/js/app.js')
 |
 */
 // Encore.splitEntryChunks()
+const webpack = require('webpack')
+Encore.addPlugin(new webpack.DefinePlugin({
+  __VUE_OPTIONS_API__: true,
+  __VUE_PROD_DEVTOOLS__: true,
+}))
 
 /*
 |--------------------------------------------------------------------------

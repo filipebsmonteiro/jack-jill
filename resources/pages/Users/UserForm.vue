@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref, watch } from 'vue';
-import { plugin } from 'Resources/components/Form/SubmitLoading'
+import { useI18n } from 'vue-i18n';
+import { plugin } from 'Resources/components/Form/SubmitLoading';
 
 const props = defineProps({
   errors: Object,
@@ -8,53 +9,54 @@ const props = defineProps({
   values: Object,
 })
 const emits = defineEmits(['submit'])
+const { t } = useI18n()
 
 const schema = reactive([
   {
     $formkit: "text",
     name: "first_name",
-    label: "Primeiro Nome",
+    label: t('user.first_name'),
     validation: "required",
   },
   {
     $formkit: "text",
     name: "last_name",
-    label: "Último Nome",
+    label: t('user.last_name'),
     validation: "required",
   },
   {
     $formkit: "text",
     name: "phone",
-    label: "Telefone",
+    label: t('user.phone'),
     validation: "required",
   },
   {
     $formkit: "text",
     name: "email",
-    label: "Email",
+    label: t('user.email'),
     validation: "required|email",
   },
   {
     $formkit: "password",
     name: "password",
-    label: "Senha",
+    label: t('user.password'),
     validation: `?length:64,8${props.passwordRequired ? '|required' : ''}`,
   },
   {
     $formkit: "password",
     name: "password_confirm",
-    label: "Confirmar Senha",
+    label: t('user.password_confirmation'),
     validation: `confirm:password${props.passwordRequired ? '|required' : ''}`,
   },
   {
     $formkit: "text",
     name: "state",
-    label: "Estado",
+    label: t('user.state'),
     validation: "required",
   },
   {
     $formkit: "text",
-    name: "country",
+    name: t('user.country'),
     label: "País",
     validation: "required",
   },
@@ -96,7 +98,7 @@ const handleSubmit = (data) => emits('submit', data)
 
 <template>
   <div class="flex-center">
-    <div class="flex column w-50">
+    <!-- <div class="flex column w-50"> -->
       <FormKit
         type="form"
         :actions="false"
@@ -106,11 +108,15 @@ const handleSubmit = (data) => emits('submit', data)
       >
         <FormKitSchema :schema="schema" :data="data" />
       </FormKit>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
 <style scoped>
+.user-form {
+  @apply flex flex-col justify-center items-center;
+}
+
 :deep(.formkit-outer) {
   margin: 0 auto 1rem auto;
 }

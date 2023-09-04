@@ -51,3 +51,13 @@ onMounted(async () => {
     @submit="handleSubmit"
   />
 </template>
+
+<style lang="scss" scoped>
+:deep(.formkit-form) {
+  @apply flex-row flex-wrap justify-center p-6;
+
+  .formkit-outer {
+    margin: 0 2rem 2rem 0;
+  }
+}
+</style>

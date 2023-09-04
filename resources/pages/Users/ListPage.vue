@@ -1,19 +1,20 @@
 <template>
   <div class="flex justify-between my-5">
-    <InertiaLink href="/user/create" class="btn ">Cadastrar nova Pessoa</InertiaLink>
-    <!-- <InertiaLink href="/user/create" class="btn ">Criar</InertiaLink> -->
+    <InertiaLink href="/user/create" class="btn ">
+      {{ `${$t('system.actions.create')} ${$t('user.new')} ${$t('user.label')}` }}
+    </InertiaLink>
   </div>
   <SimpleTable :columns="columns" :rows="users">
     <template #name="{ row }">
       {{ row.first_name }} {{ row.last_name }}
     </template>
     <template #actions="{ row }">
-      <div class="tooltip" data-tip="Editar">
+      <div class="tooltip" :data-tip="$t('system.actions.edit')">
         <InertiaLink :href="`/user/edit/${row.id}`">
           <font-awesome-icon icon="pencil" class="text-info" />
         </InertiaLink>
       </div>
-      <div class="tooltip" data-tip="Excluir">
+      <div class="tooltip" :data-tip="$t('system.actions.delete')">
         <font-awesome-icon icon="trash-can" class="text-error" @click="deleteHandler(row)" />
       </div>
     </template>
@@ -35,17 +36,15 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, { users: 'list' }),
-  },
-  data() {
-    return {
-      columns: [
-        { key: 'name', label: 'Nome' },
-        { key: 'phone', label: 'Telefone' },
-        { key: 'email', label: 'Email' },
-        { key: 'state', label: 'Estado' },
-        { key: 'country', label: 'País' },
-        { key: 'actions', label: 'Ações' },
-      ],
+    columns() {
+      return [
+        { key: 'name', label: this.$t('user.name') },
+        { key: 'phone', label: this.$t('user.phone') },
+        { key: 'email', label: this.$t('user.email') },
+        { key: 'state', label: this.$t('user.state') },
+        { key: 'country', label: this.$t('user.country') },
+        { key: 'actions', label: this.$t('system.actions.label') },
+      ]
     }
   },
   methods: {

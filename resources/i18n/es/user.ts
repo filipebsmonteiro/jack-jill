@@ -1,0 +1,28 @@
+export default {
+  label: 'Usuario',
+  name: 'Nombre',
+  first_name: 'Nombre',
+  last_name: 'Apellido',
+  email: 'Correo electrónico',
+  phone: 'Teléfono',
+  password: 'Contraseña',
+  password_confirmation: 'Confirmación de contraseña',
+  remember: 'Recuérdame',
+  forgot_password: 'Olvidé mi contraseña',
+  login: 'Iniciar sesión',
+  logout: 'Cerrar sesión',
+  register: 'Registrarse',
+  reset_password: 'Restablecer la contraseña',
+  send_reset_password_link: 'Enviar enlace de restablecimiento de contraseña',
+  verify_email: 'Verificar correo electrónico',
+  created_at: 'Creado en',
+  updated_at: 'Actualizado en',
+  deleted_at: 'Eliminado en',
+
+  id: 'ID',
+  country: 'País',
+  state: 'Estado',
+  city: 'Ciudad',
+
+  new: 'Nuevo',
+}

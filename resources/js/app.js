@@ -14,6 +14,7 @@ import Vue3Toastify, { toast } from 'vue3-toastify'
 import formKitConfig from '../../formkit/formkit.config'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import Store from '../stores'
+import i18n from '../i18n'
 
 setTimeout(async () =>
   createInertiaApp({
@@ -28,6 +29,7 @@ setTimeout(async () =>
       createApp({ render: () => h(App, props) })
         .use(plugin)
         .use(Store)
+        .use(i18n)
         .use(Vue3Toastify, {
           autoClose: 3000,
           dangerouslyHTMLString: true,

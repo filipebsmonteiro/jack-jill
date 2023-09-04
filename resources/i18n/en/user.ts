@@ -1,0 +1,28 @@
+export default {
+  label: 'User',
+  name: 'Name',
+  first_name: 'First name',
+  last_name: 'Last name',
+  email: 'E-mail',
+  phone: 'Phone',
+  password: 'Password',
+  password_confirmation: 'Password confirmation',
+  remember: 'Remember me',
+  forgot_password: 'Forgot my password',
+  login: 'Login',
+  logout: 'Logout',
+  register: 'Register',
+  reset_password: 'Reset password',
+  send_reset_password_link: 'Send reset password link',
+  verify_email: 'Verify e-mail',
+  created_at: 'Created at',
+  updated_at: 'Updated at',
+  deleted_at: 'Deleted at',
+
+  id: 'ID',
+  country: 'Country',
+  state: 'State',
+  city: 'City',
+
+  new: 'New',
+}
