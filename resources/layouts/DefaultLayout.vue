@@ -111,6 +111,11 @@ export default {
   },
   mounted() {
     this.getUser;
+    // router.on('navigate', (event) => {
+    router.on('navigate', () => {
+      this.leftDrawerOpen = false;
+      this.rightDrawerOpen = false;
+    })
   },
 }
 </script>

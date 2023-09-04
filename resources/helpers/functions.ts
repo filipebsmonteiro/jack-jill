@@ -31,3 +31,14 @@ export const decodeJwt = (token: string): Record<string, any> => {
     return {}
   }
 }
+
+export const parseUnprocessableErrors = (error: Record<string, any>): Record<string, any> => {
+  let errors = {}
+  if (
+    error.response?.status === 422 &&
+    error.response?.data?.errors
+  ) {
+    error.response.data.errors.forEach((error) => errors[error.field] = [error.message])
+  }
+  return errors
+}

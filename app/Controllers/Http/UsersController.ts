@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import CreateValidator from 'App/Validators/User/CreateValidator'
+import UpdateValidator from 'App/Validators/User/UpdateValidator'
 
 export default class UsersController {
   public async index ({}: HttpContextContract) {
@@ -16,9 +17,22 @@ export default class UsersController {
     return response.status(201).json({ user })
   }
 
-  public async show ({}: HttpContextContract) {}
+  public async show ({ request }: HttpContextContract) {
+    const user = await User.query()
+      .where('id', request.param('id'))
+      // .preload('events')
+      // .preload('competitions')
+      .firstOrFail()
+    return user
+  }
 
-  public async update ({}: HttpContextContract) {}
+  public async update ({ request }: HttpContextContract) {
+    const payload = await request.validate(UpdateValidator)
+    const user = await User.query()
+      .where('id', request.param('id'))
+      .update(payload)
+    return user
+  }
 
   public async destroy ({}: HttpContextContract) {}
 }

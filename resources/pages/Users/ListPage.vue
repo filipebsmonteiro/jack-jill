@@ -1,12 +1,12 @@
 <template>
-  <InertiaLink href="user/create" class="btn btn-link">Criar</InertiaLink>
+  <InertiaLink href="/user/create" class="btn btn-link">Criar</InertiaLink>
   <SimpleTable :columns="columns" :rows="users">
     <template #name="{ row }">
       {{ row.first_name }} {{ row.last_name }}
     </template>
     <template #actions="{ row }">
       <div class="tooltip" data-tip="Editar">
-        <InertiaLink :to="{ name: 'pessoa.edit', params: { id: row.id } }">
+        <InertiaLink :href="`/user/edit/${row.id}`">
           <font-awesome-icon icon="pencil" class="text-info" />
         </InertiaLink>
       </div>

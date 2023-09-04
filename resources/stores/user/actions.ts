@@ -19,50 +19,37 @@ export default {
     await UserRepository.post(params)
       .then(response => this.current = response.data)
       .catch((error) => {
-        console.error('Error On Create Pessoa')
+        console.error('Error On Create User')
         throw error
       })
 
     this.loading = false
   },
-  // async find(id: string | number) {
-  //   this.loading = true;
+  async find (id: string | number) {
+    this.loading = true
 
-  //   await PessoaRepository.find(id)
-  //     .then(response => this.current = response)
-  //     .catch((error) => {
-  //       console.error(`Error On Load Pessoa: ${id}`);
-  //       console.error(error);
-  //       this.current = null
-  //     });
+    await UserRepository.find(id)
+      .then(response => this.current = response.data)
+      .catch((error) => {
+        console.error(`Error On Load User: ${id}`)
+        console.error(error)
+        this.current = null
+      })
 
-  //   this.loading = false;
-  // },
-  // async update() {
-  //   this.loading = true;
-  //   let pessoa = {...this.current},
-  //   contato = {...this.current.contato};
+    this.loading = false
+  },
+  async update (id: string | number, params: any) {
+    this.loading = true
 
-  //   if (pessoa.contato) {
-  //     ContatoRepository.put(pessoa.contato.id, pessoa.contato)
-  //       .catch((error) => {
-  //         console.error(`Error On Edit Contato of Pessoa`);
-  //         console.error(error);
-  //       })
-  //   }
+    await UserRepository.put(id, params)
+      .then(response => this.current = response.data)
+      .catch((error) => {
+        console.error('Error On Edit User')
+        console.error(error)
+      })
 
-  //   await PessoaRepository.put(pessoa.id, {
-  //     ...pessoa,
-
-  //     //TODO: ESSE CARA DEVE SER UMA REFERENCE MAS TA VINDO COMO OBJETO
-  //     contato
-  //   }).catch((error) => {
-  //     console.error(`Error On Edit Pessoa`);
-  //     console.error(error);
-  //   });
-
-  //   this.loading = false;
-  // },
+    this.loading = false
+  },
   async delete () {
     this.loading = true
     // let pessoa = {...this.current},

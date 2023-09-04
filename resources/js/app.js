@@ -8,8 +8,6 @@ import Store from '../stores'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import '../css/icons'
 
-// console.log('window.location :>> ', window.location);
-
 setTimeout(async () =>
   createInertiaApp({
     title: title => `${title ? title+ ' - ' : ''}Jack and Jill`,

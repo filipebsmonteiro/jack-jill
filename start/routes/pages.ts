@@ -12,7 +12,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('list', async ({ inertia }) => inertia.render('Users/ListPage'))
-    Route.get('/create', async ({ inertia }) => inertia.render('Users/CreatePage'))
-    Route.get('/edit/:id', async ({ inertia }) => inertia.render('Users/EditPage'))
+    Route.get('/create', async ({ inertia }) => inertia.render('Users/CreateEditPage'))
+    Route.get('/edit/:id', async ({ inertia }) => inertia.render('Users/CreateEditPage'))
   }).prefix('/user')
 }).middleware('auth')
