@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
 import { BaseModel, ManyToMany, beforeCreate, beforeSave, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { compose } from '@ioc:Adonis/Core/Helpers'
+import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { v4 as uuid } from 'uuid'
 import Event from 'App/Models/Event'
 import Competition from 'App/Models/Competition'
 
-export default class User extends BaseModel {
+export default class User extends compose(BaseModel, SoftDeletes) {
   @column({ isPrimary: true })
   public id: string
 
@@ -38,6 +40,10 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  // @column.dateTime({ columnName: 'customDeletedAtColumn' })
+  @column.dateTime({ columnName: 'deleted_at' })
+  public deletedAt: DateTime | null
 
   /**
   * Relationships

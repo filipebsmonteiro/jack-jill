@@ -50,20 +50,14 @@ export default {
 
     this.loading = false
   },
-  async delete () {
+  async delete (id: string | number) {
     this.loading = true
-    // let pessoa = {...this.current},
-    // contato = {...this.current.contato};
 
-    // if (pessoa.contato) {
-    //   contato = await ContatoRepository.delete(pessoa.contato.id);
-    // }
-
-    // await PessoaRepository.delete(pessoa.id)
-    // .catch((error) => {
-    //   console.error(`Error On Delete Pessoa`);
-    //   console.error(error);
-    // });
+    await UserRepository.delete(id)
+      .catch((error) => {
+        console.error('Error On Delete User')
+        console.error(error)
+      })
 
     this.loading = false
   },

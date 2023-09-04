@@ -20,8 +20,6 @@ export default class UsersController {
   public async show ({ request }: HttpContextContract) {
     const user = await User.query()
       .where('id', request.param('id'))
-      // .preload('events')
-      // .preload('competitions')
       .firstOrFail()
     return user
   }
@@ -34,5 +32,11 @@ export default class UsersController {
     return user
   }
 
-  public async destroy ({}: HttpContextContract) {}
+  public async destroy ({ request }: HttpContextContract) {
+    const user = await User.query()
+      .where('id', request.param('id'))
+      .firstOrFail()
+    user.delete()
+    return true
+  }
 }

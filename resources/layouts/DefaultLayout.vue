@@ -1,46 +1,69 @@
 <template>
   <div class="layout-wrapper">
-    <header class="bg-primary">
-      <div class="toolbar">
+    <aside class="aside-left">
+      <header class="bg-primary">
         <button class="btn btn-ghost" @click="toggleLeftDrawer">
           <font-awesome-icon icon="bars" />
         </button>
-
         <span class="toolbar__title">
           Jack and Jill
         </span>
-
-        <div v-if="user" class="toolbar__avatar" @click="toggleRightDrawer">
-          <img v-if="this.avatar" :src="this.avatar" referrerpolicy="no-referrer" />
-          <span v-else class="first_letter">{{ user.first_name[0] }}</span>
-        </div>
-        <div v-else>
-          <InertiaLink href="/auth/register">Register</InertiaLink>
-          <InertiaLink href="/auth/login"  class="btn btn-sm ml-3">Login</InertiaLink>
-        </div>
-      </div>
-    </header>
-
-    <aside v-show="leftDrawerOpen" class="aside-left">
-      <MenuLink
-        v-for="link in linksList"
-        :key="link.title"
-        v-bind="link"
-      />
+      </header>
+      <ul class="menu w-56">
+        <li>
+          <MenuLink
+            v-for="link in linksList"
+            :key="link.title"
+            v-bind="link"
+          />
+        </li>
+      </ul>
     </aside>
+
+    <div class="container">
+      <header class="bg-primary">
+        <div class="toolbar">
+          <span class="toolbar__title"></span>
+
+          <div v-if="user" class="toolbar__avatar" @click="toggleRightDrawer">
+            <div :class="{ avatar: true, placeholder: !avatar}">
+              <div :class="{ 'w-12': true, 'bg-neutral text-neutral-content': !avatar}">
+                <img v-if="avatar" :src="avatar" />
+                <span v-else>{{ user.first_name[0].toUpperCase() }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <InertiaLink href="/auth/register">Register</InertiaLink>
+            <InertiaLink href="/auth/login"  class="btn btn-sm ml-3">Login</InertiaLink>
+          </div>
+        </div>
+      </header>
+
+      <div class="px-6">
+        <slot></slot>
+      </div>
+    </div>
 
     <aside v-show="rightDrawerOpen" class="aside-right flex column">
       <div class="user-profile">
         <div v-if="user" class="pt-10 px-2 bg-blur">
-          <div class="avatar mb-2">
-            <img :src="this.avatar" />
+          <div :class="{ 'avatar mb-2': true, placeholder: !avatar}">
+            <div :class="{ 'w-12': true, 'bg-neutral text-neutral-content': !avatar}">
+              <img v-if="avatar" :src="avatar" />
+              <span v-else>{{ user.first_name[0].toUpperCase() }}</span>
+            </div>
           </div>
-          <div class="text-weight-bold">{{ user.displayName }}</div>
+          <div class="text-weight-bold">{{ user.first_name }}</div>
           <div>{{ user.email }}</div>
         </div>
       </div>
-      <div class="overflow-auto">
-        <pre>{{ this.user }}</pre>
+      <div class="overflow-auto p-6">
+        <ul class="list">
+          <li v-for="key in Object.keys(user)" :key="key" class="mb-3">
+            <b>{{ key }}: </b>{{ user[key] }}
+          </li>
+        </ul>
       </div>
       <div class="w-100 text-center bg-white p-1">
         <button class="btn btn-sm btn-wide btn-error btn-outline" @click="handlerLogout">
@@ -49,10 +72,6 @@
         </button>
       </div>
     </aside>
-
-    <div class="container" :style="{marginTop: `${headerHeigth}px`}">
-      <slot></slot>
-    </div>
   </div>
 </template>
 
@@ -89,7 +108,6 @@ export default {
   },
   data() {
     return {
-      headerHeigth: 58,
       linksList,
       leftDrawerOpen: false,
       rightDrawerOpen: false,
@@ -122,25 +140,21 @@ export default {
 
 <style lang="scss" scoped>
 .layout-wrapper {
-  position: relative;
   width: 100%;
   outline: 0;
   direction: ltr;
+  display: grid;
+  grid-auto-columns: max-content auto;
 
   header {
-    position: fixed;
-    display: block;
-    top: 0;
-    left: 0;
-    right: 0;
     z-index: 1000;
+    height: var(--header-height);
 
     .toolbar {
       display: flex;
       align-items: center;
       flex-wrap: no-wrap;
       position: relative;
-      min-height: 50px;
       width: 100%;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
       padding: 0 12px;
@@ -161,12 +175,6 @@ export default {
         cursor: pointer;
       }
 
-      .first_letter {
-        border: 2px solid white;
-        padding: .25rem .75rem;
-        border-radius: 1rem;
-        text-transform: uppercase;
-      }
     }
   }
 }
@@ -179,19 +187,19 @@ export default {
 }
 
 aside {
-  width: 300px;
-  transform: translateX(0px);
-  position: fixed;
-  top: 58px;
-  bottom: 0;
-  background: #fff;
-  z-index: 500;
-
   &.aside-left{
-    left: 0;
-    border-right: 1px solid rgba(0,0,0,.12);
+    height: 100dvh;
+    // border-right: 1px solid rgba(0,0,0,.12);
   }
+
   &.aside-right{
+    width: 300px;
+    transform: translateX(0px);
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    background: #fff;
+    z-index: 500;
     right: 0;
     border-left: 1px solid rgba(0,0,0,.12);
   }
@@ -207,5 +215,8 @@ aside {
 
 .container {
   margin: 0 auto;
+  // flex-grow: 1;
+  grid-column-start: 2;
+  // grid-row-start: 1;
 }
 </style>

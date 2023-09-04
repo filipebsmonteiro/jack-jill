@@ -55,6 +55,9 @@ dependencies:
   '@inertiajs/vue3':
     specifier: ^1.0.11
     version: 1.0.11(vue@3.3.4)
+  adonis-lucid-soft-deletes:
+    specifier: ^1.4.4
+    version: 1.4.4
   axios:
     specifier: ^1.5.0
     version: 1.5.0
@@ -88,6 +91,9 @@ dependencies:
   vue-loader:
     specifier: ^17.2.2
     version: 17.2.2(vue@3.3.4)(webpack@5.88.2)
+  vue3-toastify:
+    specifier: ^0.1.12
+    version: 0.1.12(vue@3.3.4)
 
 devDependencies:
   '@adonisjs/assembler':
@@ -3148,6 +3154,10 @@ packages:
       loader-utils: 2.0.4
       regex-parser: 2.2.11
     dev: true
+
+  /adonis-lucid-soft-deletes@1.4.4:
+    resolution: {integrity: sha512-QvcnCUsDMPRxSwcNPlFObYi4i3v1nhybucorF5djpzNtVOY3bv3+cSdfN72kLTe5EJKoPeTrlsMYBjEKLa8ULw==}
+    dev: false
 
   /adonis-preset-ts@2.1.0:
     resolution: {integrity: sha512-cQH/NP250gOF9k3TTDhVsTOPSAvyH4MhKVZ4ryYiihA+vnP27sut1gVIrRas3Evl5d2wEgWVGI5DgdP/ZFSk0w==}
@@ -8983,6 +8993,18 @@ packages:
       vue: 3.3.4
       watchpack: 2.4.0
       webpack: 5.88.2(webpack-cli@4.10.0)
+
+  /vue3-toastify@0.1.12(vue@3.3.4):
+    resolution: {integrity: sha512-OQJPMt6dIpn+1vG+EZMO+QE5STAxoc0+Owo7sRjUyVw22Uxs6daVHq/sek75s4JMxbzePHtUqVfTZRgqLHmikw==}
+    engines: {node: '>=16', npm: '>=7'}
+    peerDependencies:
+      vue: '>=3.2.0'
+    peerDependenciesMeta:
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.3.4
+    dev: false
 
   /vue@3.3.4:
     resolution: {integrity: sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==}

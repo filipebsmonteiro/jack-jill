@@ -48,13 +48,7 @@ defineProps({
   display: flex;
   align-items: center;
   border-bottom: 1px solid lightgrey;
-  margin: 0 10px;
-  padding: 2px 0;
-  cursor: pointer;
 
-  &:hover {
-    background-color: #eee;
-  }
 
   &:last-child {
     border-bottom: none;

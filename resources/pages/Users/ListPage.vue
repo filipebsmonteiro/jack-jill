@@ -1,5 +1,8 @@
 <template>
-  <InertiaLink href="/user/create" class="btn btn-link">Criar</InertiaLink>
+  <div class="flex justify-between my-5">
+    <InertiaLink href="/user/create" class="btn ">Cadastrar nova Pessoa</InertiaLink>
+    <!-- <InertiaLink href="/user/create" class="btn ">Criar</InertiaLink> -->
+  </div>
   <SimpleTable :columns="columns" :rows="users">
     <template #name="{ row }">
       {{ row.first_name }} {{ row.last_name }}
@@ -18,10 +21,12 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia';
+import { toast } from 'vue3-toastify'
 import { useForm } from "@inertiajs/vue3";
 import { useUserStore } from 'Resources/stores/user';
-import { mapActions, mapState } from 'pinia';
-import SimpleTable from 'Resources/components/Table/SimpleTable.vue';
+import SimpleTable from 'Resources/components/Table/SimpleTable';
+import UndoDelete from 'Resources/components/UndoDelete';
 
 export default {
   name: 'ListPage',
@@ -46,13 +51,9 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['delete', 'load']),
     async deleteHandler(row) {
-      // this.$dialog
-      //   .confirm(`Deseja excluir a pessoa ${row.nome}?`)
-      //   .then(() => this.delete(row.id))
-      this.current = row
-      await this.delete()
+      await this.delete(row.id)
+      toast.success(`Pessoa <b>${row.first_name}</b> Excluida com sucesso!`)
       this.load()
-      this.current = null
     },
   },
   async created() {

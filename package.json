@@ -60,6 +60,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@inertiajs/vue3": "^1.0.11",
+    "adonis-lucid-soft-deletes": "^1.4.4",
     "axios": "^1.5.0",
     "luxon": "^3.4.2",
     "mysql2": "^3.6.0",
@@ -70,6 +71,7 @@
     "ts-loader": "^9.4.4",
     "uuid": "^9.0.0",
     "vue": "^3.3.4",
-    "vue-loader": "^17.2.2"
+    "vue-loader": "^17.2.2",
+    "vue3-toastify": "^0.1.12"
   }
 }

@@ -15,6 +15,8 @@
       "ES6",
       "DOM"
     ],
+    // "noUnusedParameters": false,
+    // "noUnusedLocals": false,
     "sourceMap": true,
     "paths": {
       "Resources/*": [
@@ -42,7 +44,9 @@
       "@japa/preset-adonis/build/adonis-typings",
       "@adonisjs/lucid",
       "@adonisjs/auth",
-      "@eidellev/inertia-adonisjs"
+      "@eidellev/inertia-adonisjs",
+      "adonis-lucid-soft-deletes",
+      "vue3-toastify/global"
     ]
   }
 }
