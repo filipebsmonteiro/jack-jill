@@ -6,8 +6,8 @@ import UpdateValidator from 'App/Validators/User/UpdateValidator'
 export default class UsersController {
   public async index ({}: HttpContextContract) {
     const users = await User.query()
-      .preload('events')
-      .preload('competitions')
+    // .preload('events')
+    // .preload('competitions')
     return users
   }
 

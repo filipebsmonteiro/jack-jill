@@ -27,10 +27,10 @@ export default class Event extends BaseModel {
   @column()
   public image: string
 
-  @column.date()
+  @column.dateTime({ serialize: (value: DateTime) => value.toFormat('yyyy-MM-dd') })
   public start_date: DateTime
 
-  @column.date()
+  @column.dateTime({ serialize: (value: DateTime) => value.toFormat('yyyy-MM-dd') })
   public end_date: DateTime
 
   @column.dateTime({ autoCreate: true })

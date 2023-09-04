@@ -1,13 +1,13 @@
-import UserRepository from 'Resources/repositories/UserRepository'
+import EventRepository from 'Resources/repositories/EventRepository'
 
 export default {
   async load () {
     this.loading = true
 
-    await UserRepository.fetch()
+    await EventRepository.fetch()
       .then(response => this.list = response.data)
       .catch((error) => {
-        console.error('Error On Load Users')
+        console.error('Error On Load Events')
         console.error(error)
         this.list = []
       })
@@ -16,7 +16,7 @@ export default {
   },
   async create (params: any) {
     this.loading = true
-    await UserRepository.post(params)
+    await EventRepository.post(params)
       .then(response => this.current = response.data)
       .catch((error) => {
         console.error('Error On Create User')
@@ -28,7 +28,7 @@ export default {
   async find (id: string | number) {
     this.loading = true
 
-    await UserRepository.find(id)
+    await EventRepository.find(id)
       .then(response => this.current = response.data)
       .catch((error) => {
         console.error(`Error On Load User: ${id}`)
@@ -41,7 +41,7 @@ export default {
   async update (id: string | number, params: any) {
     this.loading = true
 
-    await UserRepository.put(id, params)
+    await EventRepository.put(id, params)
       .then(response => this.current = response.data)
       .catch((error) => {
         console.error('Error On Edit User')
@@ -53,7 +53,7 @@ export default {
   async delete (id: string | number) {
     this.loading = true
 
-    await UserRepository.delete(id)
+    await EventRepository.delete(id)
       .catch((error) => {
         console.error('Error On Delete User')
         console.error(error)

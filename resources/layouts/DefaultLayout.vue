@@ -80,6 +80,12 @@ export default {
           icon: "person",
           link: `/user/list`,
         },
+        {
+          label: this.$t("system.left_menu.events.label"),
+          caption: this.$t("system.left_menu.events.description"),
+          icon: "calendar-days",
+          link: `/event/list`,
+        },
       ];
     },
   },

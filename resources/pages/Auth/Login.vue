@@ -1,6 +1,7 @@
 <script setup>
-import { reactive, watch, computed } from "vue";
 import { Head, router } from "@inertiajs/vue3";
+import { reactive, watch, computed } from "vue";
+import { toast } from 'vue3-toastify'
 import AuthLayout from "Resources/layouts/AuthLayout.vue";
 import { plugin } from "Resources/components/Form/SubmitLoading";
 import { useAuthStore } from "Resources/stores/auth";
@@ -37,17 +38,8 @@ async function submit() {
   login(form)
   .then(() => router.get("/dashboard"))
   .catch((error) => {
-      if (
-        error.response.status === 422 &&
-        error.response.data?.errors
-        ) {
-          error.response.data.errors.forEach((error) => {
-            schema.forEach((field) => {
-              if (field.name === error.field) {
-                field.errors = [error.message]
-              }
-            })
-          })
+      if (error.response.data?.errors) {
+        error.response.data.errors.forEach((error) => toast.error(error))
       }
     })
 }

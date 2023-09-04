@@ -8,6 +8,9 @@ export default {
     show: 'Show',
     store: 'Store',
     update: 'Update',
+    close: 'Close',
+    back: 'Back',
+    with_success: 'with success!',
   },
   left_menu: {
     dashboard: {

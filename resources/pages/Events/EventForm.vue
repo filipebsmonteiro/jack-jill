@@ -14,52 +14,57 @@ const { t } = useI18n()
 const schema = reactive([
   {
     $formkit: "text",
-    name: "first_name",
-    label: t('user.first_name'),
+    name: "name",
+    label: t('event.name'),
     validation: "required",
   },
   {
     $formkit: "text",
-    name: "last_name",
-    label: t('user.last_name'),
+    name: "description",
+    label: t('event.description'),
     validation: "required",
   },
   {
     $formkit: "text",
-    name: "phone",
-    label: t('user.phone'),
+    name: "location",
+    label: t('event.location'),
     validation: "required",
   },
   {
     $formkit: "text",
-    name: "email",
-    label: t('user.email'),
-    validation: "required|email",
-  },
-  {
-    $formkit: "password",
-    name: "password",
-    label: t('user.password'),
-    validation: `?length:64,8${props.passwordRequired ? '|required' : ''}`,
-  },
-  {
-    $formkit: "password",
-    name: "password_confirm",
-    label: t('user.password_confirmation'),
-    validation: `confirm:password${props.passwordRequired ? '|required' : ''}`,
-  },
-  {
-    $formkit: "text",
-    name: "state",
-    label: t('user.state'),
+    name: "type",
+    label: t('event.type'),
     validation: "required",
   },
   {
-    $formkit: "text",
-    name: "country",
-    label: t('user.country'),
+    $formkit: "select",
+    name: "status",
+    label: t('event.status'),
     validation: "required",
+    options: [
+      { label: t('event.statuses.draft'), value: 'draft' },
+      { label: t('event.statuses.published'), value: 'published' },
+      { label: t('event.statuses.canceled'), value: 'canceled' },
+    ]
   },
+  {
+    $formkit: "file",
+    name: "image",
+    label: t('event.image'),
+  },
+  {
+    $formkit: "date",
+    name: "start_date",
+    label: t('event.start_date'),
+    validation: `required|date|date_after:${new Date().toISOString().split('T')[0]}`,
+  },
+  {
+    $formkit: "date",
+    name: "end_date",
+    label: t('event.end_date'),
+    validation: `required|date|date_after:${new Date().toISOString().split('T')[0]}`,
+  },
+
   {
     $formkit: 'spinningSubmit',
     label: 'Enviar',
@@ -67,14 +72,14 @@ const schema = reactive([
 ])
 
 const data = reactive({
-  first_name: props?.values?.first_name || '',
-  last_name: props?.values?.last_name || '',
-  phone: props?.values?.phone || '',
-  email: props?.values?.email || '',
-  password: props?.values?.password || '',
-  password_confirm: '',
-  state: props?.values?.state || '',
-  country: props?.values?.country || ''
+  name: props?.values?.name || '',
+  description: props?.values?.description || '',
+  location: props?.values?.location || '',
+  type: props?.values?.type || '',
+  status: props?.values?.status || '',
+  image: props?.values?.image || '',
+  start_date: props?.values?.start_date || '',
+  end_date: props?.values?.end_date || '',
 })
 
 watch(props.errors, (errors) => {

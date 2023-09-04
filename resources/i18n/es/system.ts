@@ -1,13 +1,16 @@
 export default {
   actions: {
-    label: 'Ações',
-    create: 'Criar',
-    delete: 'Excluir',
+    label: 'Acciones',
+    create: 'Crear',
+    delete: 'Eliminar',
     edit: 'Editar',
     list: 'Listar',
-    show: 'Visualizar',
-    store: 'Salvar',
-    update: 'Atualizar',
+    show: 'Mostrar',
+    store: 'Guardar',
+    update: 'Actualizar',
+    close: 'Cerrar',
+    back: 'Volver',
+    with_success: 'con éxito!',
   },
   left_menu: {
     dashboard: {

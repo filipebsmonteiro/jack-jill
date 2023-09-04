@@ -24,7 +24,7 @@ setTimeout(async () =>
       page.layout = page.layout || DefaultLayout
       return page
     },
-    render: createApp({ render: () => h('div', 'Loading...') }),
+    // render: createApp({ render: () => h('div', 'Loading...') }),
     setup ({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
         .use(plugin)

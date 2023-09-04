@@ -7,11 +7,16 @@ export default class AuthController {
     const { email, password } = request.all()
     return await auth.attempt(email, password)
       .then((user: User) => user.serialize({ fields: { omit: ['password'] } }))
-      .catch(() => {
+      .catch((error) => {
+        // return response.badRequest({
+        //   props: { errors: ['Invalid credentials'] },
+        //   url: '/auth/login',
+        //   component: 'Auth/Login',
+        // })
+        // console.log('erro :>> ', erro.responseText);
         return response.badRequest({
-          props: { errors: ['Invalid credentials'] },
-          url: '/auth/login',
-          component: 'Auth/Login',
+          error,
+          errors: ['Invalid credentials'],
         })
       })
   }
