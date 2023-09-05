@@ -46,6 +46,7 @@ export default {
       .catch((error) => {
         console.error('Error On Edit User')
         console.error(error)
+        throw error
       })
 
     this.loading = false

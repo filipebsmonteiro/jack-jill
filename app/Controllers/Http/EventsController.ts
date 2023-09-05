@@ -1,4 +1,4 @@
-import type { HttpContextContract, } from '@ioc:Adonis/Core/HttpContext'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Application from '@ioc:Adonis/Core/Application'
 import Event from 'App/Models/Event'

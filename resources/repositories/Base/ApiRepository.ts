@@ -43,7 +43,7 @@ export default abstract class ApiRepository implements RepositoryInterface {
   public parseToFormData (params: Record<string, any>) {
     const formData = new FormData()
     Object.entries(params).map(([key, value]) => {
-      if (Array.isArray(value) && value[0].file) {
+      if (Array.isArray(value) && value[0]?.file) {
         formData.append(key, value[0].file)
       } else {
         formData.append(key, value)

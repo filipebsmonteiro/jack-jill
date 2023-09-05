@@ -1,37 +1,43 @@
 <template>
   <div class="user-profile">
-    <div v-if="user" class="pt-10 px-2 bg-blur">
+    <div v-if="user" class="py-10 px-2 bg-blur flex shadow-lg">
       <div :class="{ 'avatar mb-2': true, placeholder: !avatar}">
         <div :class="{ 'w-12': true, 'bg-neutral text-neutral-content': !avatar}">
-          <img v-if="avatar" :src="avatar" />
+          <img v-if="avatar" :src="`/file/${avatar}`" />
           <span v-else>{{ user.first_name[0].toUpperCase() }}</span>
         </div>
       </div>
-      <div class="text-weight-bold">{{ user.first_name }}</div>
-      <div>{{ user.email }}</div>
+      <div class="ml-3">
+        <div class="text-weight-bold">{{ user.first_name }}</div>
+        <div>{{ user.email }}</div>
+      </div>
     </div>
   </div>
-  <div class="overflow-auto p-6">
-    <FormKit
-      type="select"
-      :label="$t('system.right_menu.languages.label')"
-      v-model="locale"
-      :options="locales"
-    />
-    <FormKit
-      type="select"
-      :label="$t('system.right_menu.theme.label')"
-      v-model="theme"
-      :options="themes"
-    />
-
-    <ul v-if="user" class="list">
-      <li v-for="key in Object.keys(user)" :key="key" class="mb-3">
-        <b>{{ $t(`user.${key}`) }}: </b>{{ user[key] }}
-      </li>
-    </ul>
+  <div class="overflow-y-scroll p-3 flex-grow">
+    <a href="/profile" class="btn btn-link">{{ $t('system.right_menu.profile.label') }}</a>
+    <div class="collapse collapse-arrow shadow">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">
+        {{ $t('system.right_menu.config.label') }}
+      </div>
+      <div class="collapse-content">
+        <FormKit
+          type="select"
+          :label="$t('system.right_menu.languages.label')"
+          v-model="locale"
+          :options="locales"
+        />
+        <FormKit
+          type="select"
+          :label="$t('system.right_menu.theme.label')"
+          v-model="theme"
+          :options="themes"
+        />
+      </div>
+    </div>
   </div>
-  <div class="w-100 text-center bg-white p-1">
+
+  <div class="w-100 text-center bg-white p-1 shadow-lg">
     <button class="btn btn-sm btn-wide btn-error btn-outline" @click="handlerLogout">
       <font-awesome-icon icon="right-from-bracket" />
       Logout
@@ -41,11 +47,13 @@
 
 <script>
 import { router, useForm } from "@inertiajs/vue3";
+import { mapState, mapActions } from 'pinia'
 import { useAuthStore } from "Resources/stores/auth";
 import { useSystemStore } from "Resources/stores/system";
-import { mapState, mapActions } from 'pinia'
+import UserForm from "Resources/pages/Users/UserForm.vue";
 
 export default {
+  components: { UserForm },
   computed: {
     ...mapState(useAuthStore, ["avatar", "getUser"]),
     user() {
@@ -64,7 +72,6 @@ export default {
         { label: this.$t('system.right_menu.theme.options.dark'), value: "dark" },
         { label: this.$t('system.right_menu.theme.options.dracula'), value: "dracula" },
         { label: this.$t('system.right_menu.theme.options.valentine'), value: "valentine" },
-
       ];
     },
   },
@@ -78,12 +85,13 @@ export default {
   },
   watch: {
     locale(val) {
-      this.setLocale(val)
-      this.$formkit.setLocale(val)
-      this.$i18n.locale = val
+      if (!val) return;
+      this.setLocale(val);
+      this.$formkit.setLocale(val);
+      this.$i18n.locale = val;
     },
     theme(val) {
-      this.setTheme(val)
+      this.setTheme(val);
       document.documentElement.setAttribute("data-theme", val);
     },
   },
@@ -92,22 +100,25 @@ export default {
     ...mapActions(useSystemStore, ["setLocale", "setTheme"]),
     async handlerLogout() {
       const form = useForm({});
-      await this.logout(form)
-      router.get("/auth/login")
+      await this.logout(form);
+      router.get("/auth/login");
     },
   },
   created() {
-    const { getTheme, getLocale } = useSystemStore()
+    const { getTheme, getLocale } = useSystemStore();
     this.theme = getTheme;
     this.locale = getLocale;
-    document.documentElement.setAttribute('data-theme', this.theme)
+    document.documentElement.setAttribute('data-theme', this.theme);
   },
 }
 </script>
 
 <style lang="scss" scoped>
+:deep(.formkit-wrapper) {
+  width: 100%;
+}
 .user-profile {
-  // background-image: url("@/assets/bkg.jpg");
+  background-image: url("./bg-profile.jpeg");
   @apply bg-cover bg-center bg-no-repeat;
 }
 </style>

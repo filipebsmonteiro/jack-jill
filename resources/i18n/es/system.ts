@@ -29,10 +29,6 @@ export default {
       label: 'Usuários',
       description: 'Gerenciar usuários',
     },
-    // locations: {
-    //   label: 'Locais',
-    //   description: 'Gerenciar locais',
-    // },
   },
   right_menu: {
     languages: {
@@ -53,10 +49,14 @@ export default {
         valentine: 'Valentine',
       },
     },
-    // profile: {
-    //   label: 'Perfil',
-    //   description: 'Gerenciar perfil',
-    // },
+    config: {
+      label: 'Configuraciones',
+      description: 'Gerenciar configuraciones',
+    },
+    profile: {
+      label: 'Perfil',
+      description: 'Gerenciar perfil',
+    },
     logout: {
       label: 'Sair',
       description: 'Sair do sistema',

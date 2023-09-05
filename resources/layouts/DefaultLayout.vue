@@ -2,9 +2,9 @@
   <div class="layout-wrapper">
     <aside class="aside-left">
       <header>
-        <button class="btn btn-ghost" @click="toggleLeftDrawer">
+        <!-- <button class="btn btn-ghost" @click="toggleLeftDrawer">
           <font-awesome-icon icon="bars" />
-        </button>
+        </button> -->
         <span class="toolbar__title">
           Jack and Jill
         </span>
@@ -27,7 +27,7 @@
         <div v-if="user" @click="toggleRightDrawer">
           <div :class="{ 'avatar rounded overflow-auto': true, placeholder: !avatar}">
             <div :class="{ 'w-12': true, 'bg-neutral text-neutral-content': !avatar}">
-              <img v-if="avatar" :src="avatar" />
+              <img v-if="avatar" :src="`/file/${avatar}`" />
               <span v-else>{{ user.first_name[0].toUpperCase() }}</span>
             </div>
           </div>
@@ -131,7 +131,7 @@ header {
   height: 100dvh;
 
   header {
-    @apply justify-start;
+    @apply justify-start pl-3;
   }
 }
 
@@ -141,7 +141,7 @@ header {
   // grid-row-start: 1;
 
   header {
-    @apply justify-between px-3;
+    @apply justify-between pr-3;
   }
 }
 
@@ -149,6 +149,6 @@ header {
   width: 300px;
   top: var(--header-height);
   z-index: 500;
-  @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg;
+  @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
 }
 </style>

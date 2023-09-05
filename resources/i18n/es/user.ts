@@ -25,5 +25,7 @@ export default {
   city: 'Ciudad',
 
   new: 'Nuevo',
+  created: 'Creado',
+  edited: 'Editado',
   deleted: 'Eliminado',
 }

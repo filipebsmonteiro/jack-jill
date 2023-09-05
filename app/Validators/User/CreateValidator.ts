@@ -41,6 +41,10 @@ export default class CreateValidator {
     ]),
     state: schema.string(),
     country: schema.string(),
+    image: schema.file.optional({
+      size: '2mb',
+      extnames: ['jpg', 'png', 'jpeg', 'webp'],
+    }),
   })
 
   /**
@@ -55,19 +59,9 @@ export default class CreateValidator {
    *
    */
   public messages: CustomMessages = {
-    // 'first_name.required': 'First name is required',
-    // 'last_name.required': 'Last name is required',
-    // 'email.required': 'Email is required',
     'email.unique': 'Email is already taken',
-    // 'password.required': 'Password is required',
-    // 'password.minLength': 'Password must be at least 8 characters',
-    // 'password.maxLength': 'Password must be at most 64 characters',
-    // 'password_confirmation.required': 'Password confirmation is required',
     'password_confirmation.confirmed': 'Password confirmation does not match',
-    // 'phone.required': 'Phone number is required',
     'phone.unique': 'Phone number is already taken',
-    // 'city.required': 'City is required',
-    // 'state.required': 'State is required',
-    // 'country.required': 'Country is required',
+    'image': 'MaxSize: 2MB, Allowed extensions: jpg, png, jpeg, webp',
   }
 }

@@ -29,10 +29,6 @@ export default {
       label: 'Users',
       description: 'Manage users',
     },
-    // locations: {
-    //   label: 'Locations',
-    //   description: 'Manage locations',
-    // },
   },
   right_menu: {
     languages: {
@@ -53,10 +49,14 @@ export default {
         valentine: 'Valentine',
       },
     },
-    // profile: {
-    //   label: 'Profile',
-    //   description: 'Manage profile',
-    // },
+    config: {
+      label: 'Config',
+      description: 'Manage config',
+    },
+    profile: {
+      label: 'Profile',
+      description: 'Manage profile',
+    },
     logout: {
       label: 'Logout',
       description: 'Logout from system',

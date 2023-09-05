@@ -51,6 +51,8 @@ const schema = reactive([
     $formkit: "file",
     name: "image",
     label: t('event.image'),
+    accept: ".jpeg,.jpg,png,.webp",
+    multiple: "false",
   },
   {
     $formkit: "date",

@@ -9,6 +9,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/dashboard', async ({ inertia }) => inertia.render('Dashboard'))
+  Route.get('/profile', async ({ inertia }) => inertia.render('Users/ProfilePage'))
 
   // Users Routes
   Route.group(() => {

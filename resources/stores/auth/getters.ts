@@ -3,7 +3,7 @@ import { SessionStorage } from 'Resources/helpers/browser-storage'
 import constants from 'Resources/providers/constants'
 
 export default {
-  avatar: (state: StateTree) => state?.user?.photoURL,
+  avatar: (state: StateTree) => state?.user?.image,
 
   isLogged () {
     return this.getUser !== null && this.getUser !== undefined
