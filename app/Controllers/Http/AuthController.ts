@@ -23,7 +23,7 @@ export default class AuthController {
 
   public async register ({ request }: HttpContextContract) {
     const payload = await request.validate(CreateValidator)
-    const user = await User.create(payload)
+    const user = await User.create({ ...payload, image: undefined})
     return user
   }
 
