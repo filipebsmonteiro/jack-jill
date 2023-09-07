@@ -1,17 +1,45 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Competition from 'App/Models/Competition'
+import CreateValidator from 'App/Validators/Competition/CreateValidator'
+import UpdateValidator from 'App/Validators/Competition/UpdateValidator'
 
 export default class CompetitionsController {
-  public async index ({}: HttpContextContract) {}
+  public async index ({ response }: HttpContextContract) {
+    const competitions = await Competition.query()
+    return response.status(200).json(competitions)
+  }
 
-  public async create ({}: HttpContextContract) {}
+  public async store ({ request, response }: HttpContextContract) {
+    const payload = await request.validate(CreateValidator)
+    let competition: Competition = await Competition.create(payload)
 
-  public async store ({}: HttpContextContract) {}
+    return response.status(201).json(competition)
+  }
 
-  public async show ({}: HttpContextContract) {}
+  public async show ({ request, response }: HttpContextContract) {
+    const competition = await Competition.query()
+      .where('id', request.param('id'))
+      .firstOrFail()
+    return response.status(200).json(competition.serialize())
+  }
 
-  public async edit ({}: HttpContextContract) {}
+  public async update ({ request, response }: HttpContextContract) {
+    const payload = await request.validate(UpdateValidator)
+    await Competition.query()
+      .where('id', request.param('id'))
+      .update(payload)
 
-  public async update ({}: HttpContextContract) {}
+    const competition = await Competition.query()
+      .where('id', request.param('id'))
+      .firstOrFail()
+    return response.status(200).json(competition.serialize())
+  }
 
-  public async destroy ({}: HttpContextContract) {}
+  public async destroy ({ request }: HttpContextContract) {
+    const competition = await Competition.query()
+      .where('id', request.param('id'))
+      .firstOrFail()
+    competition.delete()
+    return true
+  }
 }

@@ -3,10 +3,14 @@ import { BaseModel, HasOne, ManyToMany, beforeCreate, column, hasOne, manyToMany
 import { v5 as uuid } from 'uuid'
 import User from 'App/Models/User'
 import Event from 'App/Models/Event'
+import Schedule from './Schedule'
 
 export default class Competition extends BaseModel {
   @column({ isPrimary: true })
   public id: string
+
+  @column()
+  public name: string
 
   @column()
   public type: string
@@ -28,6 +32,9 @@ export default class Competition extends BaseModel {
 
   @manyToMany(() => User, { pivotTable: 'judges_competitions' })
   public judges: ManyToMany<typeof User>
+
+  @manyToMany(() => Schedule, { pivotTable: 'competition_schedules' })
+  public schedules: ManyToMany<typeof Schedule>
 
   /**
    * Hooks

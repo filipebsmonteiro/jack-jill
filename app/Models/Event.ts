@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import EventRegistration from 'App/Models/EventRegistration'
 import User from 'App/Models/User'
 import Competition from 'App/Models/Competition'
+import Schedule from 'App/Models/Schedule'
 
 export default class Event extends BaseModel {
   @column({ isPrimary: true })
@@ -50,6 +51,9 @@ export default class Event extends BaseModel {
 
   @manyToMany(() => Competition, { pivotTable: 'events_competitions' })
   public competitions: ManyToMany<typeof Competition>
+
+  @manyToMany(() => Schedule, { pivotTable: 'event_schedules' })
+  public schedules: ManyToMany<typeof Schedule>
 
   /**
    * Hooks
