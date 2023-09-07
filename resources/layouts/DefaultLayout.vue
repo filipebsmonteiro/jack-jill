@@ -86,6 +86,12 @@ export default {
           icon: "calendar-days",
           link: `/event/list`,
         },
+        {
+          label: this.$t("system.left_menu.competitions.label"),
+          caption: this.$t("system.left_menu.competitions.description"),
+          icon: "trophy",
+          link: `/competition/list`,
+        },
       ];
     },
   },

@@ -61,5 +61,10 @@ defineProps({
   .icon {
     padding: 0 12px;
   }
+
+  .caption {
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 </style>

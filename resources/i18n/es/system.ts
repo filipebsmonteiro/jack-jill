@@ -22,8 +22,8 @@ export default {
       description: 'Gerenciar eventos',
     },
     competitions: {
-      label: 'Competições',
-      description: 'Gerenciar competições',
+      label: 'Competiciones',
+      description: 'Gerenciar competiciones',
     },
     users: {
       label: 'Usuários',
@@ -58,8 +58,8 @@ export default {
       description: 'Gerenciar perfil',
     },
     logout: {
-      label: 'Sair',
-      description: 'Sair do sistema',
+      label: 'Salir',
+      description: 'Salir del sistema',
     },
   },
 }

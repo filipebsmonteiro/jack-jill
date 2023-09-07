@@ -59,7 +59,7 @@ export default class Event extends BaseModel {
    * Hooks
    */
   @beforeCreate()
-  public static async createUUID (user: User) {
-    user.id = uuid().toString()
+  public static async createUUID (event: Event) {
+    event.id = uuid().toString()
   }
 }

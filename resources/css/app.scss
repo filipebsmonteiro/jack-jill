@@ -92,3 +92,8 @@
     display: block;
 }
 
+td .tooltip {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}

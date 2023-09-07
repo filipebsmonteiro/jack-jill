@@ -98,25 +98,19 @@ const handleSubmit = (data) => emits('submit', data)
 
 <template>
   <div class="flex-center">
-    <!-- <div class="flex column w-50"> -->
-      <FormKit
-        type="form"
-        :actions="false"
-        :plugins="[plugin]"
-        v-model="data"
-        @submit="handleSubmit"
-      >
-        <FormKitSchema :schema="schema" :data="data" />
-      </FormKit>
-    <!-- </div> -->
+    <FormKit
+      type="form"
+      :actions="false"
+      :plugins="[plugin]"
+      v-model="data"
+      @submit="handleSubmit"
+    >
+      <FormKitSchema :schema="schema" :data="data" />
+    </FormKit>
   </div>
 </template>
 
 <style scoped>
-.user-form {
-  @apply flex flex-col justify-center items-center;
-}
-
 :deep(.formkit-outer) {
   margin: 0 auto 1rem auto;
 }

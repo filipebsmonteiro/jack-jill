@@ -24,4 +24,11 @@ Route.group(() => {
     Route.get('/create', async ({ inertia }) => inertia.render('Events/CreateEditPage'))
     Route.get('/edit/:id', async ({ inertia }) => inertia.render('Events/CreateEditPage'))
   }).prefix('/event')
+
+  // Competition Routes
+  Route.group(() => {
+    Route.get('list', async ({ inertia }) => inertia.render('Competitions/ListPage'))
+    Route.get('/create', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
+    Route.get('/edit/:id', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
+  }).prefix('/competition')
 }).middleware('auth')

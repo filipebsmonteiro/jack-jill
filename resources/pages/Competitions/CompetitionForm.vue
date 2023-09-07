@@ -15,56 +15,18 @@ const schema = reactive([
   {
     $formkit: "text",
     name: "name",
-    label: t('event.name'),
-    validation: "required",
-  },
-  {
-    $formkit: "text",
-    name: "description",
-    label: t('event.description'),
-    validation: "required",
-  },
-  {
-    $formkit: "text",
-    name: "location",
-    label: t('event.location'),
-    validation: "required",
-  },
-  {
-    $formkit: "text",
-    name: "type",
-    label: t('event.type'),
+    label: t('competition.name'),
     validation: "required",
   },
   {
     $formkit: "select",
-    name: "status",
-    label: t('event.status'),
+    name: "type",
+    label: t('competition.type'),
     validation: "required",
     options: [
-      { label: t('event.statuses.draft'), value: 'draft' },
-      { label: t('event.statuses.published'), value: 'published' },
-      { label: t('event.statuses.canceled'), value: 'canceled' },
+      { label: t('competition.types.combat'), value: 'combat' },
+      { label: t('competition.types.sortition'), value: 'sortition' },
     ]
-  },
-  {
-    $formkit: "file",
-    name: "image",
-    label: t('event.image'),
-    accept: ".jpeg,.jpg,png,.webp",
-    multiple: "false",
-  },
-  {
-    $formkit: "date",
-    name: "start_date",
-    label: t('event.start_date'),
-    validation: `required|date|date_after:${new Date().toISOString().split('T')[0]}`,
-  },
-  {
-    $formkit: "date",
-    name: "end_date",
-    label: t('event.end_date'),
-    validation: `required|date|date_after:${new Date().toISOString().split('T')[0]}`,
   },
 
   {
@@ -75,13 +37,7 @@ const schema = reactive([
 
 const data = reactive({
   name: props?.values?.name || '',
-  description: props?.values?.description || '',
-  location: props?.values?.location || '',
   type: props?.values?.type || '',
-  status: props?.values?.status || '',
-  image: props?.values?.image || '',
-  start_date: props?.values?.start_date || '',
-  end_date: props?.values?.end_date || '',
 })
 
 watch(props.errors, (errors) => {

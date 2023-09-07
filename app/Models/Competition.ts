@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, HasOne, ManyToMany, beforeCreate, column, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
-import { v5 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid'
 import User from 'App/Models/User'
 import Event from 'App/Models/Event'
 import Schedule from './Schedule'
@@ -40,7 +40,7 @@ export default class Competition extends BaseModel {
    * Hooks
    */
   @beforeCreate()
-  public static async createUUID (user: User) {
-    user.id = uuid().toString()
+  public static async createUUID (competition: Competition) {
+    competition.id = uuid().toString()
   }
 }

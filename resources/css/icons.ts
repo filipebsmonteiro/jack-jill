@@ -15,6 +15,7 @@ import {
   faRightFromBracket,
   faTimes,
   faTrashCan,
+  faTrophy,
 } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
@@ -33,5 +34,6 @@ library.add(
   // faRecycle,
   faRightFromBracket,
   faTimes,
-  faTrashCan
+  faTrashCan,
+  faTrophy
 )

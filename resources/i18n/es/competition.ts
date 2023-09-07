@@ -1,6 +1,14 @@
 export default {
-  label: 'Competencia',
+  label: 'Competición',
   name: 'Nombre',
+  type: 'Tipo',
+  types: {
+    combat: 'Combate',
+    sortition: 'Sorteo',
+  },
+  new: 'Nueva',
+  deleted: 'Eliminada',
+
   description: 'Descripción',
   date: 'Fecha',
   time: 'Hora',

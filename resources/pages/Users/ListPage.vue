@@ -62,11 +62,3 @@ export default {
   },
 }
 </script>
-
-<style>
-td .tooltip {
-  display: inline-block;
-  margin-right: 10px;
-  cursor: pointer;
-}
-</style>
