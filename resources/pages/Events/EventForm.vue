@@ -3,6 +3,7 @@ import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSchedule } from 'Resources/components/Form/Schedule/Composable'
 import { plugin } from 'Resources/components/Form/SubmitLoading';
+// import ScheduleFormkit from 'Resources/components/Form/Schedule/ScheduleFormkit';
 
 const props = defineProps({
   errors: Object,
@@ -88,7 +89,7 @@ const data = reactive({
 
 watch(props.errors, (errors) => {
   if (errors) {
-    schema.value.forEach((field) => {
+    schema.forEach((field) => {
       if (errors[field.name]) {
         field.errors = errors[field.name]
       }

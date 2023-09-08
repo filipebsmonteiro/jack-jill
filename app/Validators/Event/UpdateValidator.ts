@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateValidator {
@@ -20,13 +20,15 @@ export default class CreateValidator {
     start_date: schema.date(),
     end_date: schema.date(),
 
-    schedules: schema.array().members(
-      schema.object().members({
-        name: schema.string(),
-        start_date: schema.date(),
-        end_date: schema.date(),
-      })
-    ),
+    schedules: schema.array
+      .optional([ rules.minLength(1) ])
+      .members(
+        schema.object().members({
+          name: schema.string(),
+          start_date: schema.date(),
+          end_date: schema.date(),
+        })
+      ),
   })
 
   public messages: CustomMessages = {

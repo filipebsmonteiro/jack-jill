@@ -6,6 +6,7 @@ import CreateValidator from 'App/Validators/Event/CreateValidator'
 import UpdateValidator from 'App/Validators/Event/UpdateValidator'
 import Schedule from 'App/Models/Schedule'
 import Database from '@ioc:Adonis/Lucid/Database'
+import { all } from 'proxy-addr'
 
 export default class EventsController {
   private async uploadFile (file: MultipartFileContract, id: string) {
@@ -17,47 +18,45 @@ export default class EventsController {
 
   public async index ({ response }: HttpContextContract) {
     const events = await Event.query()
+      .withCount('users')
     return response.status(200).json(events)
   }
 
   public async store ({ request, response }: HttpContextContract) {
     const payload = await request.validate(CreateValidator)
-    const trx = payload.schedules.length ? await Database.transaction() : undefined
-
     const { image, ...data } = payload
-    let event = await Event.create(data, { client: trx })
 
-    const file: MultipartFileContract | null = request.file('image')
-    if (file) {
-      await this.uploadFile(file, event.id)
-      await Event.query().where('id', event.id)
-        .update({ image: `event/${event.id}.${file.extname}` })
+    const event = await Database.transaction(async () => {
+      let evt = await Event.create(data)
 
-      event = await Event.query().where('id', event.id)
-        .firstOrFail()
-    }
+      const file: MultipartFileContract | null = request.file('image')
+      if (file) {
+        await this.uploadFile(file, evt.id)
+        await Event.query()
+          .where('id', evt.id)
+          .update({ image: `event/${evt.id}.${file.extname}` })
 
-    if (payload.schedules.length) {
-      await Database.transaction(async (trx) => {
+        evt = await Event.query().where('id', evt.id)
+          .firstOrFail()
+      }
+
+      if (payload.schedules) {
         const schedules = await Promise.all(
-          payload.schedules.map(async (schedule) => {
-            return await Schedule.create(schedule, { client: trx })
-          })
+          payload.schedules.map(async (schedule) => await Schedule.create(schedule))
         ).then((schedules) => schedules.map((schedule) => schedule.id))
 
-        event.related('schedules').attach(schedules)
-      })
-    }
+        evt.related('schedules').attach(schedules)
+      }
 
-    if (trx) {
-      await trx.commit()
-    }
+      return evt
+    })
 
     return response.status(201).json(event.serialize())
   }
 
   public async show ({ request, response }: HttpContextContract) {
     const event = await Event.query()
+      .preload('schedules')
       .where('id', request.param('id'))
       .firstOrFail()
     return response.status(200).json(event.serialize())

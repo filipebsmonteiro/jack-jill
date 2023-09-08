@@ -10,7 +10,10 @@ export default class Schedule extends BaseModel {
   public name: string
 
   @column.dateTime()
-  public dayHour: DateTime
+  public start_date: DateTime
+
+  @column.dateTime()
+  public end_date: DateTime
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

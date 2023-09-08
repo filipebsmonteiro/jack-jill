@@ -4,16 +4,14 @@ import { FormKitSchema, SchemaElement } from 'Resources/components/Form/Schedule
 export const useSchedule = () => {
   const formKitSchemaInstance = new FormKitSchema()
   let schedules: Ref<SchemaElement[]> = ref([])
+  let schedulesModels: Ref<SchemaElement[]> = ref([])
   let removeSchedule = (id: string) => {
-    console.log('id :>> ', id);
-    schedules.value.map((schedule) => console.log('schedule :>> ', schedule));
-    console.log('filter :>> ', schedules.value.filter((schedule) => schedule.attrs.id !== id));
     schedules.value = schedules.value.filter((schedule) => schedule.attrs.id !== id)
   }
   const addSchedule = () => {
     schedules.value = [
       ...schedules.value,
-      formKitSchemaInstance.createScheduleFormKitRow(),
+      formKitSchemaInstance.createScheduleFormKitRow(schedules.value.length),
     ].map(schedule => ({
       ...schedule,
       children: schedule.children?.map((child: SchemaElement) => ({
@@ -24,6 +22,12 @@ export const useSchedule = () => {
         },
       })),
     }))
+    schedulesModels.value = [
+      ...schedulesModels.value,
+      // {
+      //   id: schedulesModels.value.length + 1,
+      // }
+    ]
   }
   formKitSchemaInstance.addElementButton.attrs.onClick = () => addSchedule()
 

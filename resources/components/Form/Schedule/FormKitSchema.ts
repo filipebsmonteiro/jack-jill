@@ -59,21 +59,21 @@ export class FormKitSchema {
     ],
   }
 
-  public parseScheduleToSchema (id: string): SchemaElement {
+  public parseScheduleToSchema (index: number): SchemaElement {
     return {
       ...this.scheduleFormKitRowDefault,
       attrs: {
         ...this.scheduleFormKitRowDefault.attrs,
-        id: id,
+        id: uuid(),
       },
       children: this.scheduleFormKitRowDefault.children?.map((child: SchemaElement) => ({
         ...child,
-        name: child.name ? `schedules[${id}][${child.name}]` : undefined,
+        name: child.name ? `schedules[${index}][${child.name}]` : undefined,
       })),
     }
   }
 
-  public createScheduleFormKitRow (id: string = uuid()): SchemaElement {
-    return this.parseScheduleToSchema(id)
+  public createScheduleFormKitRow (index: number = 0): SchemaElement {
+    return this.parseScheduleToSchema(index)
   }
 }
