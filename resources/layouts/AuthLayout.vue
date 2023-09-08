@@ -20,23 +20,10 @@
 
 <style scoped>
 .bg-money {
-  /* background-image: url("@/assets/bkg.jpg"); */
   @apply bg-no-repeat bg-center bg-cover;
 }
 
 :deep(.formkit-outer) {
   margin: 0 auto 1rem auto;
 }
-
-:deep(.formkit-wrapper) {
-  width: var(--fk-max-width-input);
-  @apply flex flex-col;
-}
-
-/* @media screen and (orientation: landscape) {
-  :deep(.login-card) {
-    margin-top: 65px;
-    margin-bottom: 15px;
-  }
-} */
 </style>

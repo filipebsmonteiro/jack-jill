@@ -37,6 +37,9 @@ export default class CreateValidator {
     ]),
     phone: schema.string({}, [
       // rules.mobile({ strict: true }),
+      rules.mobile({
+        // locale: ['pt-BR', 'en-IN', 'en-US'],
+      }),
       rules.unique({ table: 'users', column: 'phone' }),
     ]),
     state: schema.string(),

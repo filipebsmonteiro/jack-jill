@@ -4,6 +4,8 @@ import Application from '@ioc:Adonis/Core/Application'
 import Event from 'App/Models/Event'
 import CreateValidator from 'App/Validators/Event/CreateValidator'
 import UpdateValidator from 'App/Validators/Event/UpdateValidator'
+import Schedule from 'App/Models/Schedule'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class EventsController {
   private async uploadFile (file: MultipartFileContract, id: string) {
@@ -20,8 +22,10 @@ export default class EventsController {
 
   public async store ({ request, response }: HttpContextContract) {
     const payload = await request.validate(CreateValidator)
+    const trx = payload.schedules.length ? await Database.transaction() : undefined
+
     const { image, ...data } = payload
-    let event = await Event.create(data)
+    let event = await Event.create(data, { client: trx })
 
     const file: MultipartFileContract | null = request.file('image')
     if (file) {
@@ -31,6 +35,22 @@ export default class EventsController {
 
       event = await Event.query().where('id', event.id)
         .firstOrFail()
+    }
+
+    if (payload.schedules.length) {
+      await Database.transaction(async (trx) => {
+        const schedules = await Promise.all(
+          payload.schedules.map(async (schedule) => {
+            return await Schedule.create(schedule, { client: trx })
+          })
+        ).then((schedules) => schedules.map((schedule) => schedule.id))
+
+        event.related('schedules').attach(schedules)
+      })
+    }
+
+    if (trx) {
+      await trx.commit()
     }
 
     return response.status(201).json(event.serialize())

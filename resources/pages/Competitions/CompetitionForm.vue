@@ -5,7 +5,6 @@ import { plugin } from 'Resources/components/Form/SubmitLoading';
 
 const props = defineProps({
   errors: Object,
-  passwordRequired: Boolean,
   values: Object,
 })
 const emits = defineEmits(['submit'])
@@ -76,10 +75,5 @@ const handleSubmit = (data) => emits('submit', data)
 <style scoped>
 :deep(.formkit-outer) {
   margin: 0 auto 1rem auto;
-}
-
-:deep(.formkit-wrapper) {
-  width: var(--fk-max-width-input);
-  @apply flex flex-col;
 }
 </style>

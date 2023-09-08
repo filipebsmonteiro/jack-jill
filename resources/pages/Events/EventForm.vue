@@ -1,15 +1,16 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useSchedule } from 'Resources/components/Form/Schedule/Composable'
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 
 const props = defineProps({
   errors: Object,
-  passwordRequired: Boolean,
   values: Object,
 })
 const emits = defineEmits(['submit'])
 const { t } = useI18n()
+const { formKitSchema } = useSchedule()
 
 const schema = reactive([
   {
@@ -66,6 +67,7 @@ const schema = reactive([
     label: t('event.end_date'),
     validation: `required|date|date_after:${new Date().toISOString().split('T')[0]}`,
   },
+  formKitSchema,
 
   {
     $formkit: 'spinningSubmit',
@@ -86,7 +88,7 @@ const data = reactive({
 
 watch(props.errors, (errors) => {
   if (errors) {
-    schema.forEach((field) => {
+    schema.value.forEach((field) => {
       if (errors[field.name]) {
         field.errors = errors[field.name]
       }
@@ -96,7 +98,7 @@ watch(props.errors, (errors) => {
 
 watch(props.values, (values) => {
   if (values) {
-    Object.entries(values).forEach(([key, value]) => data[key] = value)
+    Object.entries(values).forEach(([key, value]) => data.value[key] = value)
   }
 })
 
@@ -122,8 +124,7 @@ const handleSubmit = (data) => emits('submit', data)
   margin: 0 auto 1rem auto;
 }
 
-:deep(.formkit-wrapper) {
-  width: var(--fk-max-width-input);
-  @apply flex flex-col;
+:deep(.schedule-formkit-row > .formkit-outer) {
+  margin: 0 !important;
 }
 </style>

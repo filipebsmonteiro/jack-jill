@@ -19,12 +19,17 @@ export default class CreateValidator {
     }),
     start_date: schema.date(),
     end_date: schema.date(),
-    // phone: schema.string.optional({}, [
-    //   rules.unique({ table: 'users', column: 'phone', whereNot: { id: this.refs.id } }),
-    // ]),
+
+    schedules: schema.array().members(
+      schema.object().members({
+        name: schema.string(),
+        start_date: schema.date(),
+        end_date: schema.date(),
+      })
+    ),
   })
 
   public messages: CustomMessages = {
-    'file': 'File maxSize: 3MB, extensions allowed: jpg, jpeg, png, webp',
+    // 'file': 'File maxSize: 3MB, extensions allowed: jpg, jpeg, png, webp',
   }
 }
