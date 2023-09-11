@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 
 export default class Schedule extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public name: string
@@ -20,12 +20,6 @@ export default class Schedule extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  /**
-  * Relationships
-  */
-  // @manyToMany(() => User, { pivotTable: 'users_competitions' })
-  // public competitors: ManyToMany<typeof User>
 
   /**
    * Hooks

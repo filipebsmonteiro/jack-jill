@@ -19,7 +19,7 @@ export default {
     await EventRepository.post(params)
       .then(response => this.current = response.data)
       .catch((error) => {
-        console.error('Error On Create User')
+        console.error('Error On Create Event')
         throw error
       })
 
@@ -31,7 +31,7 @@ export default {
     await EventRepository.find(id)
       .then(response => this.current = response.data)
       .catch((error) => {
-        console.error(`Error On Load User: ${id}`)
+        console.error(`Error On Load Event: ${id}`)
         console.error(error)
         this.current = null
       })
@@ -44,8 +44,9 @@ export default {
     await EventRepository.put(id, params)
       .then(response => this.current = response.data)
       .catch((error) => {
-        console.error('Error On Edit User')
+        console.error('Error On Edit Event')
         console.error(error)
+        throw error
       })
 
     this.loading = false
@@ -55,7 +56,7 @@ export default {
 
     await EventRepository.delete(id)
       .catch((error) => {
-        console.error('Error On Delete User')
+        console.error('Error On Delete Event')
         console.error(error)
       })
 

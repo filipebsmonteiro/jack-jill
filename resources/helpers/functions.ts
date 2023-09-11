@@ -42,3 +42,35 @@ export const parseUnprocessableErrors = (error: Record<string, any>): Record<str
   }
   return errors
 }
+
+export const normalizeTimestamp = (obj: Record<string, any>) => {
+  // Regex to validate timestamp with timezone
+  const timestampRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}-\d{2}:\d{2}/
+  let returnable = {}
+
+  Object.entries(obj).forEach(([key, value]) => {
+    if (timestampRegex.test(value)) {
+      value = value.split('.')[0]
+    }
+    if (Array.isArray(value)) {
+      value = value.map((subElement) => normalizeTimestamp(subElement))
+    }
+
+    returnable[key] = value
+  })
+  return returnable
+}
+
+// export const formatDate = (date: string, format: string = 'DD/MM/YYYY'): string => {
+//   let parsedDate = new Date(Date.parse(date))
+//   return parsedDate.
+// }
+
+export const formatDateToLocale = (
+  date: string,
+  locale: string = 'pt-br',
+  options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }
+): string => {
+  const parsedDate = new Date(Date.parse(date))
+  return parsedDate.toLocaleDateString(locale, options)
+}

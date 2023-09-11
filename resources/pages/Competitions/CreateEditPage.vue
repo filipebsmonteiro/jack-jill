@@ -1,7 +1,9 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
+import { toast } from 'vue3-toastify';
+import { useI18n } from 'vue-i18n';
 import CompetitionForm from 'Resources/pages/Competitions/CompetitionForm'
 import { parseUnprocessableErrors } from 'Resources/helpers/functions'
 import { useCompetitionStore } from 'Resources/stores/competition'
@@ -12,18 +14,25 @@ let errors = reactive({}),
   id = window.location.pathname === '/competition/create'
     ? null
     : window.location.pathname.split('/').pop();
+const { t } = useI18n()
 
 const handleSubmit = (data) => {
   if (id) {
     useCompetitionStore().update(id, data)
-      .then(() => router.get('/competition/list'))
+      .then(() => {
+        toast.success(`${t('competition.label')} <b>${data.name}</b> ${t('competition.updated')} ${t('system.actions.with_success')}!`)
+        router.get('/competition/list')
+      })
       .catch((error) => {
         const parsed = parseUnprocessableErrors(error)
         Object.entries(parsed).forEach(([key, value]) => errors[key] = value)
       })
   } else {
     useCompetitionStore().create(data)
-      .then(() => router.get('/competition/list'))
+      .then(() => {
+        toast.success(`${t('competition.label')} <b>${data.name}</b> ${t('competition.created')} ${t('system.actions.with_success')}!`)
+        router.get('/competition/list')
+      })
       .catch((error) => {
         const parsed = parseUnprocessableErrors(error)
         Object.entries(parsed).forEach(([key, value]) => errors[key] = value)
@@ -35,17 +44,18 @@ onMounted(async () => {
   if (id) {
     const { current } = storeToRefs( useCompetitionStore() );
     await useCompetitionStore().find(id)
-    Object.entries(current.value).forEach(([key, value]) => values[key] = value)
+    Object.entries(current.value).forEach(([key, value]) => (key !== 'image' ? values[key] = value :  null))
   }
 })
+
+onBeforeUnmount(() => useCompetitionStore().$reset())
 </script>
 
 <template>
-  <Head :title="true ? 'Create Competition' : 'Edit Competition'" />
+  <Head :title="id ? 'Edit Competition' : 'Create Competition'" />
   <CompetitionForm
     :errors="errors"
     :values="values"
-    :password-required="!id"
     @submit="handleSubmit"
   />
 </template>

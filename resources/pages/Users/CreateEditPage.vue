@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
 import UserForm from 'Resources/pages/Users/UserForm'
@@ -39,10 +39,12 @@ onMounted(async () => {
     Object.entries(user).forEach(([key, value]) => values[key] = value)
   }
 })
+
+onBeforeUnmount(() => useUserStore().$reset())
 </script>
 
 <template>
-  <Head :title="true ? 'Create User' : 'Edit User'" />
+  <Head :title="id ? 'Edit User' : 'Create User'" />
   <UserForm
     :errors="errors"
     :values="values"

@@ -47,11 +47,7 @@ export default {
     ...mapActions(useCompetitionStore, ['delete', 'load']),
     async deleteHandler(row) {
       await this.delete(row.id)
-      toast.success(`
-        ${this.$t('competition.label')} <b>${row.name}</b>
-        ${this.$t('competition.deleted')}
-        ${this.$t('system.actions.with_success')}!
-      `)
+      toast.success(`${this.$t('competition.label')} <b>${row.name}</b> ${this.$t('competition.deleted')} ${this.$t('system.actions.with_success')}!`)
       this.load()
     },
   },

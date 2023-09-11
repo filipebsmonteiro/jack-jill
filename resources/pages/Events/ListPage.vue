@@ -11,7 +11,7 @@
       </div>
     </template>
     <template #date="{ row }">
-      {{ row.start_date }} {{ row.end_date }}
+      {{ formatDateToLocale(row.start_date) }} - {{ formatDateToLocale(row.end_date) }}
     </template>
     <template #actions="{ row }">
       <div class="tooltip" :data-tip="$t('system.actions.edit')">
@@ -29,7 +29,9 @@
 <script>
 import { mapActions, mapState } from 'pinia';
 import { toast } from 'vue3-toastify';
+import { formatDateToLocale } from 'Resources/helpers/functions';
 import { useEventStore } from 'Resources/stores/event';
+import { useSystemStore } from "Resources/stores/system";
 import SimpleTable from 'Resources/components/Table/SimpleTable';
 
 export default {
@@ -62,6 +64,16 @@ export default {
         ${this.$t('system.actions.with_success')}!
       `)
       this.load()
+    },
+    formatDateToLocale(date) {
+      const { getLocale } = useSystemStore();
+      const locale = getLocale || navigator.language || navigator.userLanguage
+
+      return formatDateToLocale(date, locale, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
     },
   },
   async created() {

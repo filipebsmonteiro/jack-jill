@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 export interface SchemaElement {
   $el?: string
   $formkit?: string
-  attrs?: any
+  attrs?: Record<string, any>
   children?: Array<SchemaElement | string>
   label?: string
   name?: string
@@ -30,6 +30,10 @@ export class FormKitSchema {
     $el: 'div',
     attrs: { class: 'schedule-formkit-row' },
     children: [
+      {
+        $formkit: 'hidden',
+        name: 'id',
+      },
       {
         $formkit: 'text',
         label: useI18n().t('schedule.name'),
@@ -59,21 +63,24 @@ export class FormKitSchema {
     ],
   }
 
-  public parseScheduleToSchema (index: number): SchemaElement {
+  public parseScheduleToSchema (index: number, values: object): SchemaElement {
     return {
       ...this.scheduleFormKitRowDefault,
       attrs: {
         ...this.scheduleFormKitRowDefault.attrs,
         id: uuid(),
       },
-      children: this.scheduleFormKitRowDefault.children?.map((child: SchemaElement) => ({
-        ...child,
-        name: child.name ? `schedules[${index}][${child.name}]` : undefined,
-      })),
+      children: this.scheduleFormKitRowDefault.children?.map((child: SchemaElement) => {
+        return {
+          ...child,
+          name: child.name ? `schedules[${index}][${child.name}]` : undefined,
+          value: child.name ? values[child.name] : '',
+        }
+      }),
     }
   }
 
-  public createScheduleFormKitRow (index: number = 0): SchemaElement {
-    return this.parseScheduleToSchema(index)
+  public createScheduleFormKitRow (index: number = 0, values: object = {}): SchemaElement {
+    return this.parseScheduleToSchema(index, values)
   }
 }

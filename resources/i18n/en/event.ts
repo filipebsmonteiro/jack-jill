@@ -14,6 +14,8 @@ export default {
   start_date: 'Start date',
   end_date: 'Finish Date',
   new: 'New',
+  created: 'Created',
+  updated: 'Updated',
   deleted: 'Deleted',
 
   date: 'Date',

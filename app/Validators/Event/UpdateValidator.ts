@@ -13,7 +13,7 @@ export default class CreateValidator {
     location: schema.string(),
     type: schema.string(),
     status: schema.enum(['draft', 'published', 'canceled'] as const),
-    image: schema.file({
+    image: schema.file.optional({
       size: '3mb',
       extnames: ['jpg', 'jpeg', 'png', 'webp'],
     }),
@@ -24,6 +24,7 @@ export default class CreateValidator {
       .optional([ rules.minLength(1) ])
       .members(
         schema.object().members({
+          id: schema.string.optional(),
           name: schema.string(),
           start_date: schema.date(),
           end_date: schema.date(),

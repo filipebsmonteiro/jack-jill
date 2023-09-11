@@ -107,7 +107,7 @@ td .tooltip {
 }
 
 fieldset.schedule-formkit {
-  @apply flex flex-col items-center py-4 m-4 border shadow w-100 rounded;
+  @apply flex flex-col items-center pb-4 m-4 border shadow w-100 rounded;
 
   legend {
     @apply ml-3;

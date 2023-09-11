@@ -5,7 +5,7 @@ export default class extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('competition_id').references('id').inTable('competitions')
+      table.uuid('competition_id').references('id').inTable('competitions').onDelete('CASCADE')
       table.uuid('schedule_id').references('id').inTable('schedules')
 
       /**

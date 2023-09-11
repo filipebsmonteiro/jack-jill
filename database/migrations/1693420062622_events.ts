@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('description')
       table.string('location')
       table.string('type')
-      table.enum('status', ['draft', 'published', 'archived']).defaultTo('draft')
+      table.enum('status', ['draft', 'published', 'canceled']).defaultTo('draft')
       table.string('image')
       table.date('start_date')
       table.date('end_date')

@@ -1,20 +1,26 @@
 <script setup>
-import { reactive, watch } from 'vue';
+import { reactive, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useSchedule } from 'Resources/components/Form/Schedule/Composable';
 import { plugin } from 'Resources/components/Form/SubmitLoading';
+import { normalizeTimestamp } from 'Resources/helpers/functions';
 
-const props = defineProps({
-  errors: Object,
-  values: Object,
-})
+const props = defineProps({ errors: Object, values: Object })
 const emits = defineEmits(['submit'])
 const { t } = useI18n()
+const { addSchedule, formKitSchema, formKitValues, resetSchedules } = useSchedule()
 
 const schema = reactive([
   {
     $formkit: "text",
     name: "name",
     label: t('competition.name'),
+    validation: "required",
+  },
+  {
+    $formkit: "textarea",
+    name: "description",
+    label: t('competition.description'),
     validation: "required",
   },
   {
@@ -27,6 +33,7 @@ const schema = reactive([
       { label: t('competition.types.sortition'), value: 'sortition' },
     ]
   },
+  formKitSchema,
 
   {
     $formkit: 'spinningSubmit',
@@ -34,9 +41,10 @@ const schema = reactive([
   }
 ])
 
-const data = reactive({
+const data = ref({
   name: props?.values?.name || '',
   type: props?.values?.type || '',
+  ...formKitValues.value,
 })
 
 watch(props.errors, (errors) => {
@@ -51,11 +59,22 @@ watch(props.errors, (errors) => {
 
 watch(props.values, (values) => {
   if (values) {
-    Object.entries(values).forEach(([key, value]) => data[key] = value)
+    const parsedValues = normalizeTimestamp(values)
+    Object.keys(data.value).forEach((key) => {
+      if (parsedValues[key]) {
+        data.value[key] = parsedValues[key]
+      }
+    })
+
+    if (Array.isArray(parsedValues.schedules)) {
+      parsedValues.schedules.map((schedule) => addSchedule(schedule))
+    }
   }
 })
 
 const handleSubmit = (data) => emits('submit', data)
+
+onBeforeUnmount(() => resetSchedules())
 </script>
 
 <template>

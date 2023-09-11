@@ -49,7 +49,9 @@ export default abstract class ApiRepository implements RepositoryInterface {
         }
       }
 
-      formData.append(key, value)
+      if (value !== undefined) {
+        formData.append(key, value)
+      }
     })
     return formData
   }
