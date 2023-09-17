@@ -6,6 +6,10 @@ defineProps({
     type: Array,
     required: true,
   },
+  library: {
+    type: Object,
+    required: false,
+  },
   handleSubmit: {
     type: Function,
     required: true,
@@ -80,7 +84,7 @@ export default {
     :actions="false"
     @submit="$emit('submit', $event)"
   >
-    <FormKitSchema :schema="localSchema" :data="form.value" />
+    <FormKitSchema :schema="localSchema" :library="library" :data="form.value" />
   </FormKit>
 </template>
 

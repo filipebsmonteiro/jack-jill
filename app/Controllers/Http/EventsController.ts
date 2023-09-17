@@ -83,7 +83,7 @@ export default class EventsController {
 
       if (schedules) {
         const schedulesIds = await Promise.all(
-          schedules.map(async ({ id = null, ...schedule }) => {
+          schedules.map(async ({ id = undefined, ...schedule }) => {
             return await Schedule.updateOrCreate({ id }, schedule)
           })
         ).then((schedules) => schedules.map((schedule) => schedule.id))

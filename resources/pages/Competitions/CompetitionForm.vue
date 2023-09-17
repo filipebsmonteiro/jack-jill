@@ -1,14 +1,15 @@
 <script setup>
 import { reactive, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useSchedule } from 'Resources/components/Form/Schedule/Composable';
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';
+import ScheduleList from 'Resources/components/Form/ScheduleList.vue';
 
 const props = defineProps({ errors: Object, values: Object })
 const emits = defineEmits(['submit'])
 const { t } = useI18n()
-const { addSchedule, formKitSchema, formKitValues, resetSchedules } = useSchedule()
+const library = markRaw({ ScheduleList })
+let schedules = ref([])
 
 const schema = reactive([
   {
@@ -33,7 +34,12 @@ const schema = reactive([
       { label: t('competition.types.sortition'), value: 'sortition' },
     ]
   },
-  formKitSchema,
+  {
+    $cmp: "ScheduleList",
+    props: {
+      schedules: schedules.value,
+    },
+  },
 
   {
     $formkit: 'spinningSubmit',
@@ -44,7 +50,6 @@ const schema = reactive([
 const data = ref({
   name: props?.values?.name || '',
   type: props?.values?.type || '',
-  ...formKitValues.value,
 })
 
 watch(props.errors, (errors) => {
@@ -67,14 +72,12 @@ watch(props.values, (values) => {
     })
 
     if (Array.isArray(parsedValues.schedules)) {
-      parsedValues.schedules.map((schedule) => addSchedule(schedule))
+      parsedValues.schedules.map((schedule) => schedules.value.push(schedule))
     }
   }
 })
 
 const handleSubmit = (data) => emits('submit', data)
-
-onBeforeUnmount(() => resetSchedules())
 </script>
 
 <template>

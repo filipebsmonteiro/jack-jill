@@ -75,7 +75,7 @@
   --fk-border-radius-bl: 0.25em;
   --fk-border-radius-br: 0.25em;
   --fk-border-radius: var(--fk-border-radius-tl, 0.25em) var(--fk-border-radius-tr, 0.25em) var(--fk-border-radius-br, 0.25em) var(--fk-border-radius-bl, 0.25em);
-  --fk-border-radius-full: 999em;
+  --fk-border-radius-full: 2em;
   --fk-padding-base: 0.25em;
   --fk-padding-input-x: calc(var(--fk-padding-base) * 3);
   --fk-padding-input-y: calc(var(--fk-padding-base) * 3);
@@ -202,7 +202,7 @@
 }
 
 .formkit-form {
-  @apply flex flex-col;
+  @apply flex flex-wrap justify-around;
 }
 
 .formkit-outer {
@@ -261,6 +261,10 @@
   border: none;
 }
 
+.formkit-wrapper {
+  width: var(--fk-max-width-input);
+  @apply flex flex-col;
+}
 
 [data-type=checkbox] .formkit-wrapper, [data-type=radio] .formkit-wrapper {
   @apply flex items-center;
@@ -293,6 +297,10 @@
   margin: var(--fk-margin-decorator);
   @apply block border-none relative;
 }
+
+/* [data-type=textarea] .formkit-inner, [data-type=textarea] textarea {
+  border-radius: var(--fk-border-radius-full);
+} */
 
 .formkit-messages {
   padding: var(--fk-padding-messages);
@@ -333,4 +341,24 @@
   transition: filter .25s;
   border: 1px solid transparent;
   line-height: var(--fk-line-height-button);
+}
+
+fieldset {
+  @apply flex justify-around flex-wrap p-4 m-4 border shadow w-100 rounded;
+
+  legend {
+    @apply ml-3;
+  }
+
+  .formkit-outer {
+    @apply basis-2/4;
+  }
+}
+
+.formkit-collapse-content {
+  @apply flex justify-around flex-wrap;
+}
+
+.collapse:not(.collapse-close) input[type="radio"]:checked ~ .collapse-content {
+  @apply p-4;
 }
