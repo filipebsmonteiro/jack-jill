@@ -17,10 +17,10 @@
     <a href="/profile" class="btn btn-link">{{ $t('system.right_menu.profile.label') }}</a>
     <div class="collapse collapse-arrow shadow">
       <input type="checkbox" />
-      <div class="collapse-title text-xl font-medium">
+      <div class="collapse-title text-xl font-medium bg-base-300">
         {{ $t('system.right_menu.config.label') }}
       </div>
-      <div class="collapse-content">
+      <div class="collapse-content bg-base-200">
         <FormKit
           type="select"
           :label="$t('system.right_menu.languages.label')"

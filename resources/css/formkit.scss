@@ -252,8 +252,11 @@
   font-weight: var(--fk-font-weight-input);
   line-height: var(--fk-line-height-input);
 
-  background-color: var(--fk-bg-input);
-  color: var(--fk-color-input);
+  /* background-color: var(--fk-bg-input);
+  color: var(--fk-color-input); */
+  border-color: hsl(var(--bc)/var(--tw-border-opacity));
+  background-color: hsl(var(--b1)/var(--tw-bg-opacity));
+  color: inherit;
 
   webkit-appearance: none;
   -moz-appearance: none;
@@ -296,6 +299,12 @@
   border-radius: var(--fk-border-radius);
   margin: var(--fk-margin-decorator);
   @apply block border-none relative;
+}
+
+[data-type=file] .formkit-inner, [data-type=file] .formkit-wrapper .formkit-inner input {
+  background-color: hsl(var(--b1)/var(--tw-bg-opacity));
+  border-color: hsl(var(--bc)/var(--tw-border-opacity));
+  /* border: 1px solid; */
 }
 
 /* [data-type=textarea] .formkit-inner, [data-type=textarea] textarea {
