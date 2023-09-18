@@ -7,6 +7,7 @@ export default {
     list: 'Listar',
     show: 'Mostrar',
     store: 'Guardar',
+    typeIt: 'Escribelo',
     update: 'Actualizar',
     close: 'Cerrar',
     back: 'Volver',

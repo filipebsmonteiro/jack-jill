@@ -1,6 +1,6 @@
-import ApiRepository from 'Resources/repositories/Base/ApiRepository'
+import UserSubscriptableRepository from 'Resources/repositories/Base/UserSubscriptableRepository'
 
-class EventRepository extends ApiRepository {
+class EventRepository extends UserSubscriptableRepository {
   constructor () {
     super('/api/v1/event')
   }

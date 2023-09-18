@@ -1,6 +1,26 @@
 import UserRepository from 'Resources/repositories/UserRepository'
 
 export default {
+  async autocomplete (params: any) {
+    this.loading = true
+    this.suggestions = []
+
+    await UserRepository.autocomplete(params)
+      .then(response => {
+        this.suggestions = response.data
+
+        if (response.data.length === 0) {
+          this.suggestions = [{ first_name: 'No Users Found' }]
+        }
+      })
+      .catch((error) => {
+        console.error('Error On Autocomplete Users')
+        console.error(error)
+        this.suggestions = []
+      })
+
+    this.loading = false
+  },
   async load () {
     this.loading = true
 

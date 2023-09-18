@@ -13,9 +13,11 @@ import {
   faPerson,
   // faRecycle,
   faRightFromBracket,
+  faSpinner,
   faTimes,
   faTrashCan,
   faTrophy,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
@@ -33,7 +35,9 @@ library.add(
   faPerson,
   // faRecycle,
   faRightFromBracket,
+  faSpinner,
   faTimes,
   faTrashCan,
-  faTrophy
+  faTrophy,
+  faUsers,
 )

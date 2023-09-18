@@ -1,8 +1,5 @@
 <script>
 import { ref } from 'vue';
-// import { useI18n } from 'vue-i18n';
-
-// const { t } = useI18n()
 
 export default {
   props: {
@@ -47,6 +44,7 @@ export default {
       type="text"
       :name="`schedules[${index}][name]`"
       :label="$t('schedule.name')"
+      wrapper-class="w-100"
       v-model="item.name"
       validations="required"
     />
@@ -54,6 +52,7 @@ export default {
       type="datetime-local"
       :name="`schedules[${index}][start_date]`"
       :label="$t('schedule.start_date')"
+      wrapper-class="w-100"
       v-model="item.start_date"
       validations="required"
     />
@@ -61,6 +60,7 @@ export default {
       type="datetime-local"
       :name="`schedules[${index}][end_date]`"
       :label="$t('schedule.end_date')"
+      wrapper-class="w-100"
       v-model="item.end_date"
       validations="required"
     />
@@ -76,24 +76,3 @@ export default {
     {{ $t('schedule.add') }}
   </button>
 </template>
-
-<style lang="scss" scoped>
-.formkit-row {
-  width: 100%;
-  @apply inline-flex items-center justify-around hover:bg-gray-100 rounded p-2;
-
-  .formkit-outer {
-    @apply m-0 basis-auto;
-
-    .formkit-wrapper {
-      @apply w-auto bg-red-600;
-    }
-  }
-}
-</style>
-
-<style>
-.formkit-row  > .formkit-outer > .formkit-wrapper {
-  width: auto !important;
-}
-</style>

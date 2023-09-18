@@ -46,7 +46,10 @@ export default class Event extends BaseModel {
   @hasMany(() => EventRegistration)
   public registrations: HasMany<typeof EventRegistration>
 
-  @manyToMany(() => User, { pivotTable: 'users_events' })
+  @manyToMany(() => User, {
+    pivotTable: 'users_events',
+    pivotColumns: ['status'],
+  })
   public users: ManyToMany<typeof User>
 
   @manyToMany(() => Competition, { pivotTable: 'events_competitions' })

@@ -10,6 +10,13 @@ export default abstract class ApiRepository implements RepositoryInterface {
     this.endpoint = endpoint
   }
 
+  public autocomplete (params: any = null, paramsSerializer: CustomParamsSerializer|undefined = undefined) {
+    return this.axios.get(`${this.endpoint}/autocomplete`, {
+      params,
+      paramsSerializer,
+    })
+  }
+
   public fetch (params: any = null, paramsSerializer: CustomParamsSerializer|undefined = undefined) {
     return this.axios.get(`${this.endpoint}`, {
       params,

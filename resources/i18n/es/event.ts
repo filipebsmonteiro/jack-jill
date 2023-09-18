@@ -13,6 +13,8 @@ export default {
   image: 'Imagem',
   start_date: 'Data de início',
   end_date: 'Data de término',
+  subscribed: 'Suscrito',
+  unsubscribed: 'Dado de baja',
   new: 'Nuevo',
   created: 'Creado',
   updated: 'Actualizado',

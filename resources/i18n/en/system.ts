@@ -7,6 +7,7 @@ export default {
     list: 'List',
     show: 'Show',
     store: 'Store',
+    typeIt: 'Type it',
     update: 'Update',
     close: 'Close',
     back: 'Back',

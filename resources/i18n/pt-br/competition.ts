@@ -7,6 +7,8 @@ export default {
     combat: 'Combate',
     sortition: 'Sorteio',
   },
+  subscribed: 'Inscrito',
+  unsubscribed: 'Desinscrito',
   new: 'Nova',
   created: 'Criada',
   updated: 'Atualizada',

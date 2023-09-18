@@ -13,6 +13,8 @@ export default {
   image: 'Image',
   start_date: 'Start date',
   end_date: 'Finish Date',
+  subscribed: 'Subscribed',
+  unsubscribed: 'Unsubscribed',
   new: 'New',
   created: 'Created',
   updated: 'Updated',

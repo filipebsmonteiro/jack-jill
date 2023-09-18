@@ -11,12 +11,23 @@ Route.group(() => {
     Route.post('/logout', 'AuthController.logout').middleware('auth')
   }).prefix('/auth')
 
+  Route.get('user/autocomplete', 'UsersController.autocomplete').middleware('auth')
   Route.resource('user', 'UsersController').apiOnly()
     .middleware({ update: ['auth'], destroy: ['auth'] })
 
+  Route.group(() => {
+    Route.get('loadSubscribes', 'EventsController.loadSubscribes')
+    Route.post('subscribe', 'EventsController.subscribe')
+    Route.post('unsubscribe', 'EventsController.unsubscribe')
+  }).prefix('event').middleware('auth')
   Route.resource('event', 'EventsController').apiOnly()
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
 
+  Route.group(() => {
+    Route.get('loadSubscribes', 'CompetitionsController.loadSubscribes')
+    Route.post('subscribe', 'CompetitionsController.subscribe')
+    Route.post('unsubscribe', 'CompetitionsController.unsubscribe')
+  }).prefix('competition').middleware('auth')
   Route.resource('competition', 'CompetitionsController').apiOnly()
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
 }).prefix('/api/v1')

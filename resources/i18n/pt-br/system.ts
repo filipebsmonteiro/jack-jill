@@ -7,6 +7,7 @@ export default {
     list: 'Listar',
     show: 'Visualizar',
     store: 'Salvar',
+    typeIt: 'Digite',
     update: 'Atualizar',
     close: 'Fechar',
     back: 'Voltar',

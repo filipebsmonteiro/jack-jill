@@ -47,6 +47,23 @@ export default class UsersController {
     return response.status(200).json(user.serialize())
   }
 
+  // public async me ({ auth, response }: HttpContextContract) {
+  //   const user = await User.query()
+  //     .where('id', auth.user?.id as string)
+  //     .firstOrFail()
+  //   return response.status(200).json(user.serialize())
+  // }
+
+  public async autocomplete ({ request, response }: HttpContextContract) {
+    const users = await User.query()
+      .orWhere('first_name', 'like', `%${request.input('name')}%`)
+      .orWhere('last_name', 'like', `%${request.input('name')}%`)
+      .limit(10)
+    return response.status(200).json(users.map((user) =>
+      user.serialize({ fields: ['id', 'first_name', 'last_name', 'image'] })
+    ))
+  }
+
   public async update ({ request, response }: HttpContextContract) {
     const payload = await request.validate(UpdateValidator)
     const file: MultipartFileContract | null = request.file('image')

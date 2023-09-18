@@ -5,6 +5,7 @@ import Application from '@ioc:Adonis/Core/Application'
 import Event from 'App/Models/Event'
 import CreateValidator from 'App/Validators/Event/CreateValidator'
 import UpdateValidator from 'App/Validators/Event/UpdateValidator'
+import SubscribeValidator from 'App/Validators/Event/SubscribeValidator'
 import Schedule from 'App/Models/Schedule'
 
 export default class EventsController {
@@ -103,5 +104,60 @@ export default class EventsController {
       .firstOrFail()
     event.delete()
     return true
+  }
+
+  public async autocomplete ({ request, response }: HttpContextContract) {
+    const users = await Event.query()
+      .where('name', 'like', `%${request.input('name')}%`)
+      .limit(10)
+    return response.status(200).json(users.map((user) => user.serialize()))
+  }
+
+  public async loadSubscribes ({ request, response }: HttpContextContract) {
+    let query = Event.query().preload('users', builder => {
+      builder.select('id', 'first_name', 'last_name', 'country')
+    })
+
+    Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
+
+    const event = await query.firstOrFail()
+    const users = event.users.map((user) =>
+      ({...user.toJSON(), status: user.$extras.pivot_status})
+    )
+
+    return response.status(200).json({
+      ...event.serialize(),
+      users,
+    })
+  }
+
+  public async subscribe ({ request, response }: HttpContextContract) {
+    const { id, userId } = await request.validate(SubscribeValidator)
+    let event = await Event.findOrFail(id)
+    await event.related('users').attach([userId])
+
+    event = await Event.query()
+      .preload('users', query => {
+        query.select('id', 'first_name', 'last_name', 'country')
+          .wherePivot('user_id', userId)
+      })
+      .where('id', id)
+      .firstOrFail()
+
+    const users = event.users.map((user) =>
+      ({...user.toJSON(), status: user.$extras.pivot_status})
+    )
+
+    return response.status(200).json({
+      ...event.serialize(),
+      users,
+    })
+  }
+
+  public async unsubscribe ({ request, response }: HttpContextContract) {
+    const { id, userId } = await request.validate(SubscribeValidator)
+    const event = await Event.findOrFail(id)
+    await event.related('users').detach([userId])
+    return response.status(200).json(event.serialize())
   }
 }

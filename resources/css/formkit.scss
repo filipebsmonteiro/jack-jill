@@ -371,3 +371,11 @@ fieldset {
 .collapse:not(.collapse-close) input[type="radio"]:checked ~ .collapse-content {
   @apply p-4;
 }
+
+.formkit-row {
+  @apply w-100 inline-flex items-center justify-around hover:bg-gray-100 rounded p-2;
+
+  .formkit-outer {
+    @apply m-0 basis-auto;
+  }
+}
