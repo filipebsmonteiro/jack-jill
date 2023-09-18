@@ -30,7 +30,10 @@ export default class Competition extends BaseModel {
   @hasOne(() => Event)
   public event: HasOne<typeof Event>
 
-  @manyToMany(() => User, { pivotTable: 'users_competitions' })
+  @manyToMany(() => User, {
+    pivotTable: 'users_competitions',
+    pivotColumns: ['status'],
+  })
   public competitors: ManyToMany<typeof User>
 
   @manyToMany(() => User, { pivotTable: 'judges_competitions' })

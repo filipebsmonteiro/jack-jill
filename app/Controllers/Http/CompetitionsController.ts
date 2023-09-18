@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Competition from 'App/Models/Competition'
 import Schedule from 'App/Models/Schedule'
 import CreateValidator from 'App/Validators/Competition/CreateValidator'
+import SubscribeValidator from 'App/Validators/Competition/SubscribeValidator'
 import UpdateValidator from 'App/Validators/Competition/UpdateValidator'
 
 export default class CompetitionsController {
@@ -75,24 +76,50 @@ export default class CompetitionsController {
   }
 
   public async loadSubscribes ({ request, response }: HttpContextContract) {
-    let query = Competition.query().preload('competitors')
+    let query = Competition.query().preload('competitors', builder => {
+      builder.select('id', 'first_name', 'last_name', 'country')
+    })
 
-    Object.entries(request.qs())
-      .map(([column, value]) => query = query.where(column, value))
+    Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
 
     const event = await query.firstOrFail()
-    return response.status(200).json(event.serialize())
+    const users = event.competitors.map((user) =>
+      ({...user.toJSON(), status: user.$extras.pivot_status})
+    )
+
+    return response.status(200).json({
+      ...event.serialize(),
+      users,
+    })
   }
 
   public async subscribe ({ request, response }: HttpContextContract) {
-    const competition = await Competition.findOrFail(request.param('id'))
-    await competition.related('competitors').attach([request.input('user_id')])
-    return response.status(200).json(competition.serialize())
+    const { id, userId } = await request.validate(SubscribeValidator)
+    let competition = await Competition.findOrFail(id)
+    await competition.related('competitors').attach([userId])
+
+    competition = await Competition.query()
+      .preload('competitors', query => {
+        query.select('id', 'first_name', 'last_name', 'country')
+          .wherePivot('user_id', userId)
+      })
+      .where('id', id)
+      .firstOrFail()
+
+    const users = competition.competitors.map((user) =>
+      ({...user.toJSON(), status: user.$extras.pivot_status})
+    )
+
+    return response.status(200).json({
+      ...competition.serialize(),
+      users,
+    })
   }
 
   public async unsubscribe ({ request, response }: HttpContextContract) {
-    const competition = await Competition.findOrFail(request.param('id'))
-    await competition.related('competitors').detach([request.input('user_id')])
-    return response.status(200).json(competition.serialize())
+    const { id, userId } = await request.validate(SubscribeValidator)
+    const event = await Competition.findOrFail(id)
+    await event.related('competitors').detach([userId])
+    return response.status(200).json(event.serialize())
   }
 }

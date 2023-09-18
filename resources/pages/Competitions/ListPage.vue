@@ -9,6 +9,11 @@
       {{ $t(`competition.types.${row.type}`) }}
     </template>
     <template #actions="{ row }">
+      <div class="tooltip" :data-tip="`${$t('competition.subscribed')}s`">
+        <InertiaLink :href="`/competition/${row.id}/subscribes`">
+          <font-awesome-icon icon="users" class="text-accent" />
+        </InertiaLink>
+      </div>
       <div class="tooltip" :data-tip="$t('system.actions.edit')">
         <InertiaLink :href="`/competition/edit/${row.id}`">
           <font-awesome-icon icon="pencil" class="text-info" />

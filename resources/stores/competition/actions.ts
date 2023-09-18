@@ -62,4 +62,51 @@ export default {
 
     this.loading = false
   },
+
+  async loadSubscribes (params: any) {
+    this.loading = true
+
+    await CompetitionRepository.loadSubscribes(params)
+      .then(response => {
+        const { users = [], ...event } = response.data
+        this.subscribes = users
+        this.current = event
+      })
+      .catch((error) => {
+        console.error('Error On Subscribe Event')
+        console.error(error)
+      })
+
+    this.loading = false
+  },
+  async subscribe (id: string | number, userId: string | number) {
+    this.loading = true
+
+    await CompetitionRepository.subscribe(id, userId)
+      .then(response => {
+        const { users = [], ...event } = response.data
+        this.subscribes = [...this.subscribes, ...users]
+        this.current = event
+      })
+      .catch((error) => {
+        console.error('Error On Subscribe Event')
+        console.error(error)
+        throw error
+      })
+
+    this.loading = false
+  },
+  async unsubscribe (id: string | number, userId: string | number) {
+    this.loading = true
+
+    await CompetitionRepository.unsubscribe(id, userId)
+      .then(() => this.subscribes = this.subscribes.filter(user => user.id !== userId))
+      .catch((error) => {
+        console.error('Error On Unsubscribe Event')
+        console.error(error)
+        throw error
+      })
+
+    this.loading = false
+  },
 }

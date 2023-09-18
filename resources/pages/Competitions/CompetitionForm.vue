@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { markRaw, reactive, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';
@@ -13,32 +13,59 @@ let schedules = ref([])
 
 const schema = reactive([
   {
-    $formkit: "text",
-    name: "name",
-    label: t('competition.name'),
-    validation: "required",
+    $el: "div",
+    attrs: { class: "collapse collapse-arrow shadow my-2", },
+    children: [
+      { $el: "input", attrs: { checked: "checked", name: "accordion", type: "radio", value: 'info' } },
+      { $el: "div", attrs: { class: "collapse-title bg-base-300" }, children:["Info"] },
+      {
+        $el: "div",
+        attrs: { class: "collapse-content formkit-collapse-content bg-base-200" },
+        children:[
+          {
+            $formkit: "text",
+            name: "name",
+            label: t('competition.name'),
+            validation: "required",
+          },
+          {
+            $formkit: "textarea",
+            name: "description",
+            label: t('competition.description'),
+            validation: "required",
+          },
+          {
+            $formkit: "select",
+            name: "type",
+            label: t('competition.type'),
+            validation: "required",
+            options: [
+              { label: t('competition.types.combat'), value: 'combat' },
+              { label: t('competition.types.sortition'), value: 'sortition' },
+            ]
+          },
+        ],
+      }
+    ],
   },
+
   {
-    $formkit: "textarea",
-    name: "description",
-    label: t('competition.description'),
-    validation: "required",
-  },
-  {
-    $formkit: "select",
-    name: "type",
-    label: t('competition.type'),
-    validation: "required",
-    options: [
-      { label: t('competition.types.combat'), value: 'combat' },
-      { label: t('competition.types.sortition'), value: 'sortition' },
-    ]
-  },
-  {
-    $cmp: "ScheduleList",
-    props: {
-      schedules: schedules.value,
-    },
+    $el: "div",
+    attrs: { class: "collapse collapse-arrow shadow my-2", },
+    children: [
+      { $el: "input", attrs: { name: "accordion", type: "radio", value: 'schedule' } },
+      { $el: "div", attrs: { class: "collapse-title bg-base-300" }, children:[t('schedule.schedule')] },
+      {
+        $el: "div",
+        attrs: { class: "collapse-content formkit-collapse-content bg-base-200" },
+        children: [{
+          $cmp: "ScheduleList",
+          props: {
+            schedules: schedules.value,
+          },
+        }],
+      },
+    ],
   },
 
   {
@@ -89,7 +116,7 @@ const handleSubmit = (data) => emits('submit', data)
       v-model="data"
       @submit="handleSubmit"
     >
-      <FormKitSchema :schema="schema" :data="data" />
+      <FormKitSchema :schema="schema" :data="data" :library="library" />
     </FormKit>
   </div>
 </template>

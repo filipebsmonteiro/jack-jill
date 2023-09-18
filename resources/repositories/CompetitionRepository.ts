@@ -1,6 +1,6 @@
-import ApiRepository from 'Resources/repositories/Base/ApiRepository'
+import UserSubscriptableRepository from 'Resources/repositories/Base/UserSubscriptableRepository'
 
-class CompetitionRepository extends ApiRepository {
+class CompetitionRepository extends UserSubscriptableRepository {
   constructor () {
     super('/api/v1/competition')
   }
