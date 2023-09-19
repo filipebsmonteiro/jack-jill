@@ -36,5 +36,6 @@ Route.group(() => {
     Route.get('/create', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
     Route.get('/edit/:id', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
     Route.get('/:id/subscribes', ({ inertia, params }) => inertia.render('Competitions/SubscribesPage', params))
+    Route.get('/:id/run', ({ inertia, params }) => inertia.render('Competitions/Run/CombatPage', params))
   }).prefix('/competition')
 }).middleware('auth')
