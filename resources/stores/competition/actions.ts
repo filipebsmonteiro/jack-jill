@@ -68,8 +68,8 @@ export default {
 
     await CompetitionRepository.loadSubscribes(params)
       .then(response => {
-        const { users = [], ...event } = response.data
-        this.subscribes = users
+        const { competitors = [], ...event } = response.data
+        this.subscribes = competitors
         this.current = event
       })
       .catch((error) => {

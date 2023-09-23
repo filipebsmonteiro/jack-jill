@@ -32,7 +32,7 @@ Route.group(() => {
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
 
   Route.group(() => {
-    Route.put('competition', 'SubscriptionsController.updateCompetitionStatus')
-    Route.put('event', 'SubscriptionsController.updateEventStatus')
+    Route.put('competition', 'SubscriptionsController.updateCompetitionSubscription')
+    Route.put('event', 'SubscriptionsController.updateEventSubscription')
   }).prefix('subscription').middleware('auth')
 }).prefix('/api/v1')

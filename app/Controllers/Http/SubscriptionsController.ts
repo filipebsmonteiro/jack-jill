@@ -17,11 +17,11 @@ export default class SubscriptionsController {
     return response.status(200).json(query)
   }
 
-  public async updateCompetitionStatus ({ request, response }: HttpContextContract) {
-    const { competitionId, userId, status } = await request.validate(UpdateValidator)
+  public async updateCompetitionSubscription ({ request, response }: HttpContextContract) {
+    const { competitionId, userId, ...payload } = await request.validate(UpdateValidator)
     await UsersCompetitions.query()
       .where({ user_id: userId, competition_id: competitionId })
-      .update({ status })
+      .update(payload)
 
     const subscription = await UsersCompetitions.query()
       .where({ user_id: userId, competition_id: competitionId })
@@ -30,7 +30,7 @@ export default class SubscriptionsController {
     return response.status(200).json(subscription)
   }
 
-  public async updateEventStatus ({ request, response }: HttpContextContract) {
+  public async updateEventSubscription ({ request, response }: HttpContextContract) {
     const { eventId, userId, status } = await request.validate(UpdateValidator)
     await UsersEvents.query()
       .where({ user_id: userId, event_id: eventId })

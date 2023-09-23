@@ -5,7 +5,7 @@ class SubscriptionRepository extends ApiRepository {
     super('/api/v1/subscription')
   }
 
-  public async updateStatus (entity: string, params: any) {
+  public async updateSubscription (entity: string, params: any) {
     return await this.axios.put(`${this.endpoint}/${entity}`, params)
   }
 }

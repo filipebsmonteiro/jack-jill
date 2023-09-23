@@ -83,13 +83,15 @@ export default class CompetitionsController {
     Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
 
     const event = await query.firstOrFail()
-    const users = event.competitors.map((user) =>
-      ({...user.toJSON(), status: user.$extras.pivot_status})
-    )
+    const competitors = event.competitors.map((user) => ({
+      ...user.toJSON(),
+      status: user.$extras.pivot_status,
+      score: user.$extras.pivot_score,
+    }))
 
     return response.status(200).json({
       ...event.serialize(),
-      users,
+      competitors,
     })
   }
 

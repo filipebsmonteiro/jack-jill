@@ -35,8 +35,8 @@ const unsubscribeHandler = async (user) => {
     )
 }
 
-const updateStatus = async (userId, status) => {
-  await useSubscriptionStore().updateCompetitionStatus({ competitionId: id, userId, status })
+const updateSubscription = async (userId, data) => {
+  await useSubscriptionStore().updateCompetitionSubscription({ competitionId: id, userId, ...data })
   .then(() =>
       toast.success(`${t('subscription.label')} ${t('competition.updated')} ${t('system.actions.with_success')}`)
     )
@@ -52,7 +52,7 @@ onMounted(() => loadSubscribes({ id }))
   <div class="flex-center flex-col p-4">
     <span class="my-3">{{ current?.name }}</span>
     <UserList
-      :additional-columns="['status']"
+      :additional-columns="['status', 'score']"
       :users="subscribes"
       @addRow="subscribeHandler"
       @removeRow="unsubscribeHandler"
@@ -64,7 +64,16 @@ onMounted(() => loadSubscribes({ id }))
           wrapper-class="w-50"
           :options="competitionStatuses"
           :value="user.status"
-          @input="evt => updateStatus(user.id, evt)"
+          @input="status => updateSubscription(user.id, { status })"
+        />
+      </template>
+      <template #score="{ user }">
+        <FormKit
+          type="number"
+          input-class="formkit-input-sm"
+          wrapper-class="w-50"
+          :value="user.score"
+          @input="score => updateSubscription(user.id, { score })"
         />
       </template>
     </UserList>

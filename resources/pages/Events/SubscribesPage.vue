@@ -36,7 +36,7 @@ const unsubscribeHandler = async (user) => {
 }
 
 const updateStatus = async (userId, status) => {
-  await useSubscriptionStore().updateEventStatus({ eventId: id, userId, status })
+  await useSubscriptionStore().updateEventSubscription({ eventId: id, userId, status })
   .then(() =>
       toast.success(`${t('subscription.label')} ${t('event.updated')} ${t('system.actions.with_success')}`)
     )
