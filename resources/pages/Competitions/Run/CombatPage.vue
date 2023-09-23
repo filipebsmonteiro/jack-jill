@@ -25,6 +25,7 @@
       >+Player</button>
     </template>
     <template #suffix-game="{ game }">
+      <!-- <div class="flex fle-col absolute" style="top: calc(50% - 15px); left: -32%;"> -->
       <div class="flex">
         <button
           type="button"

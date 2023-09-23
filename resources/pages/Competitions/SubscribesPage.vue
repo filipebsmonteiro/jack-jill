@@ -6,13 +6,16 @@ import { toast } from 'vue3-toastify'
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';
 import { useCompetitionStore } from 'Resources/stores/competition';
+import { useSubscriptionStore } from 'Resources/stores/subscription';
 import UserList from 'Resources/components/Form/User/ListComponent.vue';
 
 const props = defineProps({ errors: Object, values: Object })
 const { t } = useI18n()
+const { id } = useAttrs()
 const { loadSubscribes, subscribe, unsubscribe } = useCompetitionStore()
 const { current, subscribes } = storeToRefs(useCompetitionStore())
-const { id } = useAttrs()
+const { competitionStatuses } = storeToRefs(useSubscriptionStore())
+
 const subscribeHandler = async (user) => {
   await subscribe(id, user.id)
     .then(() =>
@@ -32,6 +35,16 @@ const unsubscribeHandler = async (user) => {
     )
 }
 
+const updateStatus = async (userId, status) => {
+  await useSubscriptionStore().updateCompetitionStatus({ competitionId: id, userId, status })
+  .then(() =>
+      toast.success(`${t('subscription.label')} ${t('competition.updated')} ${t('system.actions.with_success')}`)
+    )
+  .catch(() =>
+      toast.error(`Error ${t('subscription.label')} ${t('subscription.label')}`)
+    )
+}
+
 onMounted(() => loadSubscribes({ id }))
 </script>
 
@@ -45,9 +58,15 @@ onMounted(() => loadSubscribes({ id }))
       @removeRow="unsubscribeHandler"
     >
       <template #status="{ user }">
-        {{ user.status }}
+        <FormKit
+          type="select"
+          input-class="formkit-input-sm"
+          wrapper-class="w-50"
+          :options="competitionStatuses"
+          :value="user.status"
+          @input="evt => updateStatus(user.id, evt)"
+        />
       </template>
     </UserList>
   </div>
-  <!-- <FormKitSchema :schema="schema" :data="data" :library="library" /> -->
 </template>

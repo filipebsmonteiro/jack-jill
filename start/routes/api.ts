@@ -30,4 +30,9 @@ Route.group(() => {
   }).prefix('competition').middleware('auth')
   Route.resource('competition', 'CompetitionsController').apiOnly()
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
+
+  Route.group(() => {
+    Route.put('competition', 'SubscriptionsController.updateCompetitionStatus')
+    Route.put('event', 'SubscriptionsController.updateEventStatus')
+  }).prefix('subscription').middleware('auth')
 }).prefix('/api/v1')

@@ -84,6 +84,11 @@
   --fk-padding-input-b: var(--fk-padding-input-y, 0);
   --fk-padding-input-l: var(--fk-padding-input-x, 0);
   --fk-padding-input: var(--fk-padding-input-t) var(--fk-padding-input-r) var(--fk-padding-input-b) var(--fk-padding-input-l);
+  --fk-padding-input-sm:
+    calc( var(--fk-padding-input-t) / 2 )
+    calc( var(--fk-padding-input-r) / 2 )
+    calc( var(--fk-padding-input-b) / 2 )
+    calc( var(--fk-padding-input-l) / 2 );
   --fk-padding-label-x: inherit;
   --fk-padding-label-y: inherit;
   --fk-padding-label-t: var(--fk-padding-label-y, 0);
@@ -262,6 +267,10 @@
   -moz-appearance: none;
   appearance: none;
   border: none;
+}
+
+.formkit-input.formkit-input-sm {
+  padding: var(--fk-padding-input-sm);
 }
 
 .formkit-wrapper {
