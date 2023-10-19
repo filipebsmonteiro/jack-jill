@@ -14,7 +14,7 @@ const { t } = useI18n()
 const { id } = useAttrs()
 const { loadSubscribes, subscribe, unsubscribe } = useEventStore()
 const { current, subscribes } = storeToRefs(useEventStore())
-const { eventStatuses } = storeToRefs(useSubscriptionStore())
+const { getStatuses } = useEventStore()
 
 const subscribeHandler = async (user) => {
   await subscribe(id, user.id)
@@ -36,7 +36,7 @@ const unsubscribeHandler = async (user) => {
 }
 
 const updateStatus = async (userId, status) => {
-  await useSubscriptionStore().updateEventSubscription({ eventId: id, userId, status })
+  await useEventStore().updateSubscription({ eventId: id, userId, status })
   .then(() =>
       toast.success(`${t('subscription.label')} ${t('event.updated')} ${t('system.actions.with_success')}`)
     )
@@ -62,7 +62,7 @@ onMounted(() => loadSubscribes({ id }))
           type="select"
           input-class="formkit-input-sm"
           wrapper-class="w-50"
-          :options="eventStatuses"
+          :options="getStatuses"
           :value="user.status"
           @input="evt => updateStatus(user.id, evt)"
         />

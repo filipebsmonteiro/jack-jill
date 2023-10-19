@@ -3,4 +3,5 @@ export default () => ({
   loading: false,
   list: [],
   subscribes: [],
+  statuses: ['pending', 'approved', 'rejected'],
 })

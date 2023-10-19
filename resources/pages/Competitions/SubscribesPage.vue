@@ -14,7 +14,7 @@ const { t } = useI18n()
 const { id } = useAttrs()
 const { loadSubscribes, subscribe, unsubscribe } = useCompetitionStore()
 const { current, subscribes } = storeToRefs(useCompetitionStore())
-const { competitionStatuses } = storeToRefs(useSubscriptionStore())
+const { getStatuses } = useCompetitionStore()
 
 const subscribeHandler = async (user) => {
   await subscribe(id, user.id)
@@ -36,7 +36,7 @@ const unsubscribeHandler = async (user) => {
 }
 
 const updateSubscription = async (userId, data) => {
-  await useSubscriptionStore().updateCompetitionSubscription({ competitionId: id, userId, ...data })
+  await useCompetitionStore().updateSubscription({ competitionId: id, userId, ...data })
   .then(() =>
       toast.success(`${t('subscription.label')} ${t('competition.updated')} ${t('system.actions.with_success')}`)
     )
@@ -62,7 +62,7 @@ onMounted(() => loadSubscribes({ id }))
           type="select"
           input-class="formkit-input-sm"
           wrapper-class="w-50"
-          :options="competitionStatuses"
+          :options="getStatuses"
           :value="user.status"
           @input="status => updateSubscription(user.id, { status })"
         />

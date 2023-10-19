@@ -1,4 +1,5 @@
 import CompetitionRepository from 'Resources/repositories/CompetitionRepository'
+import SubscriptionRepository from 'Resources/repositories/SubscriptionRepository'
 
 export default {
   async load () {
@@ -105,6 +106,18 @@ export default {
         console.error('Error On Unsubscribe Event')
         console.error(error)
         throw error
+      })
+
+    this.loading = false
+  },
+  async updateSubscription (params: { eventId: string, userId: string, status: string }) {
+    this.loading = true
+
+    await SubscriptionRepository.updateSubscription('competition', params)
+      .then(response => this.list = response.data)
+      .catch((error) => {
+        console.error('Error On Update Event Subscription')
+        console.error(error)
       })
 
     this.loading = false

@@ -4,7 +4,7 @@ import state from './state'
 import getters from './getters'
 import actions from './actions'
 
-export const useSubscriptionStore = defineStore('subscription', {
+export const useCompetitorStore = defineStore('competitor', {
   state,
   getters,
   actions: {
