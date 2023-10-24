@@ -14,6 +14,13 @@ export default {
   updated: 'Actualizada',
   deleted: 'Eliminada',
 
+  competitor: {
+    singular: 'Competidor',
+    male: 'Competidor',
+    female: 'Competidora',
+    plural: 'Competidores',
+  },
+
   date: 'Fecha',
   time: 'Hora',
   duration: 'Duración',

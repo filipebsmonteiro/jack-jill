@@ -1,6 +1,7 @@
 /* https://fontawesome.com/docs/web/use-with/vue/add-icons */
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  faArrowRight,
   faBars,
   faCalendarDays,
   // faDatabase,
@@ -23,6 +24,7 @@ import {
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faArrowRight,
   faBars,
   faCalendarDays,
   // faDatabase,

@@ -23,7 +23,7 @@
       <div class="collapse-content bg-base-200">
         <FormKit
           type="select"
-          :label="$t('system.right_menu.languages.label')"
+          :label="$t('system.languages.label')"
           v-model="locale"
           :options="locales"
         />
@@ -61,12 +61,13 @@ export default {
     },
     locales() {
       return this.$i18n.availableLocales.map((locale) => ({
-        label: this.$t(`system.right_menu.languages.options.${locale}`),
+        label: this.$t(`system.languages.options.${locale}`),
         value: locale,
       }));
     },
     themes() {
       return [
+        { label: 'Light', value: "light" },
         { label: this.$t('system.right_menu.theme.options.bumblebee'), value: "bumblebee" },
         { label: this.$t('system.right_menu.theme.options.corporate'), value: "corporate" },
         { label: this.$t('system.right_menu.theme.options.dark'), value: "dark" },

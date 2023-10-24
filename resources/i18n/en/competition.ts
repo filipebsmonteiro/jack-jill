@@ -13,4 +13,11 @@ export default {
   created: 'Created',
   updated: 'Updated',
   deleted: 'Deleted',
+
+  competitor: {
+    singular: 'Competitor',
+    male: 'Competitor',
+    female: 'Competitor',
+    plural: 'Competitors',
+  },
 }

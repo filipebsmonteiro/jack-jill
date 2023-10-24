@@ -31,15 +31,15 @@ export default {
       description: 'Gerenciar usuários',
     },
   },
-  right_menu: {
-    languages: {
-      label: 'Idiomas',
-      options: {
-        ptBr: 'Português',
-        en: 'Inglês',
-        es: 'Espanhol',
-      },
+  languages: {
+    label: 'Idiomas',
+    options: {
+      ptBr: 'Português',
+      en: 'English',
+      es: 'Español',
     },
+  },
+  right_menu: {
     theme: {
       label: 'Tema',
       options: {
