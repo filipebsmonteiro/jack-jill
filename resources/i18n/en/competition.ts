@@ -14,6 +14,14 @@ export default {
   updated: 'Updated',
   deleted: 'Deleted',
 
+  level: {
+    label: 'Level',
+    created: 'Created',
+    updated: 'Updated',
+    deleted: 'Deleted',
+    new: 'New',
+  },
+
   competitor: {
     singular: 'Competitor',
     male: 'Competitor',

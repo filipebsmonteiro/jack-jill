@@ -26,6 +26,10 @@ export default {
       label: 'Competiciones',
       description: 'Gerenciar competiciones',
     },
+    competition_levels: {
+      label: 'Niveis de Competición',
+      description: 'Gerenciar Niveis',
+    },
     users: {
       label: 'Usuários',
       description: 'Gerenciar usuários',

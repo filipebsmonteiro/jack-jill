@@ -83,6 +83,12 @@ export default {
           icon: "trophy",
           link: `/competition/list`,
         },
+        {
+          label: this.$t("system.left_menu.competition_levels.label"),
+          caption: this.$t("system.left_menu.competition_levels.description"),
+          icon: "layer-group",
+          link: `/competition/level/list`,
+        },
       ];
     },
   },
