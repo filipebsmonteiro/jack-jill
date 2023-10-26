@@ -2,8 +2,8 @@
 import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
-import { toast } from 'vue3-toastify';
-import { useI18n } from 'vue-i18n';
+import { toast } from 'vue3-toastify'
+import { useI18n } from 'vue-i18n'
 import CompetitionForm from 'Resources/pages/Competitions/CompetitionForm'
 import { parseUnprocessableErrors } from 'Resources/helpers/functions'
 import { useCompetitionStore } from 'Resources/stores/competition'

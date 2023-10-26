@@ -1,12 +1,13 @@
-// import { StateTree } from 'pinia'
-// import { useI18n } from 'vue-i18n'
+import { StateTree } from 'pinia'
 
 export default {
-  // getStatuses: (state: StateTree) => {
-  //   const { t } = useI18n()
-  //   return state.statuses.map(value => ({
-  //     label: t(`subscription.status.${value}`, value),
-  //     value,
-  //   }))
-  // },
+  getLevelsAsOptions: (state: StateTree) => {
+    return [
+      { label: 'Select...', value: null },
+      ...state.list.map((level) => ({
+        label: level.name,
+        value: level.id,
+      })),
+    ]
+  },
 }

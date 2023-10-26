@@ -6,6 +6,7 @@ import { toast } from 'vue3-toastify'
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';
 import { useCompetitionStore } from 'Resources/stores/competition';
+import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
 import { useSubscriptionStore } from 'Resources/stores/subscription';
 import UserList from 'Resources/components/Form/User/ListComponent.vue';
 
@@ -15,6 +16,7 @@ const { id } = useAttrs()
 const { loadSubscribes, subscribe, unsubscribe } = useCompetitionStore()
 const { current, subscribes } = storeToRefs(useCompetitionStore())
 const { getStatuses } = useCompetitionStore()
+const { getLevelsAsOptions } = storeToRefs(useCompetitionLevelStore())
 
 const subscribeHandler = async (user) => {
   await subscribe(id, user.id)
@@ -45,18 +47,31 @@ const updateSubscription = async (userId, data) => {
     )
 }
 
-onMounted(() => loadSubscribes({ id }))
+onMounted(async () => {
+  loadSubscribes({ id })
+  useCompetitionLevelStore().load()
+})
 </script>
 
 <template>
   <div class="flex-center flex-col p-4">
     <span class="my-3">{{ current?.name }}</span>
     <UserList
-      :additional-columns="['status', 'score']"
+      :additional-columns="['level', 'status', 'score']"
       :users="subscribes"
       @addRow="subscribeHandler"
       @removeRow="unsubscribeHandler"
     >
+      <template #level="{ user }">
+        <FormKit
+          type="select"
+          input-class="formkit-input-sm"
+          wrapper-class="w-50"
+          :options="getLevelsAsOptions"
+          :value="user.level_id"
+          @input="level_id => updateSubscription(user.id, { level_id })"
+        />
+      </template>
       <template #status="{ user }">
         <FormKit
           type="select"

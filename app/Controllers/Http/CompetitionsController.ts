@@ -87,6 +87,7 @@ export default class CompetitionsController {
       ...user.toJSON(),
       status: user.$extras.pivot_status,
       score: user.$extras.pivot_score,
+      level_id: user.$extras.pivot_level_id,
     }))
 
     return response.status(200).json({

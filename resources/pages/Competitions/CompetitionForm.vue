@@ -76,6 +76,7 @@ const schema = reactive([
 
 const data = ref({
   name: props?.values?.name || '',
+  description: props?.values?.description || '',
   type: props?.values?.type || '',
 })
 
