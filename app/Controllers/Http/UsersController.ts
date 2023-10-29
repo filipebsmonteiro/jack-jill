@@ -58,6 +58,7 @@ export default class UsersController {
     const users = await User.query()
       .orWhere('first_name', 'like', `%${request.input('name')}%`)
       .orWhere('last_name', 'like', `%${request.input('name')}%`)
+      .orWhere('email', 'like', `%${request.input('name')}%`)
       .limit(10)
     return response.status(200).json(users.map((user) =>
       user.serialize({ fields: ['id', 'first_name', 'last_name', 'image'] })

@@ -9,16 +9,16 @@ export default class UsersCompetitions extends BaseModel {
   public user_id: string
 
   @column()
-  public event_id: number
+  public competition_id: string
 
   @column()
-  public level_id: number
+  public level_id: string
 
   @column()
   public status: string
 
-  @column()
-  public score: string
+  // @column()
+  // public score: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

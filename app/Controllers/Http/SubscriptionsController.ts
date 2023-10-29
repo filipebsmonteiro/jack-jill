@@ -1,21 +1,21 @@
-import Database from '@ioc:Adonis/Lucid/Database'
+// import Database from '@ioc:Adonis/Lucid/Database'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UsersCompetitions from 'App/Models/ManyToMany/UsersCompetitions'
 import UsersEvents from 'App/Models/ManyToMany/UsersEvents'
 import UpdateValidator from 'App/Validators/Subscription/UpdateValidator'
 
 export default class SubscriptionsController {
-  public async listCompetitionStatuses ({ response }: HttpContextContract) {
-    let query = await Database.rawQuery(`
-      SELECT SUBSTRING(COLUMN_TYPE,5) as STATUS
-      FROM information_schema.COLUMNS
-      WHERE TABLE_SCHEMA='${process.env.MYSQL_DB_NAME}'
-          AND TABLE_NAME='${UsersCompetitions.table}'
-          AND COLUMN_NAME='status'
-    `)
+  // public async listCompetitionStatuses ({ response }: HttpContextContract) {
+  //   let query = await Database.rawQuery(`
+  //     SELECT SUBSTRING(COLUMN_TYPE,5) as STATUS
+  //     FROM information_schema.COLUMNS
+  //     WHERE TABLE_SCHEMA='${process.env.MYSQL_DB_NAME}'
+  //         AND TABLE_NAME='${UsersCompetitions.table}'
+  //         AND COLUMN_NAME='status'
+  //   `)
 
-    return response.status(200).json(query)
-  }
+  //   return response.status(200).json(query)
+  // }
 
   public async updateCompetitionSubscription ({ request, response }: HttpContextContract) {
     const { competitionId, userId, ...payload } = await request.validate(UpdateValidator)

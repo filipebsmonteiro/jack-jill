@@ -86,7 +86,6 @@ export default class CompetitionsController {
     const competitors = event.competitors.map((user) => ({
       ...user.toJSON(),
       status: user.$extras.pivot_status,
-      score: user.$extras.pivot_score,
       level_id: user.$extras.pivot_level_id,
     }))
 

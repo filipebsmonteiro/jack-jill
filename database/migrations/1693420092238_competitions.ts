@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
       table.string('name')
-      table.string('description')
+      table.text('description')
       table.enum('type', ['combat', 'sortition']).defaultTo('sortition')
 
       /**
