@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.uuid('level_id').references('id').inTable('competition_levels')
       table.enum('status', ['pending', 'approved', 'rejected']).defaultTo('pending')
       table.enum('role', ['leader', 'follower', 'judge'])
+      table.string('judge_description')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

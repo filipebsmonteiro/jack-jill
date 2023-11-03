@@ -8,17 +8,18 @@ export default class extends BaseSeeder {
     const level = await CompetitionLevel.create({ name: 'Novice' })
 
     await CompetitionFactory
-      .with('competitors', 2)
-      .with('competitors', 6, (user) => {
+      .with('users', 2)
+      .with('users', 6, (user) => {
         user.pivotAttributes([
-          { level_id: level.id, status: 'approved' },
-          { level_id: level.id, status: 'approved' },
-          { level_id: level.id, status: 'approved' },
-          { level_id: level.id, status: 'approved' },
-          { level_id: level.id, status: 'approved' },
-          { level_id: level.id, status: 'approved' },
+          { level_id: level.id, status: 'approved', role: 'follower' },
+          { level_id: level.id, status: 'approved', role: 'follower' },
+          { level_id: level.id, status: 'approved', role: 'leader' },
+          { level_id: level.id, status: 'approved', role: 'leader' },
+          { level_id: level.id, status: 'approved', role: 'judge' },
+          { level_id: level.id, status: 'approved', role: 'judge' },
         ])
       })
+      .merge([ { type: 'sortition' }, { type: 'combat' } ])
       .createMany(4)
 
     await UserFactory.merge([

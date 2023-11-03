@@ -6,6 +6,7 @@ export default class CompetitorsController {
     let events = await UsersCompetitions.query()
       .distinct('user_id')
       .where('score', '>', 0)
+      .groupBy('level_id')
       // .then(response => response.map((event) => ({
       //   ...event.toJSON(),
       //   users: event.$extras.users_count,

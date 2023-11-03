@@ -43,7 +43,7 @@ const handleSubmit = (data) => {
 onMounted(async () => {
   if (id) {
     const { current } = storeToRefs( useCompetitionStore() );
-    await useCompetitionStore().find(id)
+    await useCompetitionStore().find(id, { relationships: ['schedules'] })
     Object.entries(current.value).forEach(([key, value]) => (key !== 'image' ? values[key] = value :  null))
   }
 })

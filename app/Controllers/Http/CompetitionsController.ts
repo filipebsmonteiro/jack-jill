@@ -2,8 +2,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { LucidRow } from '@ioc:Adonis/Lucid/Orm'
 import Competition from 'App/Models/Competition'
+import CompetitionScore from 'App/Models/CompetitionScore'
 import Schedule from 'App/Models/Schedule'
 import CreateValidator from 'App/Validators/Competition/CreateValidator'
+import ScoreValidator from 'App/Validators/Competition/ScoreValidator'
 import SubscribeValidator from 'App/Validators/Competition/SubscribeValidator'
 import UpdateValidator from 'App/Validators/Competition/UpdateValidator'
 
@@ -76,19 +78,6 @@ export default class CompetitionsController {
     }
 
     const competition = await query.firstOrFail()
-    // const users = competition.users?.map((user) => {
-    //   let pivot = {}
-    //   Object.entries(user.$extras).map(([key, value]) => ({
-    //     [key.replace('pivot_', '')]: value,
-    //   })).forEach(element => pivot = {...pivot, ...element})
-
-    //   return { ...user.serialize(), ...pivot }
-    // })
-
-    // return response.status(200).json({
-    //   ...competition.serialize(),
-    //   users,
-    // })
 
     return response.status(200).json(
       this.attachPivotColumns(competition, 'users')
@@ -135,18 +124,10 @@ export default class CompetitionsController {
 
     Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
 
-    const event = await query.firstOrFail()
-    const competitors = event.users.map((user) => ({
-      ...user.toJSON(),
-      status: user.$extras.pivot_status,
-      level_id: user.$extras.pivot_level_id,
-      role: user.$extras.pivot_role,
-    }))
-
-    return response.status(200).json({
-      ...event.serialize(),
-      competitors,
-    })
+    const competition = await query.firstOrFail()
+    return response.status(200).json(
+      this.attachPivotColumns(competition, 'users')
+    )
   }
 
   public async subscribe ({ request, response }: HttpContextContract) {
@@ -174,8 +155,34 @@ export default class CompetitionsController {
 
   public async unsubscribe ({ request, response }: HttpContextContract) {
     const { id, userId } = await request.validate(SubscribeValidator)
-    const event = await Competition.findOrFail(id)
-    await event.related('users').detach([userId])
-    return response.status(200).json(event.serialize())
+    const competition = await Competition.findOrFail(id)
+    await competition.related('users').detach([userId])
+    return response.status(200).json(competition.serialize())
+  }
+
+  public async loadScores ({ request, response }: HttpContextContract) {
+    let query = CompetitionScore.query()
+
+    Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
+
+    const scores = await query.pojo()
+
+    return response.status(200).json(scores)
+  }
+
+  public async persistScore ({ request, response }: HttpContextContract) {
+    const { competitionId, competitorId, judgeId, score } = await request.validate(ScoreValidator)
+    const created = await CompetitionScore.updateOrCreate(
+      {
+        competition_id: competitionId,
+        competitor_id: competitorId,
+        judge_id: judgeId,
+      },
+      {
+        score,
+      }
+    )
+
+    return response.status(200).json(created.serialize())
   }
 }

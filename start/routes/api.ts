@@ -24,9 +24,14 @@ Route.group(() => {
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
 
   Route.group(() => {
+    Route.resource('level', 'CompetitionLevelsController').apiOnly()
     Route.get('loadSubscribes', 'CompetitionsController.loadSubscribes')
     Route.post('subscribe', 'CompetitionsController.subscribe')
     Route.post('unsubscribe', 'CompetitionsController.unsubscribe')
+    Route.group(() => {
+      Route.get('load', 'CompetitionsController.loadScores')
+      Route.post('persist', 'CompetitionsController.persistScore')
+    }).prefix('score')
   }).prefix('competition').middleware('auth')
   Route.resource('competition', 'CompetitionsController').apiOnly()
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })
@@ -35,4 +40,8 @@ Route.group(() => {
     Route.put('competition', 'SubscriptionsController.updateCompetitionSubscription')
     Route.put('event', 'SubscriptionsController.updateEventSubscription')
   }).prefix('subscription').middleware('auth')
+
+  Route.group(() => {
+    Route.get('resume', 'CompetitorsController.resume')
+  }).prefix('competitor')
 }).prefix('/api/v1')

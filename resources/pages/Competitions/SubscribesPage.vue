@@ -13,9 +13,14 @@ import UserList from 'Resources/components/Form/User/ListComponent.vue';
 const props = defineProps({ errors: Object, values: Object })
 const { t } = useI18n()
 const { id } = useAttrs()
-const { loadSubscribes, subscribe, unsubscribe } = useCompetitionStore()
+const {
+  loadSubscribes,
+  subscribe,
+  unsubscribe,
+  getStatuses,
+  getRolesAsOptions,
+} = useCompetitionStore()
 const { current, subscribes } = storeToRefs(useCompetitionStore())
-const { getStatuses } = useCompetitionStore()
 const { getLevelsAsOptions } = storeToRefs(useCompetitionLevelStore())
 
 const subscribeHandler = async (user) => {
@@ -57,7 +62,7 @@ onMounted(async () => {
   <div class="flex-center flex-col p-4">
     <span class="my-3">{{ current?.name }}</span>
     <UserList
-      :additional-columns="['level', 'status', 'score']"
+      :additional-columns="['level', 'status', 'role']"
       :users="subscribes"
       @addRow="subscribeHandler"
       @removeRow="unsubscribeHandler"
@@ -69,7 +74,7 @@ onMounted(async () => {
           wrapper-class="w-50"
           :options="getLevelsAsOptions"
           :value="user.level_id"
-          @input="level_id => updateSubscription(user.id, { level_id })"
+          @input="levelId => updateSubscription(user.id, { levelId })"
         />
       </template>
       <template #status="{ user }">
@@ -82,13 +87,14 @@ onMounted(async () => {
           @input="status => updateSubscription(user.id, { status })"
         />
       </template>
-      <template #score="{ user }">
+      <template #role="{ user }">
         <FormKit
-          type="number"
+          type="select"
           input-class="formkit-input-sm"
           wrapper-class="w-50"
-          :value="user.score"
-          @input="score => updateSubscription(user.id, { score })"
+          :options="getRolesAsOptions"
+          :value="user.role"
+          @input="role => updateSubscription(user.id, { role })"
         />
       </template>
     </UserList>

@@ -32,12 +32,9 @@ export default class Competition extends BaseModel {
 
   @manyToMany(() => User, {
     pivotTable: 'users_competitions',
-    pivotColumns: ['status', 'level_id'],
+    pivotColumns: ['status', 'level_id', 'role'],
   })
-  public competitors: ManyToMany<typeof User>
-
-  @manyToMany(() => User, { pivotTable: 'judges_competitions' })
-  public judges: ManyToMany<typeof User>
+  public users: ManyToMany<typeof User>
 
   @manyToMany(() => Schedule, { pivotTable: 'competition_schedules' })
   public schedules: ManyToMany<typeof Schedule>

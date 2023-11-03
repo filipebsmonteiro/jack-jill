@@ -1,4 +1,5 @@
 import CompetitionRepository from 'Resources/repositories/CompetitionRepository'
+import CompetitionScoreRepository from 'Resources/repositories/CompetitionScoreRepository'
 import SubscriptionRepository from 'Resources/repositories/SubscriptionRepository'
 
 export default {
@@ -26,10 +27,10 @@ export default {
 
     this.loading = false
   },
-  async find (id: string | number) {
+  async find (id: string | number, params: any = null) {
     this.loading = true
 
-    await CompetitionRepository.find(id)
+    await CompetitionRepository.find(id, params)
       .then(response => this.current = response.data)
       .catch((error) => {
         console.error(`Error On Load Competition: ${id}`)
@@ -69,12 +70,12 @@ export default {
 
     await CompetitionRepository.loadSubscribes(params)
       .then(response => {
-        const { competitors = [], ...event } = response.data
-        this.subscribes = competitors
+        const { users = [], ...event } = response.data
+        this.subscribes = users
         this.current = event
       })
       .catch((error) => {
-        console.error('Error On Subscribe Event')
+        console.error('Error On Load Competition Subscribers')
         console.error(error)
       })
 
@@ -90,7 +91,7 @@ export default {
         this.current = event
       })
       .catch((error) => {
-        console.error('Error On Subscribe Event')
+        console.error('Error On Subscribe Competition')
         console.error(error)
         throw error
       })
@@ -103,7 +104,7 @@ export default {
     await CompetitionRepository.unsubscribe(id, userId)
       .then(() => this.subscribes = this.subscribes.filter(user => user.id !== userId))
       .catch((error) => {
-        console.error('Error On Unsubscribe Event')
+        console.error('Error On Unsubscribe Competition')
         console.error(error)
         throw error
       })
@@ -116,7 +117,40 @@ export default {
     await SubscriptionRepository.updateSubscription('competition', params)
       .then(response => this.list = response.data)
       .catch((error) => {
-        console.error('Error On Update Event Subscription')
+        console.error('Error On Update Competition Subscription')
+        console.error(error)
+      })
+
+    this.loading = false
+  },
+
+  async loadScores (params: any) {
+    this.loading = true
+
+    await CompetitionScoreRepository.load(params)
+      .then(response => this.scores = response.data)
+      .catch((error) => {
+        console.error('Error On Load Competition Scores')
+        console.error(error)
+      })
+
+    this.loading = false
+  },
+  async persistScore (params: { competitionId: string, competitorId: string, judgeId: string, score: number }) {
+    this.loading = true
+
+    await CompetitionScoreRepository.persist(params)
+      .then(response => {
+        const score = response.data
+        this.scores = this.scores.map(s => {
+          if (score.competitor_id === s.competitor_id && score.judge_id === s.judge_id) {
+            s = { ...s, ...score }
+          }
+          return s
+        })
+      })
+      .catch((error) => {
+        console.error('Error On Update Score')
         console.error(error)
       })
 

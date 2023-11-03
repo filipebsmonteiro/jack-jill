@@ -9,5 +9,5 @@ export default Factory.define(Competition, ({ faker }) => {
     type: faker.helpers.arrayElement(['combat', 'sortition']),
   }
 })
-  .relation('competitors', () => UserFactory)
+  .relation('users', () => UserFactory)
   .build()

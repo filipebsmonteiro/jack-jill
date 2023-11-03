@@ -9,7 +9,7 @@
       <tr v-for="(row, i) in rows" :key="i">
         <td v-for="(column, idx) in columns" :key="idx">
           <slot :name="column.key" :row="row" :column="column">
-            {{ format(getValue(row, column), column.formatter) }}
+            {{ format({column, row}, column.formatter) }}
           </slot>
         </td>
       </tr>
@@ -31,11 +31,11 @@ export default {
     }
   },
   methods: {
-    format(value, formatter) {
+    format({ column, row }, formatter) {
       if (typeof formatter === `function`) {
-        return formatter(value)
+        return formatter(row)
       }
-      return value
+      return this.getValue(row, column)
     },
     getValue(row, column) {
       if (typeof column === `string`) {

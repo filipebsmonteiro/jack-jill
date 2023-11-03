@@ -28,4 +28,11 @@ export default {
     female: 'Competidora',
     plural: 'Competidores',
   },
+
+  judge: {
+    singular: 'Juiz',
+    male: 'Juiz',
+    female: 'Juíza',
+    plural: 'Juízes',
+  },
 }

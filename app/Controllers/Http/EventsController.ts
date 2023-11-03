@@ -18,7 +18,22 @@ export default class EventsController {
 
   public async index ({ response }: HttpContextContract) {
     const events = await Event.query()
-      .withCount('users')
+    return response.status(200).json(events)
+  }
+
+  public async resume ({ response }: HttpContextContract) {
+    let events = await Event.query()
+      .select('name', 'image', 'start_date', 'end_date')
+      .withCount('users', (builder) => {
+        builder.wherePivot('status', 'approved')
+      })
+      .limit(10)
+      .orderBy('created_at', 'desc')
+      .then(response => response.map((event) => ({
+        ...event.toJSON(),
+        users: event.$extras.users_count,
+      })))
+
     return response.status(200).json(events)
   }
 

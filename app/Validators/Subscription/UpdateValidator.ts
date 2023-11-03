@@ -6,9 +6,10 @@ export default class UpdateValidator {
 
   public schema = schema.create({
     userId: schema.string(),
-    score: schema.number.optional(),
+    // score: schema.number.optional(),
+    role: schema.enum.optional(['leader', 'follower', 'judge']),
     status: schema.enum.optional(['pending', 'approved', 'rejected']),
-    level_id: schema.string.optional(),
+    levelId: schema.string.optional(),
 
     eventId: schema.string.optional([
       rules.requiredIfNotExists('competitionId'),
@@ -16,8 +17,9 @@ export default class UpdateValidator {
 
     competitionId: schema.string.optional([
       rules.requiredIfNotExists('eventId'),
-      rules.requiredIfExists('score'),
-      rules.requiredIfExists('level_id'),
+      // rules.requiredIfExists('score'),
+      rules.requiredIfExists('role'),
+      rules.requiredIfExists('levelId'),
     ]),
 
   })

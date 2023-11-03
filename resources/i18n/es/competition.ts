@@ -29,6 +29,13 @@ export default {
     plural: 'Competidores',
   },
 
+  judge: {
+    singular: 'Juez',
+    male: 'Juez',
+    female: 'Jueza',
+    plural: 'Jueces',
+  },
+
   date: 'Fecha',
   time: 'Hora',
   duration: 'Duración',
