@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify'
 import { useCompetitionStore } from 'Resources/stores/competition'
+import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
 import { Head } from '@inertiajs/vue3'
 import CombatPage from 'Resources/pages/Competitions/Run/CombatPage'
 import SortitionPage from 'Resources/pages/Competitions/Run/SortitionPage'
@@ -19,8 +20,9 @@ let errors = reactive({}),
   template = computed(() => templates[current.value?.type]);
 
 onMounted(async () => {
+  useCompetitionLevelStore().load()
   await useCompetitionStore().find(id, { relationships: ['users'] })
-  await useCompetitionStore().loadScores({
+  useCompetitionStore().loadScores({
     competition_id: current.value.id,
     // round: 'eliminatory',
   })

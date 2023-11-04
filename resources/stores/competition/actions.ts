@@ -31,7 +31,11 @@ export default {
     this.loading = true
 
     await CompetitionRepository.find(id, params)
-      .then(response => this.current = response.data)
+      .then(response => {
+        const { users, ...competition } = response.data
+        this.current = competition
+        this.subscribes = users
+      })
       .catch((error) => {
         console.error(`Error On Load Competition: ${id}`)
         console.error(error)
@@ -136,7 +140,13 @@ export default {
 
     this.loading = false
   },
-  async persistScore (params: { competitionId: string, competitorId: string, judgeId: string, score: number }) {
+  async persistScore (params: {
+    competitionId: string,
+    competitorId: string,
+    judgeId: string,
+    round: string,
+    score: number
+  }) {
     this.loading = true
 
     await CompetitionScoreRepository.persist(params)

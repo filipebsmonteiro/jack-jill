@@ -9,6 +9,7 @@ export default class ScoreValidator {
     competitorId: schema.string(),
     judgeId: schema.string(),
     score: schema.number(),
+    round: schema.string(),
   })
 
   public messages: CustomMessages = {

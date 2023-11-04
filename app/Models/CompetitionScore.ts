@@ -14,6 +14,9 @@ export default class CompetitionScore extends BaseModel {
   public judge_id: string
 
   @column()
+  public round: string
+
+  @column()
   public score: number
 
   @column.dateTime({ autoCreate: true })

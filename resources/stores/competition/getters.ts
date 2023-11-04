@@ -22,13 +22,31 @@ export default {
     ]
   },
   getJudges: (state: StateTree) => {
-    return state.current?.users?.filter(user => user.role === 'judge') || []
+    return state.subscribes?.filter((user) => user.role === 'judge') || []
   },
-  getCompetitors: (state: StateTree) => {
-    return state.current?.users?.filter(user => ['leader', 'follower'].includes(user.role) || !user.role) || []
+  competitorsGroupByLevel: (state) => {
+    const competitors = state.subscribes?.filter((user) =>
+      (['leader', 'follower'].includes(user.role) || !user.role) &&
+      user?.status === 'approved'
+    )
+
+    return competitors.reduce((acc, user) => {
+      if (acc[user.level_id]) {
+        acc[user.level_id].push(user)
+        return acc
+      }
+
+      acc[user.level_id] = [user]
+      return acc
+    }, {})
   },
-  getScore: (state) => {
-    return (competitorId, judgeId) => state.scores
-      .find((score) => score.competitor_id === competitorId && score.judge_id === judgeId)?.score
+
+  getScore: (state: StateTree) => {
+    return (competitorId, judgeId, round) => state.scores
+      .find((score) =>
+        score.competitor_id === competitorId &&
+        score.judge_id === judgeId &&
+        score.round === round
+      )?.score
   },
 }

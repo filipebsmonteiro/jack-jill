@@ -59,6 +59,7 @@ export default class CompetitionsController {
       },
       users: {
         select: ['first_name', 'last_name'],
+        // groupBy: 'level_id',
       },
     }
 
@@ -171,12 +172,13 @@ export default class CompetitionsController {
   }
 
   public async persistScore ({ request, response }: HttpContextContract) {
-    const { competitionId, competitorId, judgeId, score } = await request.validate(ScoreValidator)
+    const { competitionId, competitorId, judgeId, round, score } = await request.validate(ScoreValidator)
     const created = await CompetitionScore.updateOrCreate(
       {
         competition_id: competitionId,
         competitor_id: competitorId,
         judge_id: judgeId,
+        round: round,
       },
       {
         score,

@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.uuid('competitor_id').references('id').inTable('users')
       table.uuid('judge_id').references('id').inTable('users')
       table.double('score').defaultTo(0)
-      table.string('round')
+      table.string('round').defaultTo(0)
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
