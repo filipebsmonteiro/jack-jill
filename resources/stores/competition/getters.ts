@@ -40,13 +40,4 @@ export default {
       return acc
     }, {})
   },
-
-  getScore: (state: StateTree) => {
-    return (competitorId, judgeId, round) => state.scores
-      .find((score) =>
-        score.competitor_id === competitorId &&
-        score.judge_id === judgeId &&
-        score.round === round
-      )?.score
-  },
 }

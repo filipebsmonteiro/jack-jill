@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Competition from 'App/Models/Competition'
+import CompetitionLevel from 'App/Models/CompetitionLevel'
 import User from 'App/Models/User'
 
 export default class CompetitionScore extends BaseModel {
@@ -12,6 +13,9 @@ export default class CompetitionScore extends BaseModel {
 
   @column()
   public judge_id: string
+
+  @column()
+  public level_id: string
 
   @column()
   public round: string
@@ -33,6 +37,9 @@ export default class CompetitionScore extends BaseModel {
 
   @hasOne(() => User)
   public judge: HasOne<typeof User>
+
+  @hasOne(() => CompetitionLevel)
+  public level: HasOne<typeof CompetitionLevel>
 
   /**
    * Hooks

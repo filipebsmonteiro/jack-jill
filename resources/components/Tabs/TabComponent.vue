@@ -33,6 +33,7 @@ onMounted(() => activeTab.value = props.tabs.length > 0 ? props.tabs[0] : {})
       :tab-class="tabClass"
       @change="tab => activeTab = tab"
       @delete="tab => emits('delete', tab)"
+      @increase="tab => emits('increase')"
     />
     <div
       v-for="tab in tabs"

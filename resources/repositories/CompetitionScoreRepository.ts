@@ -1,16 +1,8 @@
-import UserSubscriptableRepository from 'Resources/repositories/Base/UserSubscriptableRepository'
+import ApiRepository from 'Resources/repositories/Base/ApiRepository'
 
-class CompetitionScoreRepository extends UserSubscriptableRepository {
+class CompetitionScoreRepository extends ApiRepository {
   constructor () {
     super('/api/v1/competition/score')
-  }
-
-  public async load (params: any) {
-    return this.axios.get(`${this.endpoint}/load`, params)
-  }
-
-  public async persist (params: any) {
-    return this.axios.post(`${this.endpoint}/persist`, params)
   }
 }
 

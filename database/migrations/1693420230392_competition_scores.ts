@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.uuid('competition_id').references('id').inTable('competitions')
       table.uuid('competitor_id').references('id').inTable('users')
       table.uuid('judge_id').references('id').inTable('users')
+      table.uuid('level_id').references('id').inTable('competition_levels')
       table.double('score').defaultTo(0)
       table.string('round').defaultTo(0)
 

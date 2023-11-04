@@ -28,10 +28,7 @@ Route.group(() => {
     Route.get('loadSubscribes', 'CompetitionsController.loadSubscribes')
     Route.post('subscribe', 'CompetitionsController.subscribe')
     Route.post('unsubscribe', 'CompetitionsController.unsubscribe')
-    Route.group(() => {
-      Route.get('load', 'CompetitionsController.loadScores')
-      Route.post('persist', 'CompetitionsController.persistScore')
-    }).prefix('score')
+    Route.resource('score', 'CompetitionScoresController').apiOnly()
   }).prefix('competition').middleware('auth')
   Route.resource('competition', 'CompetitionsController').apiOnly()
     .middleware({ create: ['auth'], update: ['auth'], destroy: ['auth'] })

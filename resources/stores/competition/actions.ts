@@ -1,5 +1,4 @@
 import CompetitionRepository from 'Resources/repositories/CompetitionRepository'
-import CompetitionScoreRepository from 'Resources/repositories/CompetitionScoreRepository'
 import SubscriptionRepository from 'Resources/repositories/SubscriptionRepository'
 
 export default {
@@ -122,45 +121,6 @@ export default {
       .then(response => this.list = response.data)
       .catch((error) => {
         console.error('Error On Update Competition Subscription')
-        console.error(error)
-      })
-
-    this.loading = false
-  },
-
-  async loadScores (params: any) {
-    this.loading = true
-
-    await CompetitionScoreRepository.load(params)
-      .then(response => this.scores = response.data)
-      .catch((error) => {
-        console.error('Error On Load Competition Scores')
-        console.error(error)
-      })
-
-    this.loading = false
-  },
-  async persistScore (params: {
-    competitionId: string,
-    competitorId: string,
-    judgeId: string,
-    round: string,
-    score: number
-  }) {
-    this.loading = true
-
-    await CompetitionScoreRepository.persist(params)
-      .then(response => {
-        const score = response.data
-        this.scores = this.scores.map(s => {
-          if (score.competitor_id === s.competitor_id && score.judge_id === s.judge_id) {
-            s = { ...s, ...score }
-          }
-          return s
-        })
-      })
-      .catch((error) => {
-        console.error('Error On Update Score')
         console.error(error)
       })
 

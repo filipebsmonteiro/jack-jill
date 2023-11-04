@@ -5,18 +5,21 @@ import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 import { useCompetitionStore } from 'Resources/stores/competition'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
+import { useCompetitionScoreStore } from 'Resources/stores/competition/score'
 import SimpleTable from 'Resources/components/Table/SimpleTable';
 import Tabs from 'Resources/components/Tabs/TabComponent';
 
 const { t } = useI18n()
-let { current, competitorsGroupByLevel, getJudges, getScore, scores } = storeToRefs( useCompetitionStore() ),
-  { list } = storeToRefs( useCompetitionLevelStore() ),
+let { current, competitorsGroupByLevel, getJudges } = storeToRefs( useCompetitionStore() ),
+  // { getScore } = storeToRefs( useCompetitionScoreStore() ),
+  { getScore } = useCompetitionScoreStore(),
+  { list: levels } = storeToRefs( useCompetitionLevelStore() ),
   levelTabs = computed(() => {
     return Object.entries(competitorsGroupByLevel.value)
       .map(([levelId, competitors]) => {
-        const level = list.value.find(l => l.id === levelId)
+        const level = levels.value.find(l => l.id === levelId)
         const competitorsIds = competitors.map(competitor => competitor.id)
-        const rounds = [...new Set(scores.value.map(s => s.round))]
+        const rounds = [...new Set(getScore(level.id).map(s => s.round))]
 
         return {
           key: level.id,
@@ -39,9 +42,38 @@ let { current, competitorsGroupByLevel, getJudges, getScore, scores } = storeToR
     ]
   });
 
-const persistScore = async (competitorId, judgeId, round, score) => {
-  await useCompetitionStore().persistScore({ competitionId: current.value.id, competitorId, judgeId, round, score })
-    .then(() =>
+const addRound = async (levelId) => {
+  const level = levels.value.find(l => l.id === levelId)
+  const rounds = [...new Set(getScore(level.id).map(s => s.round))]
+  let scoresToPersist = []
+
+  competitorsGroupByLevel.value[levelId]
+    .forEach(competitor =>
+      getJudges.value.forEach(judge => {
+        scoresToPersist.push({
+          competitionId: current.value.id,
+          competitorId: competitor.id,
+          judgeId: judge.id,
+          levelId: level.id,
+          score: 0,
+          round: `${rounds.length+1}`,
+        })
+      })
+    )
+
+    await useCompetitionScoreStore().persistBatch(scoresToPersist)
+    // useCompetitionScoreStore().load({ competition_id: current.value.id })
+}
+
+const persistScore = async (competitorId, judgeId, levelId, round, score) => {
+  await useCompetitionScoreStore().persist({
+    competitionId: current.value.id,
+    competitorId,
+    judgeId,
+    levelId,
+    round,
+    score
+  }).then(() =>
       toast.success(`${t('subscription.label')} ${t('competition.updated')} ${t('system.actions.with_success')}`)
     )
     .catch(() =>
@@ -58,6 +90,7 @@ const persistScore = async (competitorId, judgeId, round, score) => {
         allow-delete
         allow-increase
         @delete=""
+        @increase="addRound(level.key)"
         class="p-4"
         tab-class="tabs-boxed"
       >
@@ -73,8 +106,8 @@ const persistScore = async (competitorId, judgeId, round, score) => {
                 type="number"
                 input-class="formkit-input-sm"
                 wrapper-class="w-50"
-                :value="getScore(competitor.id, judge.id, round.key)"
-                @change="evt => persistScore(competitor.id, judge.id, round.key, evt.target.value)"
+                :value="getScore(level.key, round.key, judge.id, competitor.id)"
+                @change="evt => persistScore(competitor.id, judge.id, level.key, round.key, evt.target.value)"
               />
             </template>
           </SimpleTable>

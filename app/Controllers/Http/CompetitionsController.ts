@@ -2,10 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { LucidRow } from '@ioc:Adonis/Lucid/Orm'
 import Competition from 'App/Models/Competition'
-import CompetitionScore from 'App/Models/CompetitionScore'
 import Schedule from 'App/Models/Schedule'
 import CreateValidator from 'App/Validators/Competition/CreateValidator'
-import ScoreValidator from 'App/Validators/Competition/ScoreValidator'
 import SubscribeValidator from 'App/Validators/Competition/SubscribeValidator'
 import UpdateValidator from 'App/Validators/Competition/UpdateValidator'
 
@@ -59,7 +57,6 @@ export default class CompetitionsController {
       },
       users: {
         select: ['first_name', 'last_name'],
-        // groupBy: 'level_id',
       },
     }
 
@@ -159,32 +156,5 @@ export default class CompetitionsController {
     const competition = await Competition.findOrFail(id)
     await competition.related('users').detach([userId])
     return response.status(200).json(competition.serialize())
-  }
-
-  public async loadScores ({ request, response }: HttpContextContract) {
-    let query = CompetitionScore.query()
-
-    Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
-
-    const scores = await query.pojo()
-
-    return response.status(200).json(scores)
-  }
-
-  public async persistScore ({ request, response }: HttpContextContract) {
-    const { competitionId, competitorId, judgeId, round, score } = await request.validate(ScoreValidator)
-    const created = await CompetitionScore.updateOrCreate(
-      {
-        competition_id: competitionId,
-        competitor_id: competitorId,
-        judge_id: judgeId,
-        round: round,
-      },
-      {
-        score,
-      }
-    )
-
-    return response.status(200).json(created.serialize())
   }
 }

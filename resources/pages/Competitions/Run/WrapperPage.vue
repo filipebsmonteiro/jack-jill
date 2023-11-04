@@ -5,6 +5,7 @@ import { router } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify'
 import { useCompetitionStore } from 'Resources/stores/competition'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
+import { useCompetitionScoreStore } from 'Resources/stores/competition/score'
 import { Head } from '@inertiajs/vue3'
 import CombatPage from 'Resources/pages/Competitions/Run/CombatPage'
 import SortitionPage from 'Resources/pages/Competitions/Run/SortitionPage'
@@ -22,10 +23,7 @@ let errors = reactive({}),
 onMounted(async () => {
   useCompetitionLevelStore().load()
   await useCompetitionStore().find(id, { relationships: ['users'] })
-  useCompetitionStore().loadScores({
-    competition_id: current.value.id,
-    // round: 'eliminatory',
-  })
+  useCompetitionScoreStore().load({ competition_id: current.value.id })
 })
 
 onBeforeUnmount(() => useCompetitionStore().$reset())
