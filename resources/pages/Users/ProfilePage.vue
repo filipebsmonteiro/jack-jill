@@ -3,7 +3,7 @@ import { reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue3-toastify'
+import { toast } from 'Resources/helpers/notifications'
 import UserForm from 'Resources/pages/Users/UserForm'
 import { parseUnprocessableErrors } from 'Resources/helpers/functions'
 import { useAuthStore } from 'Resources/stores/auth'

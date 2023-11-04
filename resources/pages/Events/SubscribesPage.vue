@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref, useAttrs, watch, markRaw } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue3-toastify'
+import { toast } from 'Resources/helpers/notifications'
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';
 import { useEventStore } from 'Resources/stores/event';

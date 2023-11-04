@@ -33,7 +33,7 @@
 
 <script>
 import { mapActions, mapState } from 'pinia';
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import { formatDateToLocale } from 'Resources/helpers/functions';
 import { useEventStore } from 'Resources/stores/event';
 import { useSystemStore } from "Resources/stores/system";

@@ -33,7 +33,7 @@
 
 <script>
 import { mapActions, mapState } from 'pinia';
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import { useCompetitionStore } from 'Resources/stores/competition';
 import SimpleTable from 'Resources/components/Table/SimpleTable';
 

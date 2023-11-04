@@ -79,6 +79,9 @@ dependencies:
   source-map-support:
     specifier: ^0.5.21
     version: 0.5.21
+  sweetalert2:
+    specifier: ^11.9.0
+    version: 11.9.0
   ts-loader:
     specifier: ^9.4.4
     version: 9.4.4(typescript@4.6.4)(webpack@5.88.2)
@@ -97,9 +100,6 @@ dependencies:
   vue-tournament-bracket:
     specifier: ^2.1.4
     version: 2.1.4
-  vue3-toastify:
-    specifier: ^0.1.12
-    version: 0.1.12(vue@3.3.4)
 
 devDependencies:
   '@adonisjs/assembler':
@@ -8624,6 +8624,10 @@ packages:
     resolution: {integrity: sha512-rCC0NWGKr/IJhtRuPq/t37qvZHI/mH4I4sxflVM+qgVe5Z2uOCivzWaVbuioJaB61kvm5UvB7b49E+oBY0M8jA==}
     dev: true
 
+  /sweetalert2@11.9.0:
+    resolution: {integrity: sha512-PA3qinKZMNGAhA+AUu2wU7yQOpeZCgOaYWRcg26f4cZN6f7M9iPBuobsxOhR9EHs7ihUIxT6vhAMiB4kcmk1SA==}
+    dev: false
+
   /sync-rpc@1.3.6:
     resolution: {integrity: sha512-J8jTXuZzRlvU7HemDgHi3pGnh/rkoqR/OZSjhTyyZrEkkYQbk7Z33AXp37mkPfPpfdOuj7Ex3H/TJM1z48uPQw==}
     dependencies:
@@ -9063,18 +9067,6 @@ packages:
     resolution: {integrity: sha512-8B2gLZBj1LOyGQXpFwS231IAWzOmfeghRKscML4Jsbv3l6iO6t1epBBviaL4/RTWbwOmwzjVB/CaPz4LQIVNwQ==}
     dependencies:
       vue: 2.7.14
-    dev: false
-
-  /vue3-toastify@0.1.12(vue@3.3.4):
-    resolution: {integrity: sha512-OQJPMt6dIpn+1vG+EZMO+QE5STAxoc0+Owo7sRjUyVw22Uxs6daVHq/sek75s4JMxbzePHtUqVfTZRgqLHmikw==}
-    engines: {node: '>=16', npm: '>=7'}
-    peerDependencies:
-      vue: '>=3.2.0'
-    peerDependenciesMeta:
-      vue:
-        optional: true
-    dependencies:
-      vue: 3.3.4
     dev: false
 
   /vue@2.7.14:

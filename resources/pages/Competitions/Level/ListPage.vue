@@ -20,7 +20,7 @@
 
 <script>
 import { mapActions, mapState } from 'pinia';
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level';
 import SimpleTable from 'Resources/components/Table/SimpleTable';
 

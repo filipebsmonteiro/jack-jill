@@ -1,7 +1,7 @@
 <script setup>
 import { Head, router } from "@inertiajs/vue3";
 import { reactive, watch, computed } from "vue";
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import AuthLayout from "Resources/layouts/AuthLayout.vue";
 import { plugin } from "Resources/components/Form/SubmitLoading";
 import { useAuthStore } from "Resources/stores/auth";

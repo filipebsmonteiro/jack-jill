@@ -2,7 +2,7 @@
 import { computed, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
-import { toast } from 'vue3-toastify'
+import { toast } from 'Resources/helpers/notifications'
 import { useCompetitionStore } from 'Resources/stores/competition'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
 import { useCompetitionScoreStore } from 'Resources/stores/competition/score'

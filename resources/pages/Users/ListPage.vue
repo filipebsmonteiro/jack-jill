@@ -23,7 +23,7 @@
 
 <script>
 import { mapActions, mapState } from 'pinia';
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import { useUserStore } from 'Resources/stores/user';
 import SimpleTable from 'Resources/components/Table/SimpleTable';
 

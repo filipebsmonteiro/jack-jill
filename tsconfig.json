@@ -45,8 +45,7 @@
       "@adonisjs/lucid",
       "@adonisjs/auth",
       "@eidellev/inertia-adonisjs",
-      "adonis-lucid-soft-deletes",
-      "vue3-toastify/global"
+      "adonis-lucid-soft-deletes"
     ]
   }
 }

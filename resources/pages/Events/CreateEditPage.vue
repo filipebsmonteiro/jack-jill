@@ -2,7 +2,7 @@
 import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
-import { toast } from 'vue3-toastify';
+import { toast } from 'Resources/helpers/notifications'
 import { useI18n } from 'vue-i18n';
 import EventForm from 'Resources/pages/Events/EventForm'
 import { parseUnprocessableErrors } from 'Resources/helpers/functions'
