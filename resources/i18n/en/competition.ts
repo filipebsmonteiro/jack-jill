@@ -35,4 +35,9 @@ export default {
     female: 'Judge',
     plural: 'Judges',
   },
+
+  round: {
+    label: 'Round',
+    deletion_message: 'This action also delete all competitors scores for this round.',
+  },
 }

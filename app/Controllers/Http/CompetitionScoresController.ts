@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CompetitionScore from 'App/Models/CompetitionScore'
-import ScoreValidator from 'App/Validators/Competition/ScoreValidator'
+import DeleteValidator from 'App/Validators/Competition/Score/DeleteValidator'
+import PersistValidator from 'App/Validators/Competition/Score/PersistValidator'
 
 interface Score {
   competition_id: string,
@@ -31,7 +32,7 @@ export default class CompetitionScoresController {
       round,
       score,
       scores,
-    } = await request.validate(ScoreValidator)
+    } = await request.validate(PersistValidator)
 
     if (!scores) {
       const created = await CompetitionScore.updateOrCreate(
@@ -61,5 +62,15 @@ export default class CompetitionScoresController {
     const created = await CompetitionScore.updateOrCreateMany('round', scoresToPersist)
 
     return response.status(200).json(created.map(s => s.serialize()))
+  }
+
+  public async destroy ({ request, response }: HttpContextContract) {
+    const { competitionId, levelId, round } = await request.validate(DeleteValidator)
+    await CompetitionScore.query()
+      .where('competition_id', competitionId)
+      .andWhere('level_id', levelId)
+      .andWhere('round', round)
+      .delete()
+    return response.status(200)
   }
 }

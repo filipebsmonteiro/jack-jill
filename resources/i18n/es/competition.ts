@@ -36,6 +36,11 @@ export default {
     plural: 'Jueces',
   },
 
+  round: {
+    label: 'Ronda',
+    deletion_message: 'Esta acción también elimina todas las puntuaciones de los competidores para esta ronda.',
+  },
+
   date: 'Fecha',
   time: 'Hora',
   duration: 'Duración',

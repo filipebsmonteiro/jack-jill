@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import { toast } from 'vue3-toastify'
+import { confirm, toast } from 'Resources/helpers/notifications'
 import { useCompetitionStore } from 'Resources/stores/competition'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
 import { useCompetitionScoreStore } from 'Resources/stores/competition/score'
@@ -11,7 +11,6 @@ import Tabs from 'Resources/components/Tabs/TabComponent';
 
 const { t } = useI18n()
 let { current, competitorsGroupByLevel, getJudges } = storeToRefs( useCompetitionStore() ),
-  // { getScore } = storeToRefs( useCompetitionScoreStore() ),
   { getScore } = useCompetitionScoreStore(),
   { list: levels } = storeToRefs( useCompetitionLevelStore() ),
   levelTabs = computed(() => {
@@ -24,7 +23,7 @@ let { current, competitorsGroupByLevel, getJudges } = storeToRefs( useCompetitio
         return {
           key: level.id,
           label: level.name,
-          rounds: rounds.map(r => ({ key: r, label: `Round ${r}` })),
+          rounds: rounds.map(r => ({ key: r, label: `${t('competition.round.label')} ${r}` })),
         }
       })
   }),
@@ -62,7 +61,20 @@ const addRound = async (levelId) => {
     )
 
     await useCompetitionScoreStore().persistBatch(scoresToPersist)
-    // useCompetitionScoreStore().load({ competition_id: current.value.id })
+}
+
+const deleteRound = async (levelId, round) => {
+  confirm({
+    title: `${t('system.actions.delete')} ${t('competition.round.label')}`,
+    text: t('competition.round.deletion_message'),
+    confirmButtonText: 'Delete',
+  }).then(async result => {
+    if (result.isConfirmed) {
+      await useCompetitionScoreStore().deleteRound({ competitionId: current.value.id, levelId, round })
+      await useCompetitionScoreStore().load({ competition_id: current.value.id })
+      toast.success(`${t('competition.round.label')} ${t('competition.deleted')} ${t('system.actions.with_success')}`)
+    }
+  })
 }
 
 const persistScore = async (competitorId, judgeId, levelId, round, score) => {
@@ -89,7 +101,7 @@ const persistScore = async (competitorId, judgeId, levelId, round, score) => {
         :tabs="level.rounds"
         allow-delete
         allow-increase
-        @delete=""
+        @delete="round => deleteRound(level.key, round.key)"
         @increase="addRound(level.key)"
         class="p-4"
         tab-class="tabs-boxed"

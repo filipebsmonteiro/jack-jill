@@ -35,4 +35,9 @@ export default {
     female: 'Juíza',
     plural: 'Juízes',
   },
+
+  round: {
+    label: 'Rodada',
+    deletion_message: 'Esta ação também exclui todas as pontuações dos competidores nesta rodada.',
+  },
 }

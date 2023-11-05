@@ -23,15 +23,13 @@ export const toast = {
   }),
 }
 
-export const confirm = (
+export const confirm = (params: {
   title: string,
   text: string,
-  confirmButtonText: string = 'Confirm'
-) => Swal.fire({
-  title,
-  text,
+  confirmButtonText: string
+}) => Swal.fire({
+  ...params,
   showCancelButton: true,
-  confirmButtonText,
   // showDenyButton: true,
   // denyButtonText: `Don't delete`,
 })

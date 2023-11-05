@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CompetitionLevel from 'App/Models/CompetitionLevel'
-import CreateValidator from 'App/Validators/CompetitionLevel/CreateValidator'
-import UpdateValidator from 'App/Validators/CompetitionLevel/UpdateValidator'
+import CreateValidator from 'App/Validators/Competition/Level/CreateValidator'
+import UpdateValidator from 'App/Validators/Competition/Level/UpdateValidator'
 
 export default class CompetitionLevelsController {
   public async index ({ response }: HttpContextContract) {

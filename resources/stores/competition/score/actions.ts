@@ -60,4 +60,15 @@ export default {
 
     this.loading = false
   },
+  async deleteRound (params: {competitionId: string, levelId: string, round: string}) {
+    this.loading = true
+
+    await CompetitionScoreRepository.deleteRound(params)
+      .catch((error) => {
+        console.error('Error On Delete Round')
+        console.error(error)
+      })
+
+    this.loading = false
+  },
 }
