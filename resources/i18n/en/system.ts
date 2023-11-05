@@ -38,7 +38,7 @@ export default {
   languages: {
     label: 'Languages',
     options: {
-      ptBr: 'Português',
+      ptBr: 'Português BR',
       en: 'English',
       es: 'Español',
     },

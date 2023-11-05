@@ -10,6 +10,10 @@ export default class CreateValidator {
   public schema = schema.create({
     name: schema.string(),
     description: schema.string(),
+    image: schema.file.optional({
+      size: '3mb',
+      extnames: ['jpg', 'jpeg', 'png', 'webp'],
+    }),
     type: schema.enum(['combat', 'sortition'] as const),
     schedules: schema.array
       .optional([ rules.minLength(1) ])

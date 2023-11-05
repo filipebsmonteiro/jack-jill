@@ -81,15 +81,19 @@ export default {
       leftDrawerOpen: false,
       rightDrawerOpen: false,
       theme: '',
-      locale: '',
+      locale: 'en',
     };
   },
   watch: {
-    locale(val) {
-      if (!val) return;
-      this.setLocale(val);
-      this.$formkit.setLocale(val);
-      this.$i18n.locale = val;
+    locale: {
+      handler(val) {
+        if (!val) return;
+        this.setLocale(val);
+        this.$formkit.setLocale(val);
+        this.$i18n.locale = val;
+        document.documentElement.setAttribute('lang', val === 'ptBr' ? 'pt-br' : val)
+      },
+      immediate: true,
     },
     theme(val) {
       this.setTheme(val);

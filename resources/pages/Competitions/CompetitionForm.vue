@@ -35,13 +35,20 @@ const schema = reactive([
             validation: "required",
           },
           {
+            $formkit: "file",
+            name: "image",
+            label: t('competition.image'),
+            accept: ".jpeg,.jpg,png,.webp",
+            multiple: "false",
+          },
+          {
             $formkit: "select",
             name: "type",
             label: t('competition.type'),
             validation: "required",
             options: [
-              { label: t('competition.types.combat'), value: 'combat' },
               { label: t('competition.types.sortition'), value: 'sortition' },
+              { label: t('competition.types.combat'), value: 'combat' },
             ]
           },
         ],
@@ -77,6 +84,7 @@ const schema = reactive([
 const data = ref({
   name: props?.values?.name || '',
   description: props?.values?.description || '',
+  image: props?.values?.image || '',
   type: props?.values?.type || '',
 })
 

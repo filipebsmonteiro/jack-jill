@@ -5,6 +5,11 @@
     </InertiaLink>
   </div>
   <SimpleTable :columns="columns" :rows="list">
+    <template #image="{ row }">
+      <div v-if="row.image" class="w-16 avatar rounded overflow-auto">
+        <img :src="`/file/${row.image}`" :alt="row.name" />
+      </div>
+    </template>
     <template #type="{ row }">
       {{ $t(`competition.types.${row.type}`) }}
     </template>
@@ -46,6 +51,7 @@ export default {
     ...mapState(useCompetitionStore, ['list']),
     columns() {
       return [
+        { key: 'image', label: this.$t('competition.image') },
         { key: 'name', label: this.$t('competition.name') },
         { key: 'type', label: this.$t('competition.type') },
 

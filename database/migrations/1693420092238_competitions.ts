@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.uuid('id').primary()
       table.string('name')
       table.text('description')
+      table.string('image')
       table.enum('type', ['combat', 'sortition']).defaultTo('sortition')
 
       /**

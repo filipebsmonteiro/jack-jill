@@ -16,6 +16,9 @@ export default class Competition extends BaseModel {
   public description: string
 
   @column()
+  public image: string
+
+  @column()
   public type: string
 
   @column.dateTime({ autoCreate: true })

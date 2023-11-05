@@ -5,8 +5,8 @@ export default class extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('user_id').references('id').inTable('users')
-      table.uuid('event_id').references('id').inTable('events')
+      table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE')
+      table.uuid('event_id').references('id').inTable('events').onDelete('CASCADE')
       table.enum('status', ['pending', 'approved', 'rejected']).defaultTo('pending')
 
       /**

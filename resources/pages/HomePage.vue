@@ -21,7 +21,7 @@ export default {
     ...mapActions(useCompetitionStore, ['load']),
   },
   async created() {
-    await this.load({ current_page: 1, per_page: 3 })
+    await this.load({ currentPage: 1, perPage: 3, orderBy: 'created_at', orderDirection: 'desc' })
   },
 }
 </script>

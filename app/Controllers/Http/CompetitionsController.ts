@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Application from '@ioc:Adonis/Core/Application'
 import { LucidRow } from '@ioc:Adonis/Lucid/Orm'
 import Competition from 'App/Models/Competition'
 import Schedule from 'App/Models/Schedule'
@@ -24,23 +26,46 @@ export default class CompetitionsController {
     }
   }
 
+  private async uploadFile (file: MultipartFileContract, id: string) {
+    await file.move(Application.tmpPath('uploads/competition'), {
+      name: `${id}.${file.extname}`,
+      overwrite: true,
+    })
+  }
+
   public async index ({ request, response }: HttpContextContract) {
-    if (request.qs().current_page && request.qs().per_page) {
-      const competitions = await Competition.query()
-        .paginate(request.qs().current_page, request.qs().per_page)
-      return response.status(200).json(competitions)
+    const { currentPage, orderBy, orderDirection, perPage } = request.qs()
+    let query = Competition.query()
+    let competitions: any = []
+
+    if (orderBy) {
+      query = query.orderBy(orderBy, orderDirection)
     }
 
-    const competitions = await Competition.query().paginate(1)
+    if (currentPage && perPage) {
+      competitions = await query.paginate(currentPage, perPage)
+    } else {
+      competitions = await query.pojo()
+    }
+
     return response.status(200).json(competitions)
   }
 
   public async store ({ request, response }: HttpContextContract) {
-    const { schedules, ...payload } = await request.validate(CreateValidator)
+    const { image, schedules, ...payload } = await request.validate(CreateValidator)
 
     const competition = await Database.transaction(async () => {
       let comp: Competition = await Competition.create(payload)
 
+      const file: MultipartFileContract | null = request.file('image')
+      if (file) {
+        await this.uploadFile(file, comp.id)
+        await Competition.query()
+          .where('id', comp.id)
+          .update({ image: `competition/${comp.id}.${file.extname}` })
+
+        comp = await Competition.findOrFail(comp.id)
+      }
       if (schedules) {
         const schedulesIds = await Promise.all(
           schedules.map(async (schedule) => await Schedule.create(schedule))
@@ -89,9 +114,15 @@ export default class CompetitionsController {
   }
 
   public async update ({ request, response }: HttpContextContract) {
-    const { schedules, ...payload } = await request.validate(UpdateValidator)
+    const { image, schedules, ...payload } = await request.validate(UpdateValidator)
+    const file: MultipartFileContract | null = request.file('image')
+    console.log('file :>> ', file);
 
     const competition = await Database.transaction(async () => {
+      if (file) {
+        await this.uploadFile(file, request.param('id'))
+      }
+
       await Competition.query()
         .where('id', request.param('id'))
         .update(payload)

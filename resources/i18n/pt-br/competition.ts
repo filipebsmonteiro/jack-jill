@@ -2,6 +2,7 @@ export default {
   label: 'Competição',
   name: 'Nome',
   description: 'Descrição',
+  image: 'Imagem',
   type: 'Tipo',
   types: {
     combat: 'Combate',
