@@ -24,8 +24,14 @@ export default class CompetitionsController {
     }
   }
 
-  public async index ({ response }: HttpContextContract) {
-    const competitions = await Competition.query()
+  public async index ({ request, response }: HttpContextContract) {
+    if (request.qs().current_page && request.qs().per_page) {
+      const competitions = await Competition.query()
+        .paginate(request.qs().current_page, request.qs().per_page)
+      return response.status(200).json(competitions)
+    }
+
+    const competitions = await Competition.query().paginate(1)
     return response.status(200).json(competitions)
   }
 

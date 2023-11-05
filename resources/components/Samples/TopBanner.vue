@@ -15,12 +15,13 @@
     <div class="flex flex-1 justify-end">
       <button type="button" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">
         <span class="sr-only">Dismiss</span>
-        <XMarkIcon class="h-5 w-5 text-gray-900" aria-hidden="true" />
+        X
+        <!-- <XMarkIcon class="h-5 w-5 text-gray-900" aria-hidden="true" /> -->
       </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { XMarkIcon } from '@heroicons/vue/20/solid'
+// import { XMarkIcon } from '@heroicons/vue/20/solid'
 </script>

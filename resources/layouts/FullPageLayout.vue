@@ -71,7 +71,7 @@ export default {
   }
 
   .full-content {
-    @apply flex-1 px-6;
+    @apply flex-1;// px-6;
   }
 
   // .aside-right{

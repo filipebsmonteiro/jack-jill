@@ -2,11 +2,18 @@ import CompetitionRepository from 'Resources/repositories/CompetitionRepository'
 import SubscriptionRepository from 'Resources/repositories/SubscriptionRepository'
 
 export default {
-  async load () {
+  async load (params: any = undefined) {
     this.loading = true
 
-    await CompetitionRepository.fetch()
-      .then(response => this.list = response.data)
+    await CompetitionRepository.fetch(params)
+      .then(({ data }) => {
+        if (data.meta) {
+          this.list = data.data
+          this.meta = data.meta
+        } else {
+          this.list = data
+        }
+      })
       .catch((error) => {
         console.error('Error On Load Competitions')
         console.error(error)
