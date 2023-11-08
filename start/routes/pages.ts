@@ -46,6 +46,7 @@ Route.group(() => {
     Route.get('list', async ({ inertia }) => inertia.render('Competitions/ListPage'))
     Route.get('/create', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
     Route.get('/edit/:id', async ({ inertia }) => inertia.render('Competitions/CreateEditPage'))
+    Route.get('/:id/subscribe', ({ inertia, params }) => inertia.render('Website/Competition/SubscribePage', params))
     Route.get('/:id/subscribes', ({ inertia, params }) => inertia.render('Competitions/SubscribesPage', params))
     Route.get('/:id/run', ({ inertia, params }) => inertia.render('Competitions/Run/WrapperPage', params))
 
@@ -58,3 +59,5 @@ Route.group(() => {
 
   Route.get('/competitors', ({ inertia, params }) => inertia.render('Competitions/Competitors', params))
 }).middleware('auth')
+
+// Route.get('/**', ({ inertia, params }) => inertia.render('HomePage'))

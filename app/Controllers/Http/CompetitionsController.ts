@@ -182,9 +182,9 @@ export default class CompetitionsController {
   }
 
   public async subscribe ({ request, response }: HttpContextContract) {
-    const { id, userId } = await request.validate(SubscribeValidator)
+    const { id, userId, ...payload } = await request.validate(SubscribeValidator)
     let competition = await Competition.findOrFail(id)
-    await competition.related('users').attach([userId])
+    await competition.related('users').attach({ [userId]: payload })
 
     competition = await Competition.query()
       .preload('users', query => {

@@ -81,7 +81,7 @@ export default class CompetitionScoresController {
       round: score.round,
       score: score.score,
     }))
-    const created = await CompetitionScore.updateOrCreateMany('round', scoresToPersist)
+    const created = await CompetitionScore.createMany(scoresToPersist)
 
     return response.status(200).json(created.map(s => s.serialize()))
   }

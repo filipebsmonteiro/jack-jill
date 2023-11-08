@@ -18,10 +18,14 @@
           {{ $t('competition.scores') }}
           <font-awesome-icon icon="list-ol" class="text-info" />
         </InertiaLink>
-        <button v-else class="btn btn-sm btn-outline">
+        <a
+          v-else
+          class="btn btn-sm btn-outline"
+          :href="`/competition/${row.id}/subscribe`"
+        >
           {{ $t('competition.register') }}
             <font-awesome-icon icon="pencil" class="text-info" />
-        </button>
+        </a>
       </template>
     </SimpleTable>
   </div>

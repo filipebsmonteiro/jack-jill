@@ -8,6 +8,7 @@ export default class SubscribeValidator {
     id: schema.string(),
     userId: schema.string(),
     level_id: schema.string.optional(),
+    role: schema.string.optional(),
 
     // schedules: schema.array
     //   .optional([ rules.minLength(1) ])
