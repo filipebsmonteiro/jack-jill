@@ -13,6 +13,9 @@ export default {
     back: 'Back',
     with_success: 'with success!',
   },
+  header: {
+    competitions: 'Competitions',
+  },
   left_menu: {
     dashboard: {
       label: 'Dashboard',

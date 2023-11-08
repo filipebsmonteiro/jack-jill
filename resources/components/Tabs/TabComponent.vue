@@ -1,6 +1,6 @@
 <script setup>
 import TabHeader from "Resources/components/Tabs/TabHeader";
-import { onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
   allowIncrease: {
@@ -19,8 +19,14 @@ const props = defineProps({
 });
 const emits = defineEmits(['delete', 'increase'])
 
-let activeTab = ref({})
-onMounted(() => activeTab.value = props.tabs.length > 0 ? props.tabs[0] : {})
+
+let activeByClick = ref({});
+let activeTab = computed(() => {
+  if (Object.keys(activeByClick.value).length) {
+    return activeByClick.value
+  }
+  return props.tabs[0] || {}
+})
 </script>
 
 <template>
@@ -29,14 +35,14 @@ onMounted(() => activeTab.value = props.tabs.length > 0 ? props.tabs[0] : {})
       :active-tab="activeTab"
       :allow-delete="allowDelete"
       :allow-increase="allowIncrease"
-      :tabs="tabs"
+      :tabs="props.tabs"
       :tab-class="tabClass"
-      @change="tab => activeTab = tab"
+      @change="tab => activeByClick = tab"
       @delete="tab => emits('delete', tab)"
       @increase="tab => emits('increase')"
     />
     <div
-      v-for="tab in tabs"
+      v-for="tab in props.tabs"
       :key="tab.key"
       v-show="tab.key === activeTab.key"
     >

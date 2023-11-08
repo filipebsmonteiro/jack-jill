@@ -1,7 +1,9 @@
 <template>
   <div class="layout-wrapper">
     <header>
-      <span>Jack and Jill</span>
+      <a href="/">
+        <img src="/assets/logo.png" class="w-16">
+      </a>
 
       <RightHeaderLinks @avatarClick="toggleRightDrawer" />
     </header>
@@ -65,7 +67,7 @@ export default {
   @apply min-h-full flex flex-col;
 
   header {
-    @apply flex justify-between items-center px-3 bg-primary bg-opacity-60;
+    @apply flex items-center gap-8 px-3 bg-primary bg-opacity-60;
     z-index: 1000;
     height: var(--header-height);
   }

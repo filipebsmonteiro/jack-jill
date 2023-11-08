@@ -1,9 +1,8 @@
 import { StateTree } from 'pinia'
-import { useI18n } from 'vue-i18n'
+import { t } from 'Resources/i18n'
 
 export default {
   getStatuses: (state: StateTree) => {
-    const { t } = useI18n()
     return [
       { value: null, label: 'Select Status...', attrs: { disabled: true } },
       ...state.statuses.map(status => ({

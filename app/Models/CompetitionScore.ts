@@ -5,10 +5,10 @@ import CompetitionLevel from 'App/Models/CompetitionLevel'
 import User from 'App/Models/User'
 
 export default class CompetitionScore extends BaseModel {
-  @column({ isPrimary: true })
+  @column()
   public competition_id: string
 
-  @column({ isPrimary: true })
+  @column()
   public competitor_id: string
 
   @column()

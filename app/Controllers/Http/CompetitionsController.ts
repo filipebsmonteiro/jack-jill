@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Application from '@ioc:Adonis/Core/Application'
-import { LucidRow } from '@ioc:Adonis/Lucid/Orm'
+import { LucidRow, ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 import Competition from 'App/Models/Competition'
 import Schedule from 'App/Models/Schedule'
 import CreateValidator from 'App/Validators/Competition/CreateValidator'
@@ -10,8 +10,17 @@ import SubscribeValidator from 'App/Validators/Competition/SubscribeValidator'
 import UpdateValidator from 'App/Validators/Competition/UpdateValidator'
 
 export default class CompetitionsController {
-  private attachPivotColumns (entity: LucidRow, relationKey: string): Object {
-    const relations = entity[relationKey]?.map((relation: LucidRow) => {
+  private relations = {
+    schedules: {
+      orderBy: 'start_date',
+    },
+    users: {
+      select: ['first_name', 'last_name'],
+    },
+  }
+
+  private attachPivotColumnsIntoRelationship (entity: LucidRow, relationKey: string): Array<Record<string, any>> {
+    return entity[relationKey]?.map((relation: LucidRow) => {
       let columns = {}
       Object.entries(relation.$extras).map(([key, value]) => ({
         [key.replace('pivot_', '')]: value,
@@ -19,11 +28,6 @@ export default class CompetitionsController {
 
       return { ...relation.serialize(), ...columns }
     })
-
-    return {
-      ...entity.serialize(),
-      [relationKey]: relations,
-    }
   }
 
   private async uploadFile (file: MultipartFileContract, id: string) {
@@ -33,10 +37,34 @@ export default class CompetitionsController {
     })
   }
 
+  private preloadRelations (
+    queryString: Record<string, any>,
+    query: ModelQueryBuilderContract<typeof Competition>
+  ): ModelQueryBuilderContract<typeof Competition> {
+    let localQuery = query
+    queryString.relationships.forEach(relation => {
+      localQuery = query.preload(relation, (builder) => {
+        Object.entries(this.relations[relation])
+          .forEach(([method, value]) => {
+            if (Array.isArray(value)) {
+              builder[method](...value)
+              return
+            }
+            builder[method](value)
+          })
+      })
+    })
+    return localQuery
+  }
+
   public async index ({ request, response }: HttpContextContract) {
     const { currentPage, orderBy, orderDirection, perPage } = request.qs()
     let query = Competition.query()
     let competitions: any = []
+
+    if (request.qs().relationships) {
+      query = this.preloadRelations(request.qs(), query)
+    }
 
     if (orderBy) {
       query = query.orderBy(orderBy, orderDirection)
@@ -45,7 +73,12 @@ export default class CompetitionsController {
     if (currentPage && perPage) {
       competitions = await query.paginate(currentPage, perPage)
     } else {
-      competitions = await query.pojo()
+      competitions = await query.then(competitions => {
+        return competitions.map(competition => ({
+          ...competition.serialize(),
+          schedules: this.attachPivotColumnsIntoRelationship(competition, 'schedules'),
+        }))
+      })
     }
 
     return response.status(200).json(competitions)
@@ -82,35 +115,17 @@ export default class CompetitionsController {
 
   public async show ({ request, response }: HttpContextContract) {
     let query = Competition.query().where('id', request.param('id'))
-    const relations = {
-      schedules: {
-        orderBy: 'start_date',
-      },
-      users: {
-        select: ['first_name', 'last_name'],
-      },
-    }
 
     if (request.qs().relationships) {
-      request.qs().relationships.forEach(relation => {
-        query = query.preload(relation, (builder) => {
-          Object.entries(relations[relation])
-            .forEach(([method, value]) => {
-              if (Array.isArray(value)) {
-                builder[method](...value)
-                return
-              }
-              builder[method](value)
-            })
-        })
-      })
+      query = this.preloadRelations(request.qs(), query)
     }
 
     const competition = await query.firstOrFail()
 
-    return response.status(200).json(
-      this.attachPivotColumns(competition, 'users')
-    )
+    return response.status(200).json({
+      ...competition.serialize(),
+      users: this.attachPivotColumnsIntoRelationship(competition, 'users'),
+    })
   }
 
   public async update ({ request, response }: HttpContextContract) {
@@ -160,9 +175,10 @@ export default class CompetitionsController {
     Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
 
     const competition = await query.firstOrFail()
-    return response.status(200).json(
-      this.attachPivotColumns(competition, 'users')
-    )
+    return response.status(200).json({
+      ...competition.serialize(),
+      users: this.attachPivotColumnsIntoRelationship(competition, 'users'),
+    })
   }
 
   public async subscribe ({ request, response }: HttpContextContract) {

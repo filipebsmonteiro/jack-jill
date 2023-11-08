@@ -3,7 +3,7 @@ import en from './en'
 import es from './es'
 import ptBr from './pt-br'
 
-export default createI18n({
+const instance = createI18n({
   globalInjection: true,
   legacy: false,
   locale: 'ptBr', // set locale
@@ -14,3 +14,7 @@ export default createI18n({
     ptBr,
   },
 })
+export default instance
+
+export const i18n = instance.global
+export const { t } = i18n

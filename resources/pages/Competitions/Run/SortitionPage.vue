@@ -1,5 +1,5 @@
 <script setup>
-import { computed, getCurrentInstance } from 'vue'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { confirm, toast } from 'Resources/helpers/notifications'
@@ -14,10 +14,9 @@ let { current, competitorsGroupByLevel, getJudges } = storeToRefs( useCompetitio
   { getScore } = useCompetitionScoreStore(),
   { list: levels } = storeToRefs( useCompetitionLevelStore() ),
   levelTabs = computed(() => {
-    return Object.entries(competitorsGroupByLevel.value)
-      .map(([levelId, competitors]) => {
+    return Object.keys(competitorsGroupByLevel.value)
+      .map((levelId) => {
         const level = levels.value.find(l => l.id === levelId)
-        const competitorsIds = competitors.map(competitor => competitor.id)
         const rounds = [...new Set(getScore(level.id).map(s => s.round))]
 
         return {

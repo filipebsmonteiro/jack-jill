@@ -1,3 +1,5 @@
+// import Event from '@ioc:Adonis/Core/Event'
+// import Database from '@ioc:Adonis/Lucid/Database'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CompetitionScore from 'App/Models/CompetitionScore'
 import DeleteValidator from 'App/Validators/Competition/Score/DeleteValidator'
@@ -35,20 +37,40 @@ export default class CompetitionScoresController {
     } = await request.validate(PersistValidator)
 
     if (!scores) {
-      const created = await CompetitionScore.updateOrCreate(
-        {
-          competition_id: competitionId,
-          competitor_id: competitorId,
-          judge_id: judgeId,
-          level_id: levelId,
-          round: round,
-        },
-        {
-          score,
-        }
-      )
+      // Event.on('db:query', Database.prettyPrint)
 
-      return response.status(200).json(created.serialize())
+      const created = await CompetitionScore.query()
+        .where('competition_id', competitionId as string)
+        .where('level_id', levelId as string)
+        .where('round', round as string)
+        .where('judge_id', judgeId as string)
+        .where('competitor_id', competitorId as string)
+        .first()
+        .then(async (compScore) => {
+          let newOne = compScore
+          if (!compScore) {
+            newOne = await CompetitionScore.create({
+              competition_id: competitionId,
+              level_id: levelId,
+              round: round,
+              judge_id: judgeId,
+              competitor_id: competitorId,
+              score,
+            })
+            return newOne
+          }
+          return newOne
+        })
+
+      await CompetitionScore.query()
+        .where('competition_id', competitionId as string)
+        .where('level_id', levelId as string)
+        .where('round', round as string)
+        .where('judge_id', judgeId as string)
+        .where('competitor_id', competitorId as string)
+        .update({ score })
+
+      return response.status(200).json(created?.serialize())
     }
 
     const scoresToPersist: Score[] = scores.map(score => ({

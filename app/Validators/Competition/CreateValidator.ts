@@ -1,4 +1,4 @@
-import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateValidator {
@@ -12,8 +12,8 @@ export default class CreateValidator {
       extnames: ['jpg', 'jpeg', 'png', 'webp'],
     }),
     type: schema.enum(['combat', 'sortition'] as const),
-    schedules: schema.array
-      .optional([ rules.minLength(1) ])
+    schedules: schema.array()
+      // .optional([ rules.minLength(1) ])
       .members(
         schema.object().members({
           name: schema.string(),

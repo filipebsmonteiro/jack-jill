@@ -7,6 +7,17 @@ Route.get('/', async ({ inertia }) => inertia.render('HomePage'))
 // )
 
 Route.group(() => {
+  Route.get('newest', async ({ inertia }) => inertia.render('Website/Competition/ListPage'))
+  Route.get(
+    '/:id/scores',
+    async ({ inertia, params }) => inertia.render('Website/Competition/ScorePage', params)
+  )
+}).prefix('/competition')
+
+/*
+  Internal Panel Routes
+ */
+Route.group(() => {
   Route.get('/login', async ({ inertia }) => inertia.render('Auth/Login'))
   Route.get('/register', async ({ inertia }) => inertia.render('Auth/Register'))
 }).prefix('/auth')

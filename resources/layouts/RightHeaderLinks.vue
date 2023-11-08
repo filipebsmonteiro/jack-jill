@@ -1,8 +1,10 @@
 <template>
-  <div class="flex items-center gap-x-4">
-    <InertiaLink href="/competitors">
-      {{ $t('competition.competitor.plural') }}
-    </InertiaLink>
+  <div class="flex items-center grow gap-x-4">
+    <div class="grow flex gap-x-4">
+      <InertiaLink href="/competition/newest">
+        {{ $t('system.header.competitions') }}
+      </InertiaLink>
+    </div>
 
     <div
       v-if="user"
@@ -14,7 +16,7 @@
         <span v-else>{{ user.first_name[0].toUpperCase() }}</span>
       </div>
     </div>
-    <InertiaLink v-else href="/auth/login"  class="btn btn-sm btn-outline">
+    <InertiaLink v-else href="/auth/login" class="btn btn-sm btn-outline">
       Login
       <font-awesome-icon icon="arrow-right" />
     </InertiaLink>
