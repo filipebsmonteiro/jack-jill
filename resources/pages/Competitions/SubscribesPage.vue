@@ -24,7 +24,7 @@ const { current, subscribes } = storeToRefs(useCompetitionStore())
 const { getLevelsAsOptions } = storeToRefs(useCompetitionLevelStore())
 
 const subscribeHandler = async (user) => {
-  await subscribe(id, user.id)
+  await subscribe({ id, userId: user.id })
     .then(() =>
       toast.success(`${t('user.label')} ${user.first_name} ${t('competition.subscribed')} ${t('system.actions.with_success')}`)
     )
@@ -53,7 +53,7 @@ const updateSubscription = async (userId, data) => {
 }
 
 onMounted(async () => {
-  loadSubscribes({ id })
+  loadSubscribes({ id, relationships: ['users'] })
   useCompetitionLevelStore().load()
 })
 </script>

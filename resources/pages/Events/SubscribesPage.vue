@@ -45,7 +45,7 @@ const updateStatus = async (userId, status) => {
     )
 }
 
-onMounted(() => loadSubscribes({ id }))
+onMounted(() => loadSubscribes({ id, relationships: ['users'] }))
 </script>
 
 <template>

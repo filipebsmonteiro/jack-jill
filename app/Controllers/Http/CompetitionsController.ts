@@ -131,7 +131,6 @@ export default class CompetitionsController {
   public async update ({ request, response }: HttpContextContract) {
     const { image, schedules, ...payload } = await request.validate(UpdateValidator)
     const file: MultipartFileContract | null = request.file('image')
-    console.log('file :>> ', file);
 
     const competition = await Database.transaction(async () => {
       if (file) {
@@ -168,11 +167,31 @@ export default class CompetitionsController {
   }
 
   public async loadSubscribes ({ request, response }: HttpContextContract) {
-    let query = Competition.query().preload('users', builder => {
-      builder.select('id', 'first_name', 'last_name', 'country')
-    })
+    let query = Competition.query()
+    const { relationships, ...queryString } = request.qs()
 
-    Object.entries(request.qs()).map(([column, value]) => query = query.where(column, value))
+    if (relationships) {
+      query = this.preloadRelations({ relationships }, query)
+    }
+
+    Object.entries(queryString).map(([column, value]) => query = query.where(column, value))
+
+    const competition = await query.firstOrFail()
+    return response.status(200).json({
+      ...competition.serialize(),
+      users: this.attachPivotColumnsIntoRelationship(competition, 'users'),
+    })
+  }
+
+  public async loadSubscription ({ request, response }: HttpContextContract) {
+    const { competitionId, userId } = request.qs()
+
+    let query = Competition.query()
+      .where('id', competitionId)
+      .preload('users', builder => {
+        builder.select('id', 'first_name', 'last_name')
+          .where('user_id', userId)
+      })
 
     const competition = await query.firstOrFail()
     return response.status(200).json({
@@ -182,7 +201,7 @@ export default class CompetitionsController {
   }
 
   public async subscribe ({ request, response }: HttpContextContract) {
-    const { id, userId, ...payload } = await request.validate(SubscribeValidator)
+    let { id, userId, ...payload } = await request.validate(SubscribeValidator)
     let competition = await Competition.findOrFail(id)
     await competition.related('users').attach({ [userId]: payload })
 

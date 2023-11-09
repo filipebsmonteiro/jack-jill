@@ -26,6 +26,7 @@ export default {
   },
 
   competitor: {
+    role: 'Role',
     singular: 'Competitor',
     male: 'Competitor',
     female: 'Competitor',

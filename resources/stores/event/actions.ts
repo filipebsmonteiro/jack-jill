@@ -83,7 +83,7 @@ export default {
   async subscribe (id: string | number, userId: string | number) {
     this.loading = true
 
-    await EventRepository.subscribe(id, userId)
+    await EventRepository.subscribe({ id, userId })
       .then(response => {
         const { users = [], ...event } = response.data
         this.subscribes = [...this.subscribes, ...users]

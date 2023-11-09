@@ -75,6 +75,22 @@ export default {
     this.loading = false
   },
 
+  async loadSubscription (params: { competition_id: string, user_id: string}) {
+    this.loading = true
+
+    await CompetitionRepository.loadSubscription(params)
+      .then(response => {
+        const { users = [], ...event } = response.data
+        this.subscribes = users
+        this.current = event
+      })
+      .catch((error) => {
+        console.error('Error On Load Competition Subscription')
+        console.error(error)
+      })
+
+    this.loading = false
+  },
   async loadSubscribes (params: any) {
     this.loading = true
 
@@ -91,10 +107,10 @@ export default {
 
     this.loading = false
   },
-  async subscribe (id: string | number, userId: string | number) {
+  async subscribe (params: {id: string | number, userId: string | number}) {
     this.loading = true
 
-    await CompetitionRepository.subscribe(id, userId)
+    await CompetitionRepository.subscribe(params)
       .then(response => {
         const { users = [], ...event } = response.data
         this.subscribes = [...this.subscribes, ...users]
