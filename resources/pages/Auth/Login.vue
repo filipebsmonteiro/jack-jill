@@ -1,5 +1,6 @@
 <script setup>
 import { Head, router } from "@inertiajs/vue3";
+import { storeToRefs } from "pinia";
 import { reactive, watch, computed } from "vue";
 import { toast } from 'Resources/helpers/notifications'
 import AuthLayout from "Resources/layouts/AuthLayout.vue";
@@ -35,9 +36,16 @@ const form = reactive({
 
 async function submit() {
   const { login } = useAuthStore()
+  const { user } = storeToRefs(useAuthStore())
   login(form)
-  .then(() => router.get("/dashboard"))
-  .catch((error) => {
+    .then(() => {
+      if (user.value.system_role == "admin") {
+        router.get("/dashboard")
+      } else {
+        router.get("/competition/newest")
+      }
+    })
+    .catch((error) => {
       if (error.response.data?.errors) {
         error.response.data.errors.forEach((error) => toast.error(error))
       }
