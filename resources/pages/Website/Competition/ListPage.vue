@@ -2,7 +2,7 @@
   <div class="container mx-auto">
     <SimpleTable :columns="columns" :rows="list" class="mt-4">
       <template #image="{ row }">
-        <object data="/assets/fallback/competition.webp" type="image/png" class="w-16">
+        <object data="/fallback/competition.webp" type="image/png" class="w-16">
           <img :src="`/file/${row.image}`" :alt="row.name" />
         </object>
       </template>
