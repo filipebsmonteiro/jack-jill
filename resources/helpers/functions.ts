@@ -1,5 +1,9 @@
+import { toast } from 'Resources/helpers/notifications'
+
 export const deepMerge = (target: Record<string, any>, ...sources: any): object => {
-  if (!sources.length) return target
+  if (!sources.length) {
+    return target
+  }
   const source = sources.shift()
 
   if (target instanceof Object && source instanceof Object) {
@@ -32,7 +36,10 @@ export const decodeJwt = (token: string): Record<string, any> => {
   }
 }
 
-export const parseUnprocessableErrors = (error: Record<string, any>): Record<string, any> => {
+export const parseUnprocessableErrors = (
+  error: Record<string, any>,
+  toastNotify: boolean = true
+): Record<string, any> => {
   let errors = {}
   if (
     error.response?.status === 422 &&
@@ -40,6 +47,11 @@ export const parseUnprocessableErrors = (error: Record<string, any>): Record<str
   ) {
     error.response.data.errors.forEach((error) => errors[error.field] = [error.message])
   }
+
+  if (toastNotify && Object.keys(errors).length) {
+    toast.error(`Error on fields: ${Object.keys(errors).join(', ')}`)
+  }
+
   return errors
 }
 

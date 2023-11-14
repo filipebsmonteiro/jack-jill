@@ -6,13 +6,13 @@
           <font-awesome-icon icon="bars" />
         </button> -->
         <span class="toolbar__title">
-          Jack and Jill
+          <img src="/logo.png" class="w-16">
         </span>
       </header>
       <ul class="menu w-56">
         <li>
           <MenuLink
-            v-if="user.system_role === 'admin'"
+            v-if="user?.system_role === 'admin'"
             v-for="link in linksList"
             :key="link.label"
             v-bind="link"

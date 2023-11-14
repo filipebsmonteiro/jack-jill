@@ -47,6 +47,7 @@ const schema = reactive([
             label: t('competition.type'),
             validation: "required",
             options: [
+              { value: '', label: 'Select Type...', attrs: { disabled: true, selected: true } },
               { label: t('competition.types.sortition'), value: 'sortition' },
               { label: t('competition.types.combat'), value: 'combat' },
             ]

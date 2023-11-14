@@ -56,6 +56,9 @@ async function submit() {
 <template>
   <Head title="Login" />
   <div class="flex column">
+    <InertiaLink href="/">
+      <img src="/logo.png" class="w-50 mx-auto mb-7">
+    </InertiaLink>
     <FormKit
       type="form"
       :actions="false"
@@ -68,7 +71,7 @@ async function submit() {
           <li v-for="(error, i) in errors" :key="i" class="text-red-500 text-center">{{ error }}</li>
       </ul>
     </FormKit>
-    <InertiaLink href="/auth/register" class="text-sm text-gray-600 hover:text-gray-900 text-center">
+    <InertiaLink href="/auth/register" class="text-sm hover:text-primary text-center">
       Não tem uma conta? Crie uma
     </InertiaLink>
   </div>

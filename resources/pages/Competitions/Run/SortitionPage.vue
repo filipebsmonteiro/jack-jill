@@ -94,7 +94,8 @@ const persistScore = async (competitorId, judgeId, levelId, round, score) => {
 </script>
 
 <template>
-  <Tabs :tabs="levelTabs" class="shadow rounded mt-4">
+  <p v-if="!levelTabs.length" class="text-center mt-6">Zero {{ t('competition.competitor.plural') }}</p>
+  <Tabs v-else :tabs="levelTabs" class="shadow rounded mt-4">
     <template v-for="(level, i) in levelTabs" #[`tab-`+level.key]>
       <Tabs
         :tabs="level.rounds"
