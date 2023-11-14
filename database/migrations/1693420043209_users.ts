@@ -15,6 +15,7 @@ export default class extends BaseSchema {
       table.string('state').notNullable()
       table.string('country').notNullable()
       table.string('image').nullable()
+      table.enum('system_role', ['admin', 'competitor']).defaultTo('competitor')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
