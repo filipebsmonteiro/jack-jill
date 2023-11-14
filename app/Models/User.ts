@@ -38,6 +38,9 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   @column()
   public image: string
 
+  @column({ columnName: 'system_role' })
+  public system_role: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

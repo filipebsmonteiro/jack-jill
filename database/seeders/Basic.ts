@@ -28,6 +28,7 @@ export default class extends BaseSeeder {
         last_name: 'Monteiro',
         email: 'filipebsmonteiro@gmail.com',
         password: 'asdfasdf',
+        system_role: 'admin',
       },
     ]).create()
   }
