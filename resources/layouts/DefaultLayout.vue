@@ -12,6 +12,7 @@
       <ul class="menu w-56">
         <li>
           <MenuLink
+            v-if="user.system_role === 'admin'"
             v-for="link in linksList"
             :key="link.label"
             v-bind="link"
@@ -40,6 +41,7 @@
 
 <script>
 import { router } from "@inertiajs/vue3";
+import { storeToRefs } from "pinia";
 import MenuLink from "Resources/components/Navigation/MenuLink.vue";
 import RightDrawer from "Resources/layouts/DefaultLayout/RightDrawer.vue";
 import RightHeaderLinks from "Resources/layouts/RightHeaderLinks.vue";

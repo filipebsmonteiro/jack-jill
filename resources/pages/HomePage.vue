@@ -27,13 +27,17 @@ export default {
 </script>
 
 <template>
-  <TopBanner />
+  <!-- <hr> -->
+  <!-- <TopBanner /> -->
+  <!-- <hr> -->
+  <!-- <StatsComponent /> -->
+  <!-- <hr> -->
+  <!-- <TeamsSection /> -->
+  <!-- <hr> -->
+  <TestimonialComponent
+    title="Ultimate Zouk Combat"
+    text="O UZC é um campeonato de improviso estilo Jack and Jill."
+  />
   <hr>
   <CompetitionsPreview />
-  <hr>
-  <StatsComponent />
-  <hr>
-  <TeamsSection />
-  <hr>
-  <TestimonialComponent />
 </template>
