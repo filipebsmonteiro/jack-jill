@@ -55,7 +55,7 @@ export default {
         <font-awesome-icon v-if="loading" icon="spinner" class="animate-spin" />
       </template>
       <template #messages="context">
-        <ul v-if="suggestions.length > 0" class="menu bg-white shadow absolute rounded-bottom z-50 w-full">
+        <ul v-if="suggestions.length > 0" class="menu bg-base-200 shadow absolute rounded-bottom z-50 w-full">
           <li v-for="(user, index) in suggestions" :key="index">
             <a @click="select(user)">
               {{ `${user?.first_name || ''} ${user?.last_name || ''}` }}

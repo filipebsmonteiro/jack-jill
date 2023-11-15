@@ -24,6 +24,10 @@
       <slot></slot>
     </div>
 
+    <aside v-show="rightDrawerOpen" class="aside-right">
+      <RightDrawer />
+    </aside>
+
   </div>
 </template>
 
@@ -88,11 +92,11 @@ export default {
     @apply flex-1;// px-6;
   }
 
-  // .aside-right{
-  //   width: 300px;
-  //   top: var(--header-height);
-  //   z-index: 500;
-  //   @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
-  // }
+  .aside-right{
+    width: 300px;
+    top: var(--header-height);
+    z-index: 500;
+    @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
+  }
 }
 </style>
