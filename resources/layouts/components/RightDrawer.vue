@@ -108,6 +108,7 @@ export default {
       const form = useForm({});
       await this.logout(form);
       router.get("/auth/login");
+      window.location.reload()
     },
   },
   created() {
