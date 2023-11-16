@@ -31,9 +31,15 @@ export default {
     linksList() {
       return [
         {
+          label: 'Home',
+          caption: 'Home',
+          icon: "house",
+          link: `/`,
+        },
+        {
           label: this.$t("system.left_menu.dashboard.label"),
           caption: this.$t("system.left_menu.dashboard.description"),
-          icon: "house",
+          icon: "chart-line",
           link: `/dashboard`,
         },
         {

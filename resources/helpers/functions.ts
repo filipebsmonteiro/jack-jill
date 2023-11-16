@@ -86,3 +86,19 @@ export const formatDateToLocale = (
   const parsedDate = new Date(Date.parse(date))
   return parsedDate.toLocaleDateString(locale, options)
 }
+
+export const isMobile = () => {
+  const devices = [
+    /Android/i,
+    /webOS/i,
+    /iPhone/i,
+    /iPad/i,
+    /BlackBerry/i,
+    /Windows Phone/i,
+  ]
+
+  return (
+    window.innerWidth <= 800 ||
+    devices.some((toMatchItem) => navigator.userAgent.match(toMatchItem))
+  )
+}

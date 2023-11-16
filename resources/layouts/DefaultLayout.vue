@@ -1,11 +1,12 @@
 <template>
   <div class="layout-wrapper">
-    <MenuHeader />
+    <MenuHeader @menu-bars-click="toggleLeftSideBar" />
 
     <div class="container flex">
 
-      <SidebarMenu />
-      <div class="px-6 grow">
+      <SidebarMenu :class="sidebarClasses" />
+
+      <div class="min-md:px-6 grow">
         <slot></slot>
       </div>
     </div>
@@ -16,12 +17,30 @@
 import MenuLink from "Resources/components/Navigation/MenuLink.vue";
 import MenuHeader from "Resources/layouts/components/MenuHeader.vue";
 import SidebarMenu from "Resources/layouts/components/SidebarMenu.vue";
+import { isMobile } from "Resources/helpers/functions";
 
 export default {
   components: {
     MenuLink,
     MenuHeader,
     SidebarMenu,
+  },
+  computed: {
+    sidebarClasses() {
+      return isMobile()
+      ? { 'absolute z-50 bg-base-200 shadow': true, 'hidden': !this.showLeftSideBar }
+      : ``
+    }
+  },
+  data() {
+    return {
+      showLeftSideBar: false,
+    }
+  },
+  methods: {
+    toggleLeftSideBar() {
+      this.showLeftSideBar = !this.showLeftSideBar
+    }
   },
 }
 </script>

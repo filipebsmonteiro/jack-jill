@@ -124,7 +124,7 @@ export default {
   width: 300px;
   top: var(--header-height);
   z-index: 500;
-  @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
+  @apply fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
 }
 
 :deep(.formkit-wrapper) {

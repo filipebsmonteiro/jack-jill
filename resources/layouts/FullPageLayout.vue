@@ -1,6 +1,6 @@
 <template>
   <div class="layout-wrapper">
-    <MenuHeader />
+    <MenuHeader @menu-bars-click="toggleLeftSideBar" />
     <!-- <svg viewBox="0 0 312.5 354.3241350445527" height="154.3241350445527" width="112.5">
       <g featurekey="rootContainer" transform="matrix(6.3004014813942035,0,0,6.3004014813942035,0.000046358657472104394,0.02629501308574099)" fill="#111111">
         <path xmlns="http://www.w3.org/2000/svg" d="M23.11 55.78L1.69 43.41A3.39 3.39 0 0 1 0 40.48V15.75a3.39 3.39 0 0 1 1.69-2.94L23.11.45a3.39 3.39 0 0 1 3.39 0l21.41 12.37a3.39 3.39 0 0 1 1.69 2.94v24.72a3.39 3.39 0 0 1-1.69 2.94L26.5 55.78a3.39 3.39 0 0 1-3.39 0z"></path>
@@ -15,6 +15,7 @@
     </svg> -->
 
     <div class="full-content">
+      <SidebarMenu :class="sidebarClasses" />
       <slot></slot>
     </div>
 
@@ -23,10 +24,30 @@
 
 <script>
 import MenuHeader from "Resources/layouts/components/MenuHeader.vue";
+import SidebarMenu from "Resources/layouts/components/SidebarMenu.vue";
+import { isMobile } from "Resources/helpers/functions";
 
 export default {
   components: {
     MenuHeader,
+    SidebarMenu,
+  },
+  computed: {
+    sidebarClasses() {
+      return isMobile()
+      ? { 'absolute z-50 bg-base-200 shadow': true, 'hidden': !this.showLeftSideBar }
+      : ``
+    }
+  },
+  data() {
+    return {
+      showLeftSideBar: false,
+    }
+  },
+  methods: {
+    toggleLeftSideBar() {
+      this.showLeftSideBar = !this.showLeftSideBar
+    }
   },
 }
 </script>
@@ -38,6 +59,5 @@ export default {
   .full-content {
     @apply flex-1;// px-6;
   }
-
 }
 </style>

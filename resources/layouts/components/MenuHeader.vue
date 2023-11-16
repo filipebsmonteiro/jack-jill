@@ -1,8 +1,15 @@
 <template>
   <header class="sticky top-0">
-    <InertiaLink class="lg:w-1/5 sm:w-1/3" :href="user ? `/dashboard` : `/`">
-      <img src="/logo.png" class="w-16">
-    </InertiaLink>
+    <div class="lg:w-1/5 sm:w-1/3">
+      <font-awesome-icon
+        v-if="isMobile && user?.system_role === 'admin'"
+        icon="bars"
+        @click="$emit('menuBarsClick')"
+      />
+      <InertiaLink v-else :href="user ? `/dashboard` : `/`">
+        <img src="/logo.png" class="w-16">
+      </InertiaLink>
+    </div>
 
     <div class="flex justify-around grow gap-x-4">
       <InertiaLink href="/competition/newest">
@@ -35,28 +42,33 @@ import { router } from "@inertiajs/vue3";
 import { useAuthStore } from "Resources/stores/auth";
 import { mapState } from 'pinia'
 import RightDrawer from "Resources/layouts/components/RightDrawer.vue";
+import { isMobile } from "Resources/helpers/functions";
 
 export default {
-    components: { RightDrawer },
-    computed: {
-        ...mapState(useAuthStore, ["avatar", "getUser"]),
-        user() {
-            return this.getUser;
-        },
+  emits: ['menuBarsClick'],
+  components: { RightDrawer },
+  computed: {
+    ...mapState(useAuthStore, ["avatar", "getUser"]),
+    user() {
+      return this.getUser;
     },
-    data() {
-        return {
-            rightDrawerOpen: false,
-        };
-    },
-    methods: {
-        toggleRightDrawer() {
-            this.rightDrawerOpen = !this.rightDrawerOpen;
-        },
-    },
-    mounted() {
-        router.on('navigate', () => this.rightDrawerOpen = false);
+    isMobile() {
+      return isMobile()
     }
+  },
+  data() {
+    return {
+      rightDrawerOpen: false,
+    };
+  },
+  methods: {
+    toggleRightDrawer() {
+        this.rightDrawerOpen = !this.rightDrawerOpen;
+    },
+  },
+  mounted() {
+    router.on('navigate', () => this.rightDrawerOpen = false);
+  }
 }
 </script>
 
@@ -66,11 +78,5 @@ header {
   width: 100%;
   z-index: 1000;
   height: var(--header-height);
-}
-.aside-right{
-  width: 300px;
-  top: var(--header-height);
-  z-index: 500;
-  @apply w-1/4 fixed translate-x-0 right-0 bottom-0 bg-neutral-content shadow-lg flex flex-col;
 }
 </style>
