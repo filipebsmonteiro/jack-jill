@@ -1,15 +1,11 @@
 <script setup>
-import { onMounted, reactive, ref, useAttrs, watch, markRaw } from 'vue';
+import { onMounted, useAttrs } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'Resources/helpers/notifications'
-import { plugin } from 'Resources/components/Form/SubmitLoading';
-import { normalizeTimestamp } from 'Resources/helpers/functions';
+import { toast } from 'Resources/helpers/notifications';
 import { useEventStore } from 'Resources/stores/event';
-import { useSubscriptionStore } from 'Resources/stores/subscription';
-import UserList from 'Resources/components/Form/User/ListComponent.vue';
+import UserList from 'Resources/components/Form/User/UserList.vue';
 
-const props = defineProps({ errors: Object, values: Object })
 const { t } = useI18n()
 const { id } = useAttrs()
 const { loadSubscribes, subscribe, unsubscribe } = useEventStore()

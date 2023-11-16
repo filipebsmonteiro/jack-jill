@@ -1,5 +1,5 @@
 <script setup>
-import { markRaw, reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { markRaw, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { plugin } from 'Resources/components/Form/SubmitLoading';
 import { normalizeTimestamp } from 'Resources/helpers/functions';

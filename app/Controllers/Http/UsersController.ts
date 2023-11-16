@@ -61,7 +61,7 @@ export default class UsersController {
       .orWhere('email', 'like', `%${request.input('name')}%`)
       .limit(10)
     return response.status(200).json(users.map((user) =>
-      user.serialize({ fields: ['id', 'first_name', 'last_name', 'image'] })
+      user.serialize({ fields: ['id', 'first_name', 'last_name', 'email'] })
     ))
   }
 

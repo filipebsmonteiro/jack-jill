@@ -1,7 +1,7 @@
 <script setup>
 import { Head, router } from "@inertiajs/vue3";
 import { storeToRefs } from "pinia";
-import { reactive, watch, computed } from "vue";
+import { reactive } from "vue";
 import { toast } from 'Resources/helpers/notifications'
 import AuthLayout from "Resources/layouts/AuthLayout.vue";
 import { plugin } from "Resources/components/Form/SubmitLoading";
@@ -67,7 +67,7 @@ async function submit() {
       @submit="submit"
     >
       <FormKitSchema :schema="schema" :data="form" />
-      <ul v-if="errors && errors.length > 0">
+      <ul v-if="props.errors && props.errors.length > 0">
           <li v-for="(error, i) in errors" :key="i" class="text-red-500 text-center">{{ error }}</li>
       </ul>
     </FormKit>

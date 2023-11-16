@@ -74,7 +74,7 @@ export default {
 }
   },
   async created() {
-    await this.load({ relationships: ['schedules'] })
+    await this.load({ relationships: [`schedules`], orderBy: `created_at`, orderDirection: `desc` })
   },
 }
 </script>

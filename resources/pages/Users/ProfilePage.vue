@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n';
 import { toast } from 'Resources/helpers/notifications'
 import UserForm from 'Resources/pages/Users/UserForm'

@@ -1,8 +1,7 @@
 <script setup>
-import { computed, reactive, onMounted, onBeforeUnmount } from 'vue'
+import { computed, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { router } from '@inertiajs/vue3'
-import { toast } from 'Resources/helpers/notifications'
 import { useCompetitionStore } from 'Resources/stores/competition'
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
 import { useCompetitionScoreStore } from 'Resources/stores/competition/score'
@@ -10,9 +9,7 @@ import { Head } from '@inertiajs/vue3'
 import CombatPage from 'Resources/pages/Competitions/Run/CombatPage'
 import SortitionPage from 'Resources/pages/Competitions/Run/SortitionPage'
 
-let errors = reactive({}),
-  values = reactive({}),
-  id = router.page.props.id,
+let id = router.page.props.id,
   { current, loading } = storeToRefs( useCompetitionStore() ),
   templates = {
     combat: CombatPage,

@@ -1,5 +1,5 @@
 <script setup>
-import TabHeader from "Resources/components/Tabs/TabHeader";
+import TabHeader from 'Resources/components/Tabs/TabHeader';
 import { computed, ref } from "vue";
 
 const props = defineProps({

@@ -2,7 +2,7 @@
 import { useCompetitionStore } from 'Resources/stores/competition';
 import { storeToRefs } from 'pinia'
 
-let { list, loading } = storeToRefs( useCompetitionStore() )
+let { list } = storeToRefs( useCompetitionStore() )
 </script>
 
 <template>

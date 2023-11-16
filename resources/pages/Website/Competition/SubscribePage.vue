@@ -1,27 +1,22 @@
 <script setup>
-import { computed, onMounted, useAttrs } from 'vue';
+import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n';
 import { toast } from 'Resources/helpers/notifications'
-import { plugin } from 'Resources/components/Form/SubmitLoading';
-import { normalizeTimestamp } from 'Resources/helpers/functions';
 import { useAuthStore } from "Resources/stores/auth";
 import { useCompetitionStore } from 'Resources/stores/competition';
 import { useCompetitionLevelStore } from 'Resources/stores/competition/level'
-import { useSubscriptionStore } from 'Resources/stores/subscription';
-import UserList from 'Resources/components/Form/User/ListComponent.vue';
 
-const props = defineProps({ errors: Object, values: Object })
 const { t } = useI18n()
-const { subscribe, loadSubscription, getRolesAsOptions } = useCompetitionStore()
+const { subscribe, getRolesAsOptions } = useCompetitionStore()
 const roles = computed(() => getRolesAsOptions.filter(r => r.value !== 'judge'))
 const { current, loading, subscribes } = storeToRefs(useCompetitionStore())
 const { getLevelsAsOptions } = storeToRefs(useCompetitionLevelStore())
 const { getUser: user } = storeToRefs(useAuthStore())
 const subscription = computed(() => subscribes.value.find(subscription => subscription.user_id === user.value.id))
 
-const subscribeHandler = async ({ id, level, role }) => {
+const subscribeHandler = async ({ level, role }) => {
   console.log('current :>> ', current);
   await subscribe({ id: current.value.id, userId: user.value.id, level_id: level, role })
     .then(() =>
