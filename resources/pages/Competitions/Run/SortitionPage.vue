@@ -41,6 +41,10 @@ let { current, competitorsGroupByLevel, getJudges } = storeToRefs( useCompetitio
   });
 
 const addRound = async (levelId) => {
+  if (getJudges.value.length === 0) {
+    toast.error(`No ${t('competition.judge.plural')}`)
+    return;
+  }
   const level = levels.value.find(l => l.id === levelId)
   const rounds = [...new Set(getScore(level.id).map(s => s.round))]
   let scoresToPersist = []
