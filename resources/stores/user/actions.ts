@@ -45,10 +45,10 @@ export default {
 
     this.loading = false
   },
-  async find (id: string | number) {
+  async find (id: string | number, params: any = null) {
     this.loading = true
 
-    await UserRepository.find(id)
+    await UserRepository.find(id, params)
       .then(response => this.current = response.data)
       .catch((error) => {
         console.error(`Error On Load User: ${id}`)

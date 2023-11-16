@@ -57,7 +57,10 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   @manyToMany(() => Event, { pivotTable: 'users_events' })
   public events: ManyToMany<typeof Event>
 
-  @manyToMany(() => Competition, { pivotTable: 'users_competitions' })
+  @manyToMany(() => Competition, {
+    pivotTable: 'users_competitions',
+    pivotColumns: ['status', 'level_id', 'role'],
+  })
   public competitions: ManyToMany<typeof Competition>
 
   /**

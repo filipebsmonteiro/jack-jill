@@ -3,7 +3,6 @@
     <ul class="menu w-56">
       <li>
         <MenuLink
-          v-if="user?.system_role === 'admin'"
           v-for="link in linksList"
           :key="link.label"
           v-bind="link"
@@ -28,8 +27,10 @@ export default {
     user() {
       return this.getUser;
     },
-    linksList() {
-      return [
+  },
+  data() {
+    return {
+      linksList: [
         {
           label: 'Home',
           caption: 'Home',
@@ -42,6 +43,12 @@ export default {
           icon: "chart-line",
           link: `/dashboard`,
         },
+      ],
+    }
+  },
+  mounted() {
+    if (this.user?.system_role === 'admin') {
+      const adminRoutes = [
         {
           label: this.$t("system.left_menu.users.label"),
           caption: this.$t("system.left_menu.users.description"),
@@ -67,8 +74,9 @@ export default {
           link: `/competition/level/list`,
         },
       ];
-    },
-  },
+      adminRoutes.forEach(r => this.linksList.push(r))
+    }
+  }
 }
 </script>
 

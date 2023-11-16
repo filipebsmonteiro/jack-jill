@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { plugin } from 'Resources/components/Form/SubmitLoading';
+import { useAuthStore } from "Resources/stores/auth";
 
 const props = defineProps({
   errors: Object,
@@ -10,6 +11,7 @@ const props = defineProps({
 })
 const emits = defineEmits(['submit'])
 const { t } = useI18n()
+const { getUser } = useAuthStore()
 
 const schema = reactive([
   {
@@ -66,6 +68,19 @@ const schema = reactive([
   }
 ])
 
+onMounted(() => {
+  console.log('getUser :>> ', getUser);
+  if (getUser) {
+    schema.push({
+      $formkit: "select",
+      name: "system_role",
+      label: `PERFIL`,
+      options: ['admin', 'competitor'],
+      validation: "required",
+    })
+  }
+})
+
 const data = reactive({
   first_name: props?.values?.first_name || '',
   last_name: props?.values?.last_name || '',
@@ -74,7 +89,8 @@ const data = reactive({
   password: props?.values?.password || '',
   password_confirm: '',
   state: props?.values?.state || '',
-  country: props?.values?.country || ''
+  country: props?.values?.country || '',
+  system_role: props?.values?.system_role || 'competitor',
 })
 
 watch(props.errors, (errors) => {

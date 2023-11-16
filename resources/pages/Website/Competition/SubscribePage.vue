@@ -17,7 +17,6 @@ const { getUser: user } = storeToRefs(useAuthStore())
 const subscription = computed(() => subscribes.value.find(subscription => subscription.user_id === user.value.id))
 
 const subscribeHandler = async ({ level, role }) => {
-  console.log('current :>> ', current);
   await subscribe({ id: current.value.id, userId: user.value.id, level_id: level, role })
     .then(() =>
       toast.success(`${t('user.label')} ${user.value.first_name} ${t('competition.subscribed')} ${t('system.actions.with_success')}`)

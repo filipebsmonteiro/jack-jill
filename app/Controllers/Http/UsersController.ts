@@ -4,8 +4,47 @@ import Application from '@ioc:Adonis/Core/Application'
 import User from 'App/Models/User'
 import CreateValidator from 'App/Validators/User/CreateValidator'
 import UpdateValidator from 'App/Validators/User/UpdateValidator'
+import { LucidRow, ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export default class UsersController {
+  private relations = {
+    competitions: {
+      select: ['name', 'image', 'type'],
+      // orderBy: 'created_at',
+    },
+  }
+
+  private attachPivotColumnsIntoRelationship (entity: LucidRow, relationKey: string): Array<Record<string, any>> {
+    return entity[relationKey]?.map((relation: LucidRow) => {
+      let columns = {}
+      Object.entries(relation.$extras).map(([key, value]) => ({
+        [key.replace('pivot_', '')]: value,
+      })).forEach(element => columns = {...columns, ...element})
+
+      return { ...relation.serialize(), ...columns }
+    })
+  }
+
+  private preloadRelations (
+    queryString: Record<string, any>,
+    query: ModelQueryBuilderContract<typeof User>
+  ): ModelQueryBuilderContract<typeof User> {
+    let localQuery = query
+    queryString.relationships.forEach(relation => {
+      localQuery = query.preload(relation, (builder) => {
+        Object.entries(this.relations[relation])
+          .forEach(([method, value]) => {
+            if (Array.isArray(value)) {
+              builder[method](...value)
+              return
+            }
+            builder[method](value)
+          })
+      })
+    })
+    return localQuery
+  }
+
   private async uploadFile (file: MultipartFileContract, id: string) {
     await file.move(Application.tmpPath('uploads/user'), {
       name: `${id}.${file.extname}`,
@@ -41,10 +80,18 @@ export default class UsersController {
   }
 
   public async show ({ request, response }: HttpContextContract) {
-    const user = await User.query()
-      .where('id', request.param('id'))
-      .firstOrFail()
-    return response.status(200).json(user.serialize())
+    let query = User.query().where('id', request.param('id'))
+
+    if (request.qs().relationships) {
+      query = this.preloadRelations(request.qs(), query)
+    }
+
+    const user = await query.firstOrFail()
+
+    return response.status(200).json({
+      ...user.serialize(),
+      competitions: this.attachPivotColumnsIntoRelationship(user, 'competitions'),
+    })
   }
 
   // public async me ({ auth, response }: HttpContextContract) {

@@ -48,6 +48,7 @@ export default class CreateValidator {
       size: '2mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],
     }),
+    system_role: schema.string.optional(),
   })
 
   /**
