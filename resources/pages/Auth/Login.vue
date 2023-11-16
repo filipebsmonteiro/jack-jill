@@ -57,7 +57,7 @@ async function submit() {
   <Head title="Login" />
   <div class="flex column">
     <InertiaLink href="/">
-      <img src="/logo.png" class="w-50 mx-auto mb-7">
+      <img src="/logo.png" class="w-25 mx-auto mb-7">
     </InertiaLink>
     <FormKit
       type="form"
@@ -76,3 +76,14 @@ async function submit() {
     </InertiaLink>
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.formkit-form) {
+  @apply flex flex-col;
+}
+@media screen and (max-width: 800px){
+  :root{
+    --fk-max-width-input: 20rem;
+  }
+}
+</style>

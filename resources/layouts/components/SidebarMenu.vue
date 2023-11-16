@@ -74,6 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 .aside-left{
-  height: 100dvh;
+  min-height: 100dvh;
+  height: 100%;
 }
 </style>

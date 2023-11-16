@@ -1,12 +1,12 @@
 <template>
   <div class="bg-money">
-    <div :class="{ 'fullscreen flex column flex-center container': true }">
+    <div :class="{ 'fullscreen flex column flex-center px-4': true }">
       <header>
         <slot name="header">
           <!-- <h1>Auth Header</h1> -->
         </slot>
       </header>
-      <main class="w-50">
+      <main class="w-100">
         <slot></slot>
       </main>
       <footer>
@@ -18,11 +18,6 @@
   </div>
 </template>
 
-<style lang="scss">
-:root{
-  --fk-max-width-input: 20rem;
-}
-</style>
 <style lang="scss" scoped>
 .bg-money {
   @apply bg-no-repeat bg-center bg-cover;

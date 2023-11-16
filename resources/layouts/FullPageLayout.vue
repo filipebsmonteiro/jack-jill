@@ -14,9 +14,14 @@
       </g>
     </svg> -->
 
-    <div class="full-content">
-      <SidebarMenu :class="sidebarClasses" />
-      <slot></slot>
+    <div class="flex">
+      <div :class="sidebarClasses">
+        <SidebarMenu />
+      </div>
+      <div class="full-content">
+        <slot></slot>
+
+      </div>
     </div>
 
   </div>
@@ -35,8 +40,8 @@ export default {
   computed: {
     sidebarClasses() {
       return isMobile()
-      ? { 'absolute z-50 bg-base-200 shadow': true, 'hidden': !this.showLeftSideBar }
-      : ``
+      ? { 'absolute z-50 bg-base-200 shadow': true, 'hidden': true }
+      : `hidden`
     }
   },
   data() {

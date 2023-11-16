@@ -2,7 +2,7 @@
   <div class="layout-wrapper">
     <MenuHeader @menu-bars-click="toggleLeftSideBar" />
 
-    <div class="container flex">
+    <div class="flex">
 
       <SidebarMenu :class="sidebarClasses" />
 
