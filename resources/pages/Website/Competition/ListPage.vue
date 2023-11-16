@@ -2,9 +2,9 @@
   <div class="container mx-auto">
     <SimpleTable :columns="columns" :rows="list" class="mt-4">
       <template #image="{ row }">
-        <object data="/fallback/competition.webp" type="image/png" class="w-16">
+        <!-- <object data="/fallback/competition.webp" type="image/png" class="w-16"> -->
           <img :src="`/file/${row.image}`" :alt="row.name" />
-        </object>
+        <!-- </object> -->
       </template>
       <template #start_date="{ row }">
         {{ formatDateToLocale(row.schedules[0]?.start_date) }}
