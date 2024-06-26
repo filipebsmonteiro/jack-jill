@@ -6,6 +6,8 @@ import UserFactory from 'Database/factories/UserFactory'
 export default class extends BaseSeeder {
   public async run () {
     const level = await CompetitionLevel.create({ name: 'Novice' })
+    await CompetitionLevel.create({ name: 'Intermediary' })
+    await CompetitionLevel.create({ name: 'Advanced' })
 
     await CompetitionFactory
       .with('users', 2)

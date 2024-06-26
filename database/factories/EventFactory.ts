@@ -1,5 +1,6 @@
 import Event from 'App/Models/Event'
 import Factory from '@ioc:Adonis/Lucid/Factory'
+import { DateTime } from 'luxon'
 
 export default Factory.define(Event, ({ faker }) => {
   return {
@@ -8,7 +9,9 @@ export default Factory.define(Event, ({ faker }) => {
     location: `${faker.location.street()}, ${faker.location.city()} - ${faker.location.state()} - ${faker.location.countryCode()}`,
     type: faker.string.alpha(),
     status: faker.helpers.arrayElement(['draft', 'published', 'canceled']),
-    start_date: faker.date.soon({ days: 30 }),
-    end_date: faker.date.soon({ days: 40 }),
+    // start_date: faker.date.soon({ days: 30 }),
+    // end_date: faker.date.soon({ days: 40 }),
+    start_date: DateTime.fromJSDate( faker.date.soon({ days: 30 }) ),
+    end_date: DateTime.fromJSDate( faker.date.soon({ days: 40} ) ),
   }
 }).build()
